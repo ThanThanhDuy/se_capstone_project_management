@@ -18,16 +18,16 @@
     "prettier/prettier": [
       "error",
       {
-        "printWidth": 80,
-        "trailingComma": "es5",
-        "semi": false,
-        "singleQuote": true,
+        "printWidth": 80, // 1 line chi co 80 ki tu
+        "trailingComma": "none", // xoa dau phay (,) o cuoi object
+        "semi": false, // xoa dau cham phay (;)
+        "singleQuote": true, // chi dung dau phay don ('') khong dung phay doi ("")
         "no-mixed-spaces-and-tabs": [
           "error",
           "smart-tabs"
-        ],
-        "arrowParens": "avoid",
-        "htmlWhitespaceSensitivity": "ignore"
+        ], // dung duoc ca tab va space
+        "arrowParens": "avoid", // arrowfunction dạng: a => {} thay vì (a)=>{}
+        "htmlWhitespaceSensitivity": "ignore" // <a></a> không cho xuống dòng ngu ngu dạng <a></a  \n >
       }
     ],
     "no-unused-vars": [

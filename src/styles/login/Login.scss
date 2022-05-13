@@ -1,0 +1,66 @@
+.login {
+  display: flex;
+  width: 100%;
+  height: 100vh;
+  &_form {
+    width: 50%;
+    padding: 20px 0 20px 20px;
+    &--logo {
+      img {
+        width: 180px;
+      }
+    }
+    &--welcome {
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      margin-top: 80px;
+      color: #2b2b2b;
+      p {
+        font-size: 36px;
+        font-weight: 500;
+      }
+    }
+    &--box {
+      margin-top: 30px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      .css-1yk1gt9-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root {
+        width: 180px;
+        border: 2px solid #2b2b2b;
+        border-radius: 10px;
+      }
+      .css-1yk1gt9-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+        // border:2px solid #2b2b2b;
+        border: none;
+      }
+      .css-1d3z3hw-MuiOutlinedInput-notchedOutline{
+        border-width: 0;
+      }
+      .css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input {
+        padding: 10px 14px;
+      }
+      .css-1rwt2y5-MuiButtonBase-root-MuiButton-root {
+        max-width: 280px;
+        padding: 10px 24px;
+        font-weight: 400;
+        text-transform: none;
+        font-size: 16px;
+        border: 2px solid #2b2b2b;
+        color: #fff;
+        background-color: #e69364;
+        border-radius: 10px;
+      }
+      .css-1rwt2y5-MuiButtonBase-root-MuiButton-root:hover {
+        background-color: #ed742d;
+        border: 2px solid #2b2b2b;
+      }
+    }
+  }
+  &_background {
+    width: 50%;
+    background-color: #fad8c3;
+  }
+}
