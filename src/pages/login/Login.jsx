@@ -15,7 +15,7 @@ import Scrum from '../../assets/svg/scrum.svg'
 function Login() {
   const [campus, setCampus] = useState('')
   const [user, setUser] = useState(null)
-  const [open, setOpen] = React.useState(false)
+  const [open, setOpen] = useState(false)
   const [error, setError] = useState({})
 
   const handleChangeCampus = event => {
@@ -33,7 +33,6 @@ function Login() {
               result.user.email.includes('@fpt.edu.vn')
             ) {
               setUser(result.user)
-              console.log(result.user)
             } else {
               throw "Email don't belong to FPT"
             }
