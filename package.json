@@ -12,14 +12,18 @@
   "dependencies": {
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
+    "@mui/icons-material": "^5.6.2",
     "@mui/material": "^5.7.0",
     "eslint": "^8.15.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-config-react-app": "^7.0.1",
     "eslint-plugin-prettier": "^4.0.0",
+    "firebase": "^9.8.1",
+    "node-sass": "^7.0.1",
     "prettier": "^2.6.2",
     "react": "^18.0.0",
-    "react-dom": "^18.0.0"
+    "react-dom": "^18.0.0",
+    "react-firebaseui": "^6.0.0"
   },
   "devDependencies": {
     "@types/react": "^18.0.0",

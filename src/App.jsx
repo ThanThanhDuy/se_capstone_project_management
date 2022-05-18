@@ -1,12 +1,7 @@
 import './App.css'
-import Button from '@mui/material/Button'
 
 function App() {
-  return (
-    <div className="App">
-      <Button variant="contained">Hello SWP391</Button>
-    </div>
-  )
+  return <div className="App"></div>
 }
 
 export default App
