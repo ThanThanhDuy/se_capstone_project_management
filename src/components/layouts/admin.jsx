@@ -2,8 +2,8 @@ import React from "react";
 import { Box } from "@mui/material";
 import "./style.css";
 import { makeStyles } from "@mui/styles";
-import Header from "../header";
-import Sidebar from "../sidebar/sidebar";
+import Header from "../common/header";
+import Sidebar from "../common/sidebar/sidebar";
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "grid",
