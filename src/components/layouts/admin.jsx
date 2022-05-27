@@ -4,6 +4,7 @@ import "./style.css";
 import { makeStyles } from "@mui/styles";
 import Header from "../common/header";
 import Sidebar from "../common/sidebar/sidebar";
+import AddExaminationCouncil from "../../pages/examination_council/add";
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "grid",
@@ -34,7 +35,9 @@ const AdminLayout = () => {
       <Box className={classes.sidebar}>
         <Sidebar />
       </Box>
-      <Box className={classes.main}>Main</Box>
+      <Box className={classes.main}>
+        <AddExaminationCouncil />
+      </Box>
     </Box>
   );
 };
