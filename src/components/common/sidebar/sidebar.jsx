@@ -1,14 +1,14 @@
-import React from 'react'
-import { TeamOutlined, AuditOutlined } from '@ant-design/icons'
-import { useState } from 'react'
-import { Layout, Menu } from 'antd'
-import { Link } from 'react-router-dom'
-import { CAPSTONE_TEAM_URL, CAPSTONE_COUNCIL_URL } from '../../../constant/url'
+import React from 'react';
+import { TeamOutlined, AuditOutlined } from '@ant-design/icons';
+import { useState } from 'react';
+import { Layout, Menu } from 'antd';
+import { Link } from 'react-router-dom';
+import { CAPSTONE_TEAM_URL, CAPSTONE_COUNCIL_URL } from '../../../constant/url';
 
-const { Sider } = Layout
+const { Sider } = Layout;
 
 const Sidebar = () => {
-  const [collapsed, setCollapsed] = useState(false)
+  const [collapsed, setCollapsed] = useState(false);
   return (
     <Sider
       collapsible
@@ -39,6 +39,6 @@ const Sidebar = () => {
         </Menu.Item>
       </Menu>
     </Sider>
-  )
-}
-export default Sidebar
+  );
+};
+export default Sidebar;

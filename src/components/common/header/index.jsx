@@ -1,10 +1,10 @@
-import React from 'react'
-import { UserOutlined } from '@ant-design/icons'
-import { Layout, Avatar, Popover } from 'antd'
+import React from 'react';
+import { UserOutlined } from '@ant-design/icons';
+import { Layout, Avatar, Popover } from 'antd';
 
-const { Header } = Layout
+const { Header } = Layout;
 
-const content = (
+const Content = (
   <div style={{ padding: '0 10px' }}>
     <a style={{ display: 'block', marginBottom: 10, fontSize: 16 }}>
       View Profile
@@ -13,7 +13,7 @@ const content = (
       Log out
     </a>
   </div>
-)
+);
 
 const HeaderAdmin = () => {
   return (
@@ -33,7 +33,7 @@ const HeaderAdmin = () => {
         </span>
       </div>
       <div style={{ cursor: 'pointer' }}>
-        <Popover content={content}>
+        <Popover content={Content}>
           <span style={{ color: '#fff', marginRight: 10, fontSize: 16 }}>
             Nguyễn Đăng Khoa
           </span>
@@ -41,6 +41,6 @@ const HeaderAdmin = () => {
         </Popover>
       </div>
     </Header>
-  )
-}
-export default HeaderAdmin
+  );
+};
+export default HeaderAdmin;

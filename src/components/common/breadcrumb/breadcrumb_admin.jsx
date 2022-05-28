@@ -1,10 +1,10 @@
-import React from 'react'
-import { useLocation, Link } from 'react-router-dom'
-import { Breadcrumb } from 'antd'
-import { CAPSTONE_TEAM_URL, CAPSTONE_COUNCIL_URL } from '../../../constant/url'
+import React from 'react';
+import { useLocation, Link } from 'react-router-dom';
+import { Breadcrumb } from 'antd';
+import { CAPSTONE_TEAM_URL, CAPSTONE_COUNCIL_URL } from '../../../constant/url';
 
 function breadcrumb_admin() {
-  let location = useLocation()
+  let location = useLocation();
 
   return (
     <div>
@@ -22,7 +22,7 @@ function breadcrumb_admin() {
         )}
       </Breadcrumb>
     </div>
-  )
+  );
 }
 
-export default breadcrumb_admin
+export default breadcrumb_admin;
