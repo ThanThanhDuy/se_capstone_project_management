@@ -11,8 +11,11 @@ import GoogleIcon from '@mui/icons-material/Google'
 import { auth, provider } from '../../utils/firebase/firebase.utils'
 import Grow from '@mui/material/Grow'
 import Scrum from '../../assets/svg/scrum.svg'
+import { useNavigate } from 'react-router-dom'
 
 function Login() {
+  const navigate = useNavigate()
+
   const [campus, setCampus] = useState('')
   const [user, setUser] = useState(null)
   const [open, setOpen] = useState(false)
@@ -33,6 +36,7 @@ function Login() {
               result.user.email.includes('@fpt.edu.vn')
             ) {
               setUser(result.user)
+              navigate('/capstone-team')
             } else {
               throw "Email don't belong to FPT"
             }

@@ -1,98 +1,46 @@
-import React, { useState } from "react";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import Menu from "@mui/material/Menu";
-import Container from "@mui/material/Container";
-import Avatar from "@mui/material/Avatar";
-import Tooltip from "@mui/material/Tooltip";
-import MenuItem from "@mui/material/MenuItem";
+import React from 'react';
+import { UserOutlined } from '@ant-design/icons';
+import { Layout, Avatar, Popover } from 'antd';
 
-const settings = ["Hồ sơ", "Bảng điều khiển", "Đăng xuất"];
+const { Header } = Layout;
 
-const Header = () => {
-  const [_anchorElUser, _setAnchorElUser] = useState(false);
-  const _handleOpenUserMenu = (event) => {
-    _setAnchorElUser(true);
-  };
+const Content = (
+  <div style={{ padding: '0 10px' }}>
+    <a style={{ display: 'block', marginBottom: 10, fontSize: 16 }}>
+      View Profile
+    </a>
+    <a href="" style={{ color: '#d4380d', fontSize: 16 }}>
+      Log out
+    </a>
+  </div>
+);
 
-  const _handleCloseUserMenu = () => {
-    _setAnchorElUser(false);
-  };
-
+const HeaderAdmin = () => {
   return (
-    <AppBar sx={{ bgcolor: "#00796a" }} position="static">
-      <Container maxWidth="xl">
-        <Toolbar disableGutters>
-          <Typography
-            variant="h6"
-            noWrap
-            component="a"
-            href="/"
-            sx={{
-              mr: 2,
-              display: { xs: "none", md: "flex" },
-              fontFamily: "monospace",
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-              color: "inherit",
-              textDecoration: "none",
-            }}
-          >
-            FAP - FPT University
-          </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }} />
-          <Box>
-            <Tooltip placement="right" title="Open settings">
-              <IconButton onClick={_handleOpenUserMenu} sx={{ p: 1 }}>
-                <Typography
-                  variant="h9"
-                  noWrap
-                  component="a"
-                  href="/"
-                  sx={{
-                    mr: 1,
-                    display: { xs: "none", md: "flex" },
-                    fontFamily: "monospace",
-                    letterSpacing: ".1rem",
-                    color: "white",
-                    textDecoration: "none",
-                    fontSize: "1.5vh",
-                  }}
-                >
-                  Nguyễn Đăng Khoa
-                </Typography>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-              </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{ mt: "45px" }}
-              id="menu-appbar"
-              anchorEl={_anchorElUser}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              open={_anchorElUser}
-              onClose={_handleCloseUserMenu}
-            >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={_handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
-        </Toolbar>
-      </Container>
-    </AppBar>
+    <Header
+      className="site-layout-background"
+      style={{
+        padding: '0 20px',
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        backgroundColor: '#00796a'
+      }}
+    >
+      <div>
+        <span style={{ color: '#fff', fontSize: 28 }}>
+          FAP - FPT University
+        </span>
+      </div>
+      <div style={{ cursor: 'pointer' }}>
+        <Popover content={Content}>
+          <span style={{ color: '#fff', marginRight: 10, fontSize: 16 }}>
+            Nguyễn Đăng Khoa
+          </span>
+          <Avatar size="large" icon={<UserOutlined />} />
+        </Popover>
+      </div>
+    </Header>
   );
 };
-export default Header;
+export default HeaderAdmin;

@@ -1,54 +1,44 @@
-import React from "react";
-import {
-  Box,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-  Divider,
-} from "@mui/material";
-//import icon
-import PersonIcon from "@mui/icons-material/Person";
-import LogoutIcon from "@mui/icons-material/Logout";
-import GroupIcon from "@mui/icons-material/Group";
+import React from 'react';
+import { TeamOutlined, AuditOutlined } from '@ant-design/icons';
+import { useState } from 'react';
+import { Layout, Menu } from 'antd';
+import { Link } from 'react-router-dom';
+import { CAPSTONE_TEAM_URL, CAPSTONE_COUNCIL_URL } from '../../../constant/url';
+
+const { Sider } = Layout;
+
 const Sidebar = () => {
+  const [collapsed, setCollapsed] = useState(false);
   return (
-    <Box sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>
-      <nav aria-label="main mailbox folders">
-        <List>
-          <ListItem disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                <PersonIcon />
-              </ListItemIcon>
-              <ListItemText primary="Quản lý nhóm đồ án" />
-            </ListItemButton>
-          </ListItem>
-          <ListItem disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                <GroupIcon />
-              </ListItemIcon>
-              <ListItemText primary="Quản lý hội đồng đồ án" />
-            </ListItemButton>
-          </ListItem>
-        </List>
-      </nav>
-      <Divider />
-      <nav aria-label="secondary mailbox folders">
-        <List>
-          <ListItem disablePadding>
-            <ListItemButton component="a" href="#simple-list">
-              <ListItemIcon>
-                <LogoutIcon />
-              </ListItemIcon>
-              <ListItemText primary="Đăng xuất" />
-            </ListItemButton>
-          </ListItem>
-        </List>
-      </nav>
-    </Box>
+    <Sider
+      collapsible
+      collapsed={collapsed}
+      onCollapse={value => setCollapsed(value)}
+      theme="light"
+    >
+      <div className="logo" />
+      <Menu theme="light" defaultSelectedKeys={['1']} mode="inline">
+        <Menu.Item
+          key="1"
+          style={{
+            height: 64,
+            fontSize: 16,
+            margin: 0,
+            display: 'flex',
+            alignItems: 'center'
+          }}
+        >
+          <TeamOutlined />
+          <span>Capstone Team</span>
+          <Link to={CAPSTONE_TEAM_URL} />
+        </Menu.Item>
+        <Menu.Item key="2" style={{ height: 64, fontSize: 16, margin: 0 }}>
+          <AuditOutlined />
+          <span>Capstone Council</span>
+          <Link to={CAPSTONE_COUNCIL_URL} />
+        </Menu.Item>
+      </Menu>
+    </Sider>
   );
 };
 export default Sidebar;
