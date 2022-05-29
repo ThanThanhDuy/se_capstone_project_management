@@ -1,14 +1,14 @@
-import React from 'react';
-import { useLocation, Link } from 'react-router-dom';
-import { Breadcrumb } from 'antd';
-import { CAPSTONE_TEAM_URL, CAPSTONE_COUNCIL_URL } from '../../../constant/url';
+import React from "react";
+import { useLocation, Link } from "react-router-dom";
+import { Breadcrumb } from "antd";
+import { CAPSTONE_TEAM_URL, CAPSTONE_COUNCIL_URL } from "../../../constant/url";
 
-function breadcrumb_admin() {
+function BreadcrumbAdmin() {
   let location = useLocation();
 
   return (
     <div>
-      <Breadcrumb style={{ margin: '16px 0 0 0' }}>
+      <Breadcrumb style={{ margin: "16px 0 0 0" }}>
         <Breadcrumb.Item>FAP</Breadcrumb.Item>
         {location.pathname === CAPSTONE_TEAM_URL && (
           <Breadcrumb.Item>
@@ -25,4 +25,4 @@ function breadcrumb_admin() {
   );
 }
 
-export default breadcrumb_admin;
+export default BreadcrumbAdmin;
