@@ -6,7 +6,7 @@ const CAPSTONE_COUNCIL_URL = "/capstone-council";
 const HOME_URL = "/home";
 //role is guest
 const LOGIN_URL = "/login";
-export { CAPSTONE_TEAM_URL, CAPSTONE_COUNCIL_URL, HOME_URL };
+export { CAPSTONE_TEAM_URL, CAPSTONE_COUNCIL_URL, HOME_URL, LOGIN_URL };
 
 const ADMIN_ROLE = [CAPSTONE_COUNCIL_URL, CAPSTONE_TEAM_URL];
 
