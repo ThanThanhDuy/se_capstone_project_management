@@ -1,12 +1,20 @@
-import './App.css'
-import Button from '@mui/material/Button'
+import "./App.css";
+import AdminLayout from "./components/layouts/admin";
+import Login from "./pages/login/Login";
+import { Routes, Route } from "react-router-dom";
+import UserLayout from "./components/layouts/user";
 
 function App() {
   return (
     <div className="App">
-      <Button variant="contained">Hello SWP391</Button>
+      <Routes>
+        <Route path="/login/" element={<Login />} />
+        <Route path="capstone-team/" element={<AdminLayout />} />
+        <Route path="capstone-council/" element={<AdminLayout />} />
+        <Route path="user/*" element={<UserLayout />} />
+      </Routes>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
