@@ -155,11 +155,12 @@ function capstone_team() {
         style={{
           display: 'flex',
           justifyContent: 'space-between',
-          alignItems: 'center'
+          alignItems: 'center',
+          marginBottom:30
         }}
       >
         <Title level={3} style={{ marginTop: 20, fontWeight: 500 }}>
-          Capstone Project Team List
+          {/* Capstone Project Team List */}
         </Title>
         <div>
           <Upload {...props}>

@@ -1,0 +1,33 @@
+.report_item--feedback {
+  font-size: 14px;
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  color: #51666c;
+  cursor: pointer;
+  &:hover {
+    color: #009688;
+  }
+}
+.report_item--submit {
+  background: #d4edd9;
+  color: #155724;
+  padding: 2px 5px;
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  border-radius: 4px;
+  margin-bottom: 5px;
+  width: fit-content;
+}
+.report_item--notsubmit {
+  background: #f8d7da;
+  color: #721c24;
+  padding: 2px 5px;
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  border-radius: 4px;
+  margin-bottom: 5px;
+  width: fit-content;
+}
