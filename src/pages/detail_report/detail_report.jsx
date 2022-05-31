@@ -1,7 +1,7 @@
-import { Button, Divider, Space, Typography } from "antd";
+import { Button, Space, Typography } from "antd";
 import React, { useState } from "react";
 import "./index.css";
-
+import { TEACHER } from "../../constant/role";
 const dataExample = {
   title: "Hướng dẫn đồ án tốt nghiệp",
   description: `Bố em tên là Nguyễn Hải Nam. Bố em năm nay đã 41 tuổi. Bố em làm nghề Marketing về ngành tự động hóa. Bố em hơi gầy nhưng trắng trẻo lại rất đẹp trai.
@@ -19,12 +19,14 @@ const dataExample = {
 
 const ROLE = 1;
 
-import { InboxOutlined } from "@ant-design/icons";
+import { InboxOutlined, RollbackOutlined } from "@ant-design/icons";
 import { message, Upload } from "antd";
 const { Dragger } = Upload;
 
 const DetailReport = () => {
   const [_report, _setReport] = useState(dataExample);
+  const [_isEditting, _setIsEditting] = useState(false);
+
   return (
     <div
       style={{
@@ -73,40 +75,14 @@ const DetailReport = () => {
         </table>
       </div>
       {/* check add submit */}
+      <EditSubmit />
       <div
         style={{
           marginTop: "20px",
         }}
         className="feedback"
       >
-        <Typography.Title
-          style={{
-            fontWeight: "400",
-          }}
-          level={3}
-        >
-          Feedback
-        </Typography.Title>
-        <table>
-          <tbody>
-            <tr>
-              <th>Grade</th>
-              <td>7.6</td>
-            </tr>
-            <tr>
-              <th>Grade on</th>
-              <td scope="row">Not graded</td>
-            </tr>
-            <tr>
-              <th>Graded by</th>
-              <td scope="row">-</td>
-            </tr>
-            <tr>
-              <th>Feebacks comments</th>
-              <td scope="row">-</td>
-            </tr>
-          </tbody>
-        </table>
+        <SubmitGradeForm />
       </div>
     </div>
   );
@@ -166,6 +142,63 @@ const EditSubmit = () => {
           </Button>
         </div>
       </form>
+    </div>
+  );
+};
+
+const SubmitGradeForm = () => {
+  return (
+    <div>
+      <Typography.Title
+        style={{
+          fontWeight: "400",
+        }}
+        level={3}
+      >
+        Feedback
+      </Typography.Title>
+      <table>
+        <tbody>
+          <tr>
+            <th>Grade</th>
+            <td>
+              {" "}
+              <Typography.Text
+                style={{
+                  fontWeight: "400",
+                }}
+                level={3}
+              >
+                Feedback
+              </Typography.Text>
+            </td>
+          </tr>
+          <tr>
+            <th>Grade on</th>
+            <td scope="row">Not graded</td>
+          </tr>
+          <tr>
+            <th>Graded by</th>
+            <td scope="row">-</td>
+          </tr>
+          <tr>
+            <th>Feebacks comments</th>
+            <td scope="row">-</td>
+          </tr>
+        </tbody>
+      </table>
+      <div style={{ justifyContent: "center", display: "flex" }}>
+        <Button
+          style={{
+            backgroundColor: "#00796a",
+            marginTop: "20px",
+            border: "none",
+          }}
+          type="primary"
+        >
+          Submit
+        </Button>
+      </div>
     </div>
   );
 };

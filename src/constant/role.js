@@ -1,5 +1,5 @@
-const STUDENT = 1;
-const TEACHER = 2;
-const ADMIN = 3;
+const STUDENT = 0;
+const TEACHER = 1;
+const ADMIN = 2;
 
 export { STUDENT, TEACHER, ADMIN };
