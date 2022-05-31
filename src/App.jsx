@@ -1,7 +1,7 @@
 import "./App.css";
 import AdminLayout from "./components/layouts/admin";
 import Login from "./pages/login/Login";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import UserLayout from "./components/layouts/user";
 
 function App() {
@@ -12,6 +12,7 @@ function App() {
         <Route path="capstone-team/" element={<AdminLayout />} />
         <Route path="capstone-council/" element={<AdminLayout />} />
         <Route path="user/*" element={<UserLayout />} />
+        <Route path="user" element={<Navigate to="home" replace />} />
       </Routes>
     </div>
   );
