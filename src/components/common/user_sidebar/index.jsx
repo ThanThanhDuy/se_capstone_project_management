@@ -11,6 +11,9 @@ const UserSidebar = () => {
   const [collapsed, setCollapsed] = useState(false);
   return (
     <Sider
+      style={{
+        width: "100%",
+      }}
       collapsible
       collapsed={collapsed}
       onCollapse={(value) => setCollapsed(value)}
