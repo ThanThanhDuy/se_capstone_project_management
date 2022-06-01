@@ -8,7 +8,8 @@ function App() {
   return (
     <div className="App">
       <Routes>
-        <Route path="/login/" element={<Login />} />
+        <Route path="/" element={<Navigate to="login" replace />} />
+        <Route path="login" element={<Login />} />
         <Route path="capstone-team/" element={<AdminLayout />} />
         <Route path="capstone-council/" element={<AdminLayout />} />
         <Route path="user/*" element={<UserLayout />} />
