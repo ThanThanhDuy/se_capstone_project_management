@@ -1,0 +1,14 @@
+table,
+th,
+td {
+  border: 1px solid rgb(0 0 0 / 12%) !important;
+  padding: 10px !important;
+}
+
+table {
+  width: 100% !important;
+}
+th {
+  width: 30%;
+  text-align: left;
+}

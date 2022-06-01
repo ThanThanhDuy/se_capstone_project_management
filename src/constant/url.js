@@ -7,7 +7,13 @@ const HOME_URL = "/home";
 const REPORT_URL = "/report";
 //role is guest
 const LOGIN_URL = "/login";
-export { CAPSTONE_TEAM_URL, CAPSTONE_COUNCIL_URL, HOME_URL, REPORT_URL };
+export {
+  CAPSTONE_TEAM_URL,
+  CAPSTONE_COUNCIL_URL,
+  HOME_URL,
+  LOGIN_URL,
+  REPORT_URL
+};
 
 const ADMIN_ROLE = [CAPSTONE_COUNCIL_URL, CAPSTONE_TEAM_URL];
 
