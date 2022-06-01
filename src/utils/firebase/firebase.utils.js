@@ -1,6 +1,6 @@
 import firebase from "firebase/compat/app"; // version 9
 import "firebase/compat/auth";
-
+// vercel
 const firebaseConfig = {
   apiKey: "AIzaSyBds-Fo2CH6nhfCJHHXFrJD7-AEuiczSN4",
   authDomain: [
