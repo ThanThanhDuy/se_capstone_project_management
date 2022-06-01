@@ -4,7 +4,7 @@
   height: 100vh;
   position: relative;
   &_form {
-    width: 50%;
+    width: 100%;
     padding: 20px 0 20px 20px;
     position: relative;
     display: flex;
@@ -47,25 +47,25 @@
         gap: 20px;
         .css-1yk1gt9-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root {
           width: 180px;
-          border: 2px solid #2b2b2b;
-          border-radius: 10px;
+          border: 1px solid #2b2b2b;
+          // border-radius: 10px;
           position: relative;
-          background-color: #fff;
+          // background-color: #fff;
         }
-        .css-1yk1gt9-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root:before {
-          content: '';
-          position: absolute;
-          width: 176px;
-          height: 44px;
-          top: 1px;
-          left: 2px;
-          border: 2px solid #2b2b2b;
-          z-index: -1;
-          border-radius: 10px;
-        }
+        // .css-1yk1gt9-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root:before {
+        //   content: "";
+        //   position: absolute;
+        //   width: 176px;
+        //   height: 44px;
+        //   top: 1px;
+        //   left: 2px;
+        //   border: 2px solid #2b2b2b;
+        //   z-index: -1;
+        //   border-radius: 10px;
+        // }
         .css-1yk1gt9-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root.Mui-focused
           .MuiOutlinedInput-notchedOutline {
-          // border:2px solid #2b2b2b;
+          border: 1px solid #2b2b2b;
           border: none;
         }
         .css-1d3z3hw-MuiOutlinedInput-notchedOutline {
@@ -80,27 +80,27 @@
           font-weight: 400;
           text-transform: none;
           font-size: 16px;
-          border: 2px solid #2b2b2b;
+          // border: 2px solid #2b2b2b;
           color: #fff;
-          background-color: #e69364;
-          border-radius: 10px;
+          background-color: #00796a;
+          // border-radius: 10px;
           position: relative;
         }
-        .css-1rwt2y5-MuiButtonBase-root-MuiButton-root:before {
-          content: '';
-          position: absolute;
-          width: 246px;
-          height: 50px;
-          top: 1px;
-          left: 2px;
-          border: 2px solid #2b2b2b;
-          z-index: -1;
-          border-radius: 10px;
-        }
-        .css-1rwt2y5-MuiButtonBase-root-MuiButton-root:hover {
-          background-color: #ed742d;
-          border: 2px solid #2b2b2b;
-        }
+        // .css-1rwt2y5-MuiButtonBase-root-MuiButton-root:before {
+        //   content: "";
+        //   position: absolute;
+        //   width: 246px;
+        //   height: 50px;
+        //   top: 1px;
+        //   left: 2px;
+        //   border: 2px solid #2b2b2b;
+        //   z-index: -1;
+        //   border-radius: 10px;
+        // }
+        // .css-1rwt2y5-MuiButtonBase-root-MuiButton-root:hover {
+        //   background-color: #ed742d;
+        //   border: 2px solid #2b2b2b;
+        // }
       }
     }
     .css-kgmwx6-MuiPaper-root-MuiAlert-root {

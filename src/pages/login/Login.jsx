@@ -1,29 +1,29 @@
-import React, { useState } from 'react'
-import '../../styles/login/Login.scss'
-import logo from '../../assets/logo/logo_fpt.png'
-import Select from '@mui/material/Select'
-import MenuItem from '@mui/material/MenuItem'
-import Button from '@mui/material/Button'
-import Alert from '@mui/material/Alert'
-import IconButton from '@mui/material/IconButton'
-import CloseIcon from '@mui/icons-material/Close'
-import GoogleIcon from '@mui/icons-material/Google'
-import { auth, provider } from '../../utils/firebase/firebase.utils'
-import Grow from '@mui/material/Grow'
-import Scrum from '../../assets/svg/scrum.svg'
-import { useNavigate } from 'react-router-dom'
+import React, { useState } from "react";
+import "../../styles/login/Login.scss";
+import logo from "../../assets/logo/logo_fpt.png";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
+import Button from "@mui/material/Button";
+import Alert from "@mui/material/Alert";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
+import GoogleIcon from "@mui/icons-material/Google";
+import { auth, provider } from "../../utils/firebase/firebase.utils";
+import Grow from "@mui/material/Grow";
+import Scrum from "../../assets/svg/scrum.svg";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
-  const [campus, setCampus] = useState('')
-  const [user, setUser] = useState(null)
-  const [open, setOpen] = useState(false)
-  const [error, setError] = useState({})
+  const [campus, setCampus] = useState("");
+  const [user, setUser] = useState(null);
+  const [open, setOpen] = useState(false);
+  const [error, setError] = useState({});
 
   const handleChangeCampus = event => {
-    setCampus(event.target.value)
-  }
+    setCampus(event.target.value);
+  };
 
   const loginWithGoogle = () => {
     if (campus) {
@@ -33,39 +33,39 @@ function Login() {
           if (result.user) {
             if (
               result.user.email &&
-              result.user.email.includes('@fpt.edu.vn')
+              result.user.email.includes("@fpt.edu.vn")
             ) {
-              setUser(result.user)
-              navigate('/capstone-team')
+              setUser(result.user);
+              navigate("/capstone-team");
             } else {
-              throw "Email don't belong to FPT"
+              throw "Email don't belong to FPT";
             }
           } else {
-            throw 'User is not defined'
+            throw "User is not defined";
           }
         })
         .catch(errorMes => {
           setError({
             mes: errorMes,
-            severity: 'error'
-          })
-          setOpen(true)
+            severity: "error"
+          });
+          setOpen(true);
           setTimeout(() => {
-            setOpen(false)
-          }, 3000)
-          auth.signOut()
-        })
+            setOpen(false);
+          }, 3000);
+          auth.signOut();
+        });
     } else {
       setError({
-        mes: 'Please select campus',
-        severity: 'warning'
-      })
-      setOpen(true)
+        mes: "Please select campus",
+        severity: "warning"
+      });
+      setOpen(true);
       setTimeout(() => {
-        setOpen(false)
-      }, 3000)
+        setOpen(false);
+      }, 3000);
     }
-  }
+  };
 
   return (
     <div className="login">
@@ -74,10 +74,10 @@ function Login() {
           <img src={logo} alt="logo_fpt" />
         </div>
         <div className="login_boxForm">
-          <div className="login_form--welcome">
+          {/* <div className="login_form--welcome">
             <p>Welcome to SCM</p>
             <p>SE Capstone Project</p>
-          </div>
+          </div> */}
           <div className="login_form--box">
             <Select value={campus} onChange={handleChangeCampus} displayEmpty>
               <MenuItem value="">Select campus</MenuItem>
@@ -105,7 +105,7 @@ function Login() {
                 color="inherit"
                 size="small"
                 onClick={() => {
-                  setOpen(false)
+                  setOpen(false);
                 }}
               >
                 <CloseIcon fontSize="inherit" />
@@ -117,11 +117,11 @@ function Login() {
           </Alert>
         </Grow>
       </div>
-      <div className="login_background">
+      {/* <div className="login_background">
         <img src={Scrum} alt="" />
-      </div>
+      </div> */}
     </div>
-  )
+  );
 }
 
-export default Login
+export default Login;
