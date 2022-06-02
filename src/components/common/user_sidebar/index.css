@@ -1,0 +1,8 @@
+.item {
+  padding: 20px !important;
+}
+.MuiTreeItem-root,
+.MuiTreeItem-group,
+.MuiTreeItem-content {
+  min-height: 50px;
+}
