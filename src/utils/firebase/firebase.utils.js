@@ -3,10 +3,7 @@ import "firebase/compat/auth";
 // vercel
 const firebaseConfig = {
   apiKey: "AIzaSyBds-Fo2CH6nhfCJHHXFrJD7-AEuiczSN4",
-  authDomain: [
-    "se-capstone-project-management.firebaseapp.com",
-    "se-capstone-project-management.vercel.app"
-  ],
+  authDomain: "se-capstone-project-management.firebaseapp.com",
   projectId: "se-capstone-project-management",
   storageBucket: "se-capstone-project-management.appspot.com",
   messagingSenderId: "336488913408",

@@ -12,10 +12,12 @@ import { auth, provider } from "../../utils/firebase/firebase.utils";
 import Grow from "@mui/material/Grow";
 import Scrum from "../../assets/svg/scrum.svg";
 import { useNavigate } from "react-router-dom";
-
+import userApi from "../../apis/user";
+import { useSetRecoilState } from "recoil";
+import { userState } from "../../../store/user/user";
 function Login() {
   const navigate = useNavigate();
-
+  const setUserState = useSetRecoilState(userState);
   const [campus, setCampus] = useState("");
   const [user, setUser] = useState(null);
   const [open, setOpen] = useState(false);
@@ -31,18 +33,35 @@ function Login() {
         .signInWithPopup(provider)
         .then(result => {
           if (result.user) {
-            if (
-              result.user.email &&
-              result.user.email.includes("@fpt.edu.vn")
-            ) {
-              setUser(result.user);
-              navigate("/capstone-team");
+            if (result.user.email) {
+              // setUser(result.user);
+              return result.user;
+              // navigate("/capstone-team");
             } else {
               throw "Email don't belong to FPT";
             }
           } else {
             throw "User is not defined";
           }
+        })
+        .then(user => {
+          const { email } = user;
+          userApi
+            .loginApi(email)
+            .then(res => {
+              const { payload } = res.data;
+              setUserState(payload);
+              if (payload.user.role === 1) {
+                navigate("/capstone-team");
+              } else if (payload.user.role === 2) {
+                navigate("/user");
+              } else if (payload.user.role === 3) {
+                navigate("/user");
+              }
+            })
+            .catch(err => {
+              console.log(err);
+            });
         })
         .catch(errorMes => {
           setError({
