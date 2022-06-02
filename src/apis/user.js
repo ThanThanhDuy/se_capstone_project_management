@@ -62,6 +62,44 @@ const loginApi = email => {
             }
           }
         };
+      } else if (email === "khoandse140977@fpt.edu.vn") {
+        account = {
+          data: {
+            payload: {
+              user: {
+                _id: "123124654645646546",
+                name: "khoa student",
+                role: 1,
+                status: 1
+              },
+              auth: {
+                token: "klajshdkfljahsdnzmvnajhvpqawnvmnm,nakjhsjahslkadfj",
+                tokenExpiresIn: 1800000,
+                refresh: "asjkdhflakjshdflkjahsdfkjahskdfasdkf",
+                refreshExpiresIn: 691200000
+              }
+            }
+          }
+        };
+      } else if (email === "khoa.nguyendangse@gmail.com") {
+        account = {
+          data: {
+            payload: {
+              user: {
+                _id: "123124654645646546",
+                name: "khoa student",
+                role: 2,
+                status: 1
+              },
+              auth: {
+                token: "klajshdkfljahsdnzmvnajhvpqawnvmnm,nakjhsjahslkadfj",
+                tokenExpiresIn: 1800000,
+                refresh: "asjkdhflakjshdflkjahsdfkjahskdfasdkf",
+                refreshExpiresIn: 691200000
+              }
+            }
+          }
+        };
       }
       resolve(account);
     }, 2000);
