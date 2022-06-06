@@ -44,7 +44,7 @@ function App() {
             </Route>
           </Route>
           {/* user */}
-          {/* <Route
+          <Route
             element={
               <RequireAuth allowedRoles={[ROLES.STUDENT, ROLES.TEACHER]} />
             }
@@ -79,7 +79,7 @@ function App() {
                 <Route path="report/:reportId" element={<ReportDetailUser />} />
               </Route>
             </Route>
-          </Route> */}
+          </Route>
           {/* catch all */}
           <Route path="*" element={<Missing />} />
         </Route>
