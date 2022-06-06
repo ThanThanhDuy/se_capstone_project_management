@@ -1,7 +1,7 @@
 import { Button, Space, Typography } from "antd";
 import React, { useState } from "react";
-import "./index.css";
-import { TEACHER } from "../../constant/role";
+import "./index.scss";
+// import { TEACHER } from "../../constant/role";
 const dataExample = {
   title: "Hướng dẫn đồ án tốt nghiệp",
   description: `Bố em tên là Nguyễn Hải Nam. Bố em năm nay đã 41 tuổi. Bố em làm nghề Marketing về ngành tự động hóa. Bố em hơi gầy nhưng trắng trẻo lại rất đẹp trai.
@@ -14,7 +14,7 @@ const dataExample = {
   
   Em rất yêu bố mẹ của mình!`,
   start_at: "",
-  end_at: "",
+  end_at: ""
 };
 
 const ROLE = 1;
@@ -31,7 +31,7 @@ const DetailReport = () => {
     <div
       style={{
         padding: 10,
-        maxWidth: "900px",
+        maxWidth: "900px"
       }}
     >
       <Space>
@@ -39,7 +39,7 @@ const DetailReport = () => {
       </Space>
       <Typography.Paragraph
         style={{
-          marginTop: "20px",
+          marginTop: "20px"
         }}
       >
         {_report.description}
@@ -47,7 +47,7 @@ const DetailReport = () => {
       <div className="submission_status">
         <Typography.Title
           style={{
-            fontWeight: "400",
+            fontWeight: "400"
           }}
           level={3}
         >
@@ -78,7 +78,7 @@ const DetailReport = () => {
       <EditSubmit />
       <div
         style={{
-          marginTop: "20px",
+          marginTop: "20px"
         }}
         className="feedback"
       >
@@ -110,7 +110,7 @@ const props = {
 
   onDrop(e) {
     console.log("Dropped files", e.dataTransfer.files);
-  },
+  }
 };
 
 const EditSubmit = () => {
@@ -134,7 +134,7 @@ const EditSubmit = () => {
             style={{
               backgroundColor: "#00796a",
               marginTop: "20px",
-              border: "none",
+              border: "none"
             }}
             type="primary"
           >
@@ -151,7 +151,7 @@ const SubmitGradeForm = () => {
     <div>
       <Typography.Title
         style={{
-          fontWeight: "400",
+          fontWeight: "400"
         }}
         level={3}
       >
@@ -165,7 +165,7 @@ const SubmitGradeForm = () => {
               {" "}
               <Typography.Text
                 style={{
-                  fontWeight: "400",
+                  fontWeight: "400"
                 }}
                 level={3}
               >
@@ -192,7 +192,7 @@ const SubmitGradeForm = () => {
           style={{
             backgroundColor: "#00796a",
             marginTop: "20px",
-            border: "none",
+            border: "none"
           }}
           type="primary"
         >

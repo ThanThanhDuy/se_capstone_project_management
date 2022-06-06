@@ -34,7 +34,10 @@ function UserReportItem(props) {
       </div>
       <div className="report_item--right">
         <div className="report_item--title">
-          <Link to="#" style={{ fontSize: 20, color: "#0065cc" }}>
+          <Link
+            to={`/user/report/${report.id}`}
+            style={{ fontSize: 20, color: "#0065cc" }}
+          >
             {report.title}
           </Link>
         </div>
