@@ -18,6 +18,8 @@
     "@mui/material": "^5.8.0",
     "@mui/styles": "^5.8.0",
     "antd": "^4.20.6",
+    "axios": "^0.27.2",
+    "dotenv": "^16.0.1",
     "eslint": "^8.15.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-config-react-app": "^7.0.1",
@@ -26,10 +28,12 @@
     "moment": "^2.29.3",
     "node-sass": "^7.0.1",
     "prettier": "^2.6.2",
+    "query-string": "^7.1.1",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-helmet": "^6.1.0",
     "react-router-dom": "^6.3.0",
+    "react-scripts": "^5.0.1",
     "recoil": "^0.7.3-alpha.2"
   },
   "devDependencies": {

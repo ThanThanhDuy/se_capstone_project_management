@@ -1,83 +1,63 @@
-import React, { useState } from "react";
-import "../../styles/login/Login.scss";
+import React, { useState, useEffect } from "react";
 import logo from "../../assets/logo/logo_fpt.png";
-import Select from "@mui/material/Select";
-import MenuItem from "@mui/material/MenuItem";
 import Button from "@mui/material/Button";
 import Alert from "@mui/material/Alert";
+import Grow from "@mui/material/Grow";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import GoogleIcon from "@mui/icons-material/Google";
-import { auth, provider } from "../../utils/firebase/firebase.utils";
-import Grow from "@mui/material/Grow";
-import Scrum from "../../assets/svg/scrum.svg";
 import { useNavigate } from "react-router-dom";
-import userApi from "../../apis/user";
 import { useSetRecoilState } from "recoil";
+import { auth, provider } from "../../utils/firebase/firebase.utils";
 import { userState } from "../../../store/user/user";
+import campusService from "../../services/campus";
+import userService from "../../services/user";
+import { Spin, Space } from "antd";
+import { Select } from "antd";
+import "../../styles/login/Login.scss";
+
+const { Option } = Select;
+
 function Login() {
   const navigate = useNavigate();
   const setUserState = useSetRecoilState(userState);
-  const [campus, setCampus] = useState("");
+  const [_campus, _setCampus] = useState("");
+  const [_campuses, _setCampuses] = useState([]);
   const [user, setUser] = useState(null);
   const [open, setOpen] = useState(false);
   const [error, setError] = useState({});
+  const [_isLoading, _setIsLoading] = useState(true);
+  const [_token, _setToken] = useState(null);
+  useEffect(() => {
+    _fetchData();
+  }, []);
 
-  const handleChangeCampus = event => {
-    setCampus(event.target.value);
+  const _fetchData = async () => {
+    const campuses = await campusService.getAllCampus();
+    _setCampuses(campuses);
+    _setIsLoading(false);
+    return campuses;
+  };
+  const _handleChangeCampus = (event) => {
+    _setCampus(event);
   };
 
-  const loginWithGoogle = () => {
-    if (campus) {
-      auth
-        .signInWithPopup(provider)
-        .then(result => {
-          if (result.user) {
-            if (result.user.email) {
-              // setUser(result.user);
-              return result.user;
-              // navigate("/capstone-team");
-            } else {
-              throw "Email don't belong to FPT";
-            }
-          } else {
-            throw "User is not defined";
-          }
-        })
-        .then(user => {
-          const { email } = user;
-          userApi
-            .loginApi(email)
-            .then(res => {
-              const { payload } = res.data;
-              setUserState(payload);
-              if (payload.user.role === 1) {
-                navigate("/capstone-team");
-              } else if (payload.user.role === 2) {
-                navigate("/user");
-              } else if (payload.user.role === 3) {
-                navigate("/user");
-              }
-            })
-            .catch(err => {
-              console.log(err);
-            });
-        })
-        .catch(errorMes => {
-          setError({
-            mes: errorMes,
-            severity: "error"
-          });
-          setOpen(true);
-          setTimeout(() => {
-            setOpen(false);
-          }, 3000);
-          auth.signOut();
-        });
+  const _loginWithGoogle = async () => {
+    if (_campus) {
+      const result = await auth.signInWithPopup(provider).then((result) => {
+        return result;
+      });
+      if (result) {
+        const respone = await userService.login(
+          _campus,
+          result.credential.idToken
+        );
+        console.log(respone);
+      }
     } else {
       setError({
         mes: "Please select campus",
-        severity: "warning"
+        severity: "warning",
       });
       setOpen(true);
       setTimeout(() => {
@@ -85,7 +65,18 @@ function Login() {
       }, 3000);
     }
   };
-
+  if (_isLoading)
+    return (
+      <Space
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          marginTop: "30%",
+        }}
+      >
+        <Spin size="large" />
+      </Space>
+    );
   return (
     <div className="login">
       <div className="login_form">
@@ -98,18 +89,29 @@ function Login() {
             <p>SE Capstone Project</p>
           </div> */}
           <div className="login_form--box">
-            <Select value={campus} onChange={handleChangeCampus} displayEmpty>
-              <MenuItem value="">Select campus</MenuItem>
-              <MenuItem value="FUHL">FU-Hòa Lạc</MenuItem>
-              <MenuItem value="FUHCM">FU-Hồ Chí Minh</MenuItem>
-              <MenuItem value="FUDN">FU-Đà Nẵng</MenuItem>
-              <MenuItem value="FUCT">FU-Cần Thơ</MenuItem>
-              <MenuItem value="FUQN">FU-Quy Nhơn</MenuItem>
+            <Select
+              style={{
+                width: "250px",
+              }}
+              placeholder="Select campus"
+              onChange={_handleChangeCampus}
+              value={_campus}
+            >
+              <Option className="option-item" key={"a"} value={""}>
+                Select Campus
+              </Option>
+              {_campuses?.map((item, key) => {
+                return (
+                  <Option className="option-item" key={key} value={item.Id}>
+                    {item.Name}
+                  </Option>
+                );
+              })}
             </Select>
             <Button
               variant="outlined"
               startIcon={<GoogleIcon />}
-              onClick={loginWithGoogle}
+              onClick={_loginWithGoogle}
             >
               Login with @fpt.edu.vn
             </Button>
