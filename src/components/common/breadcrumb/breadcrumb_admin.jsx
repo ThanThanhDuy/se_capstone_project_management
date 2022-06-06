@@ -5,17 +5,16 @@ import { CAPSTONE_TEAM_URL, CAPSTONE_COUNCIL_URL } from "../../../constant/url";
 
 function BreadcrumbAdmin() {
   let location = useLocation();
-
   return (
     <div>
       <Breadcrumb style={{ margin: "16px 0 0 0" }}>
         <Breadcrumb.Item>FAP</Breadcrumb.Item>
-        {location.pathname === CAPSTONE_TEAM_URL && (
+        {location.pathname.includes(CAPSTONE_TEAM_URL) && (
           <Breadcrumb.Item>
             <Link to={CAPSTONE_TEAM_URL}>Capstone Team</Link>
           </Breadcrumb.Item>
         )}
-        {location.pathname === CAPSTONE_COUNCIL_URL && (
+        {location.pathname.includes(CAPSTONE_COUNCIL_URL) && (
           <Breadcrumb.Item>
             <Link to={CAPSTONE_TEAM_URL}>Capstone Council</Link>
           </Breadcrumb.Item>

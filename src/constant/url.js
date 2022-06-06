@@ -1,6 +1,6 @@
 //role is admin
-const CAPSTONE_TEAM_URL = "/capstone-team";
-const CAPSTONE_COUNCIL_URL = "/capstone-council";
+const CAPSTONE_TEAM_URL = "capstone-team";
+const CAPSTONE_COUNCIL_URL = "capstone-council";
 
 // role is teacher and student { has same page but student dont have teacher's feature}
 const HOME_URL = "/home";
