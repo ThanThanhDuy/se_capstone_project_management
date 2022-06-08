@@ -8,7 +8,6 @@ class UserService {
       };
       var respone = await userAPI.login(params);
     } catch (error) {
-      console.log(error);
       return error.response.data;
     }
     return respone;
