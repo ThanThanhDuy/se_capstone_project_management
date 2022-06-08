@@ -5,7 +5,7 @@ import GoogleIcon from "@mui/icons-material/Google";
 import { useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import { auth, provider } from "../../utils/firebase/firebase.utils";
-import { userState } from "../../../store/user/user";
+import { userAuthState, userState } from "../../../store/user/user";
 import campusService from "../../services/campus";
 import userService from "../../services/user";
 import { Spin, Space } from "antd";
@@ -16,8 +16,8 @@ import openNotification from "../../components/common/notification";
 const { Option } = Select;
 
 function Login() {
-  // const navigate = useNavigate();
-  const setUserState = useSetRecoilState(userState);
+  const navigate = useNavigate();
+  const setUserAuthState = useSetRecoilState(userAuthState);
   const [_campus, _setCampus] = useState("");
   const [_campuses, _setCampuses] = useState([]);
   const [_isLoading, _setIsLoading] = useState(true);
@@ -32,13 +32,13 @@ function Login() {
     _setIsLoading(false);
     return campuses;
   };
-  const _handleChangeCampus = (event) => {
+  const _handleChangeCampus = event => {
     _setCampus(event);
   };
 
   const _loginWithGoogle = async () => {
     if (_campus) {
-      const result = await auth.signInWithPopup(provider).then((result) => {
+      const result = await auth.signInWithPopup(provider).then(result => {
         return result;
       });
 
@@ -47,7 +47,15 @@ function Login() {
         const response = await userService.login(_campus, result);
         if (response.StatusCode === 200) {
           openNotification("success", response.Message);
-          localStorage.setItem("data", response.Data);
+          let data = response.Data;
+          data.User.RoleId = [data.User.RoleId];
+          localStorage.setItem("data", data);
+          setUserAuthState(data);
+          if (data.User.RoleId.find(role => [1, 2].includes(role))) {
+            navigate("/user");
+          } else if (data.User.RoleId.includes([3])) {
+            navigate("/admin");
+          }
         } else {
           openNotification(
             "warning",
@@ -66,7 +74,7 @@ function Login() {
         style={{
           display: "flex",
           justifyContent: "center",
-          marginTop: "30%",
+          marginTop: "30%"
         }}
       >
         <Spin size="large" />
@@ -83,7 +91,7 @@ function Login() {
           <div className="login_form--box">
             <Select
               style={{
-                width: "250px",
+                width: "250px"
               }}
               placeholder="Select campus"
               onChange={_handleChangeCampus}

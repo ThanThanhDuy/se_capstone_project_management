@@ -7,10 +7,5 @@ export const userState = atom({
 
 export const userAuthState = atom({
   key: "userAuth",
-  default: {
-    roles: [1],
-    user: {
-      name: "thanh duy"
-    }
-  }
+  default: {}
 });
