@@ -16,7 +16,7 @@ import openNotification from "../../components/common/notification";
 const { Option } = Select;
 
 function Login() {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const setUserState = useSetRecoilState(userState);
   const [_campus, _setCampus] = useState("");
   const [_campuses, _setCampuses] = useState([]);

@@ -1,6 +1,6 @@
 import "./App.css";
 import AdminLayout from "./components/layouts/admin";
-import Login from "./pages/login/login";
+import Login from "./pages/login/Login";
 import { Routes, Route, Navigate } from "react-router-dom";
 import UserLayout from "./components/layouts/user";
 import { userState } from "../store/user/user";
