@@ -6,19 +6,36 @@ import { userAuthState } from "../../../store/user/user";
 const RequireAuth = ({ allowedRoles }) => {
   // const { auth } = useAuth();
   const auth = useRecoilValue(userAuthState);
-  console.log(
-    "test" + auth?.roles?.find(role => allowedRoles?.includes(role))
-      ? "pass"
-      : auth?.user
-      ? "unauthorized"
-      : "login"
-  );
+  // console.log(
+  //   "test" + auth?.roles?.find(role => allowedRoles?.includes(role))
+  //     ? "pass"
+  //     : auth?.email
+  //     ? "unauthorized"
+  //     : "login"
+  // );
+  // console.log(
+  //   auth?.User
+  //     ? auth?.User?.RoleId?.find(role => allowedRoles?.includes(role))
+  //       ? "pass"
+  //       : "unauthorized"
+  //     : "login"
+  // );
   const location = useLocation();
 
-  return auth?.roles?.find(role => allowedRoles?.includes(role)) ? (
-    <Outlet />
-  ) : auth?.user ? (
-    <Navigate to="/unauthorized" state={{ from: location }} replace />
+  // return auth?.roles?.find(role => allowedRoles?.includes(role)) ? (
+  //   <Outlet />
+  // ) : auth?.user ? (
+  //   <Navigate to="/unauthorized" state={{ from: location }} replace />
+  // ) : (
+  //   <Navigate to="/login" state={{ from: location }} replace />
+  // );
+
+  return auth?.User ? (
+    auth?.User?.RoleId?.find(role => allowedRoles?.includes(role)) ? (
+      <Outlet />
+    ) : (
+      <Navigate to="/unauthorized" state={{ from: location }} replace />
+    )
   ) : (
     <Navigate to="/login" state={{ from: location }} replace />
   );
