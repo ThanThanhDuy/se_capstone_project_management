@@ -1,10 +1,6 @@
 import React, { useState, useEffect } from "react";
 import logo from "../../assets/logo/logo_fpt.png";
 import Button from "@mui/material/Button";
-import Alert from "@mui/material/Alert";
-import Grow from "@mui/material/Grow";
-import IconButton from "@mui/material/IconButton";
-import CloseIcon from "@mui/icons-material/Close";
 import GoogleIcon from "@mui/icons-material/Google";
 import { useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
@@ -15,6 +11,7 @@ import userService from "../../services/user";
 import { Spin, Space } from "antd";
 import { Select } from "antd";
 import "../../styles/login/Login.scss";
+import openNotification from "../../components/common/notification";
 
 const { Option } = Select;
 
@@ -23,9 +20,6 @@ function Login() {
   const setUserState = useSetRecoilState(userState);
   const [_campus, _setCampus] = useState("");
   const [_campuses, _setCampuses] = useState([]);
-  const [user, setUser] = useState(null);
-  const [open, setOpen] = useState(false);
-  const [error, setError] = useState({});
   const [_isLoading, _setIsLoading] = useState(true);
   const [_token, _setToken] = useState(null);
   useEffect(() => {
@@ -47,25 +41,26 @@ function Login() {
       const result = await auth.signInWithPopup(provider).then((result) => {
         return result;
       });
+
       if (result) {
-        const respone = await userService.login(
-          _campus,
-          result.credential.idToken
-        );
-        console.log(respone);
+        // dummy check fpt account
+        const response = await userService.login(_campus, result);
+        if (response.StatusCode === 200) {
+          openNotification("success", response.Message);
+          localStorage.setItem("data", response.Data);
+        } else {
+          openNotification(
+            "warning",
+            response.Message.split("-")[0],
+            response.Message.split("-")[1]
+          );
+        }
+      } else {
+        openNotification("warning", "Please choose campus");
       }
-    } else {
-      setError({
-        mes: "Please select campus",
-        severity: "warning",
-      });
-      setOpen(true);
-      setTimeout(() => {
-        setOpen(false);
-      }, 3000);
     }
   };
-  if (_isLoading)
+  if (_isLoading) {
     return (
       <Space
         style={{
@@ -77,6 +72,7 @@ function Login() {
         <Spin size="large" />
       </Space>
     );
+  }
   return (
     <div className="login">
       <div className="login_form">
@@ -84,10 +80,6 @@ function Login() {
           <img src={logo} alt="logo_fpt" />
         </div>
         <div className="login_boxForm">
-          {/* <div className="login_form--welcome">
-            <p>Welcome to SCM</p>
-            <p>SE Capstone Project</p>
-          </div> */}
           <div className="login_form--box">
             <Select
               style={{
@@ -102,7 +94,7 @@ function Login() {
               </Option>
               {_campuses?.map((item, key) => {
                 return (
-                  <Option className="option-item" key={key} value={item.Id}>
+                  <Option key={key} value={item.Id}>
                     {item.Name}
                   </Option>
                 );
@@ -117,32 +109,8 @@ function Login() {
             </Button>
           </div>
         </div>
-        <Grow in={open}>
-          <Alert
-            severity={error.severity}
-            action={
-              <IconButton
-                aria-label="close"
-                color="inherit"
-                size="small"
-                onClick={() => {
-                  setOpen(false);
-                }}
-              >
-                <CloseIcon fontSize="inherit" />
-              </IconButton>
-            }
-            sx={{ mb: 2 }}
-          >
-            {error.mes}
-          </Alert>
-        </Grow>
       </div>
-      {/* <div className="login_background">
-        <img src={Scrum} alt="" />
-      </div> */}
     </div>
   );
 }
-
 export default Login;

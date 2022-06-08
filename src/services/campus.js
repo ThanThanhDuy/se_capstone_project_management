@@ -5,9 +5,9 @@ class CampusService {
     try {
       var response = await campusAPI.getAllCampus();
     } catch (error) {
-      return error;
+      return error.response.data;
     }
-    return response;
+    return response.Data;
   }
 }
 const campusService = new CampusService();
