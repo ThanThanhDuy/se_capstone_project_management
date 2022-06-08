@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import logo from "../../assets/logo/logo_fpt.png";
-import Button from "@mui/material/Button";
 import GoogleIcon from "@mui/icons-material/Google";
 import { useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
@@ -8,10 +7,11 @@ import { auth, provider } from "../../utils/firebase/firebase.utils";
 import { userAuthState, userState } from "../../../store/user/user";
 import campusService from "../../services/campus";
 import userService from "../../services/user";
-import { Spin, Space } from "antd";
+import { Spin, Space, Button } from "antd";
 import { Select } from "antd";
 import "../../styles/login/Login.scss";
 import openNotification from "../../components/common/notification";
+import { GoogleOutlined } from "@ant-design/icons";
 
 const { Option } = Select;
 
@@ -53,7 +53,7 @@ function Login() {
           setUserAuthState(data);
           if (data.User.RoleId.find(role => [1, 2].includes(role))) {
             navigate("/user");
-          } else if (data.User.RoleId.includes([3])) {
+          } else if (data.User.RoleId.find(role => [3].includes(role))) {
             navigate("/admin");
           }
         } else {
@@ -108,9 +108,20 @@ function Login() {
                 );
               })}
             </Select>
-            <Button
+            {/* <Button
               variant="outlined"
               startIcon={<GoogleIcon />}
+              onClick={_loginWithGoogle}
+            >
+              Login with @fpt.edu.vn
+            </Button> */}
+            <Button
+              style={{
+                backgroundColor: "#00796a",
+                color: "#fff",
+                height: "40px"
+              }}
+              icon={<GoogleOutlined />}
               onClick={_loginWithGoogle}
             >
               Login with @fpt.edu.vn
