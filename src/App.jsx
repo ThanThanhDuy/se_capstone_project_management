@@ -14,6 +14,7 @@ import HomeUser from "./pages/home/index";
 import ReportUser from "./pages/report/user_report";
 import ReportDetailUser from "./pages/detail_report/detail_report";
 import Missing from "./pages/missing/missing";
+import Profile from "./pages/profile/profile";
 import ROLES from "./constant/role";
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
       <Routes>
         <Route path="/" element={<MainLayout />}>
           {/* public routes */}
+          <Route index element={<Navigate to="/login" replace />} />
           <Route path="login" element={<Login />} />
           <Route path="unauthorized" element={<Unauthorized />} />
           {/* private routes */}
@@ -40,6 +42,9 @@ function App() {
               </Route>
               <Route element={<RequireAuth allowedRoles={[ROLES.ADMIN]} />}>
                 <Route path="capstone-council" element={<CapstoneCouncil />} />
+              </Route>
+              <Route element={<RequireAuth allowedRoles={[ROLES.ADMIN]} />}>
+                <Route path="profile" element={<Profile />} />
               </Route>
             </Route>
           </Route>
@@ -77,6 +82,13 @@ function App() {
                 }
               >
                 <Route path="report/:reportId" element={<ReportDetailUser />} />
+              </Route>
+              <Route
+                element={
+                  <RequireAuth allowedRoles={[ROLES.STUDENT, ROLES.TEACHER]} />
+                }
+              >
+                <Route path="profile" element={<Profile />} />
               </Route>
             </Route>
           </Route>

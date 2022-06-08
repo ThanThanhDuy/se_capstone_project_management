@@ -5,9 +5,9 @@
 // export { STUDENT, TEACHER, ADMIN };
 
 const ROLES = {
-  STUDENT: 0,
-  TEACHER: 1,
-  ADMIN: 2
+  STUDENT: 1,
+  TEACHER: 2,
+  ADMIN: 3
 };
 
 export default ROLES;

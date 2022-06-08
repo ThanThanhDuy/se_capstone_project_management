@@ -19,6 +19,11 @@ function BreadcrumbAdmin() {
             <Link to={CAPSTONE_TEAM_URL}>Capstone Council</Link>
           </Breadcrumb.Item>
         )}
+        {location.pathname.includes("profile") && (
+          <Breadcrumb.Item>
+            <Link to={CAPSTONE_TEAM_URL}>Profile</Link>
+          </Breadcrumb.Item>
+        )}
       </Breadcrumb>
     </div>
   );
