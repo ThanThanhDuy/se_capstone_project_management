@@ -1,14 +1,14 @@
 import { atom } from "recoil";
 
 export const userState = atom({
-  key: "userState",
+  key: "user",
   default: null
 });
 
 export const userAuthState = atom({
-  key: "userAuthState",
+  key: "userAuth",
   default: {
-    roles: [2],
+    roles: [1],
     user: {
       name: "thanh duy"
     }

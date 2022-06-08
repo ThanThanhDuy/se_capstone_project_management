@@ -11,7 +11,7 @@ const AdminLayout = () => {
   return (
     <Layout style={{ minHeight: "100vh" }} theme="light">
       <HeaderAdmin />
-      <Layout className="site-layout">
+      <Layout className="site-layout" style={{ backgroundColor: "#fff" }}>
         <SidebarAdmin />
         <Content style={{ margin: "0 16px" }}>
           <BreadCrumbAdmin />
