@@ -1,11 +1,12 @@
 import axios from "axios";
 import queryString from "query-string";
-
 //config
 const axiosClient = axios.create({
-  baseURL: process.env.PREFIX_URL,
+  baseURL: "https://se-capstone-evaluation-api.herokuapp.com/api",
   headers: {
     "content-type": "application/json",
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Headers": "access-control-allow-origin",
   },
   paramsSerializer: (params) => queryString.stringify(params),
 });
