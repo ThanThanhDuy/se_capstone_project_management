@@ -1,11 +1,21 @@
-import { atom } from 'recoil'
+import { atom } from "recoil";
 
 export const dataCapstoneTeamState = atom({
-  key: 'dataCapstoneTeam',
+  key: "dataCapstoneTeam",
   default: []
-})
+});
 
 export const dataCapstoneCouncilState = atom({
-  key: 'dataCapstoneCouncil',
+  key: "dataCapstoneCouncil",
   default: []
-})
+});
+
+export const dataResultState = atom({
+  key: "dataResult",
+  default: []
+});
+
+export const rowSelectedCapstoneCouncilState = atom({
+  key: "rowSelectedCapstoneCouncil",
+  default: []
+});

@@ -15,6 +15,7 @@ import ReportUser from "./pages/report/user_report";
 import ReportDetailUser from "./pages/detail_report/detail_report";
 import Missing from "./pages/missing/missing";
 import Profile from "./pages/profile/profile";
+import Calendar from "./pages/calendar/calendar";
 import ROLES from "./constant/role";
 
 function App() {
@@ -42,6 +43,12 @@ function App() {
               </Route>
               <Route element={<RequireAuth allowedRoles={[ROLES.ADMIN]} />}>
                 <Route path="capstone-council" element={<CapstoneCouncil />} />
+              </Route>
+              <Route element={<RequireAuth allowedRoles={[ROLES.ADMIN]} />}>
+                <Route
+                  path="capstone-council/:councilId"
+                  element={<Calendar />}
+                />
               </Route>
               <Route element={<RequireAuth allowedRoles={[ROLES.ADMIN]} />}>
                 <Route path="profile" element={<Profile />} />
