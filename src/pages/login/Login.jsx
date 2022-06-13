@@ -12,6 +12,7 @@ import { Select } from "antd";
 import "../../styles/login/Login.scss";
 import openNotification from "../../components/common/notification";
 import { GoogleOutlined } from "@ant-design/icons";
+import ROLE from "../../constant/role";
 
 const { Option } = Select;
 
@@ -48,12 +49,17 @@ function Login() {
         if (response.StatusCode === 200) {
           openNotification("success", response.Message);
           let data = response.Data;
-          data.User.RoleId = [data.User.RoleId];
           localStorage.setItem("data", data);
           setUserAuthState(data);
-          if (data.User.RoleId.find(role => [1, 2].includes(role))) {
+          if (
+            data.User.Roles.find(role =>
+              [ROLE.STUDENT, ROLE.TEACHER].includes(role.RoleId)
+            )
+          ) {
             navigate("/user");
-          } else if (data.User.RoleId.find(role => [3].includes(role))) {
+          } else if (
+            data.User.Roles.find(role => [ROLE.ADMIN].includes(role.RoleId))
+          ) {
             navigate("/admin");
           }
         } else {

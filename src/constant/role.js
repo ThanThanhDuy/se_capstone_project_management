@@ -7,7 +7,7 @@
 const ROLES = {
   STUDENT: 1,
   TEACHER: 2,
-  ADMIN: 3
+  ADMIN: 6
 };
 
 export default ROLES;

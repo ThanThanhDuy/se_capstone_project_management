@@ -9,7 +9,7 @@ import {
   Upload
 } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
-import convertCSV from "../../utils/convertCSV/convertCSV";
+import convertCSV from "../../utils/convertCSV/convertCSV_team";
 import { useState } from "react";
 import { useRecoilState } from "recoil";
 import { dataCapstoneTeamState } from "../../../store/table/table";
