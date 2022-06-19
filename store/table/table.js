@@ -19,3 +19,8 @@ export const rowSelectedCapstoneCouncilState = atom({
   key: "rowSelectedCapstoneCouncil",
   default: []
 });
+
+export const rowSelectedCapstoneTeamState = atom({
+  key: "rowSelectedCapstoneTeam",
+  default: []
+});

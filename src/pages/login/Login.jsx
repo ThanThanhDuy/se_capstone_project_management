@@ -53,7 +53,7 @@ function Login() {
           setUserAuthState(data);
           if (
             data.User.Roles.find(role =>
-              [ROLE.STUDENT, ROLE.TEACHER].includes(role.RoleId)
+              [ROLE.STUDENT, ROLE.LECTURE].includes(role.RoleId)
             )
           ) {
             navigate("/user");

@@ -20,15 +20,6 @@ function UserReport() {
       timeStart: "2022-05-27T21:06:10+07:00",
       timeEnd: "2022-05-27T21:06:10+07:00",
       detail: "asdfads"
-    },
-    {
-      id: 2,
-      title: "JavaScript/JScript",
-      dateSubmitted: "2022-05-07T21:01:06+07:00",
-      statusSubmmission: false,
-      timeStart: "2022-05-27T21:06:10+07:00",
-      timeEnd: "2022-05-27T21:06:10+07:00",
-      detail: "asdfads"
     }
   ]);
   const [model, setModel] = useState("hello");
@@ -144,7 +135,7 @@ function UserReport() {
           </Form>
         )}
         {/* add item */}
-        <div className="report_add">
+        {/* <div className="report_add">
           <div
             style={{
               display: "flex",
@@ -164,7 +155,7 @@ function UserReport() {
               </Button>
             )}
           </div>
-        </div>
+        </div> */}
       </div>
       <div style={{ width: 350, height: "80vh" }}></div>
     </div>

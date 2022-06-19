@@ -76,14 +76,14 @@ const DetailReport = () => {
       </div>
       {/* check add submit */}
       <EditSubmit />
-      <div
+      {/* <div
         style={{
           marginTop: "20px"
         }}
         className="feedback"
       >
         <SubmitGradeForm />
-      </div>
+      </div> */}
     </div>
   );
 };

@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { HOME_URL } from "../../../constant/url";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
@@ -10,6 +10,7 @@ const { Sider } = Layout;
 import "./index.css";
 
 const UserSidebar = () => {
+  let navigate = useNavigate();
   return (
     <Sider
       width={300}
@@ -32,7 +33,13 @@ const UserSidebar = () => {
           overflowY: "auto"
         }}
       >
-        <TreeItem nodeId="1" label="Home"></TreeItem>
+        <TreeItem
+          nodeId="1"
+          label="Home"
+          onClick={() => {
+            navigate("/user/home");
+          }}
+        ></TreeItem>
         <TreeItem nodeId="5" label="Capstone Team">
           <TreeItem nodeId="6" label="Summer123">
             <TreeItem nodeId="7" label="team 1">

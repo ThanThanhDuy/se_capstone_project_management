@@ -21,7 +21,7 @@ function capstone_council() {
 
   const columns = [
     {
-      title: "Mã hội đồng",
+      title: "Council Id",
       dataIndex: "Mã hội đồng",
       key: "Mã Hội Đồng",
       width: 100,
@@ -29,26 +29,26 @@ function capstone_council() {
       render: text => <Link to={`/admin/capstone-council/${text}`}>{text}</Link>
     },
     {
-      title: "Học kì",
+      title: "Semester",
       dataIndex: "Học kì",
       key: "Học Kì",
       width: 80,
       fixed: "left"
     },
     {
-      title: "Chủ tịch",
+      title: "Chairperson",
       dataIndex: "Chủ tịch",
       key: "Chủ tịch",
       width: 180
     },
     {
-      title: "Thư kí",
+      title: "Secretary",
       dataIndex: "Thư kí",
       key: "Thư kí",
       width: 180
     },
     {
-      title: "Thành viên",
+      title: "Members",
       dataIndex: "Thành viên",
       key: "Thành viên",
       width: 180

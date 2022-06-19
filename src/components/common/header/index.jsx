@@ -6,7 +6,6 @@ import { useRecoilValue } from "recoil";
 import { userAuthState } from "../../../../store/user/user";
 
 const { Header } = Layout;
-// let location = useLocation();
 const Content = (
   <div style={{ padding: "0 10px" }}>
     {location.pathname.includes("admin") ? (
