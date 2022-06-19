@@ -1,8 +1,13 @@
 import React from "react";
 import { UserOutlined, EditOutlined } from "@ant-design/icons";
 import { Avatar, Button } from "antd";
+import { userAuthState } from "../../../store/user/user";
+import { useRecoilValue } from "recoil";
+import moment from "moment";
 
 function Profile() {
+  const { User } = useRecoilValue(userAuthState);
+  console.log(User);
   return (
     <div
       style={{
@@ -31,9 +36,9 @@ function Profile() {
                 fontWeight: 500
               }}
             >
-              Nguyễn Đăng Khoa
+              {User.Name}
             </span>
-            <span>SE140977</span>
+            <span>{User.Code}</span>
           </div>
         </div>
         <div
@@ -44,18 +49,8 @@ function Profile() {
           }}
         >
           <span style={{ color: "#707070" }}>Gender</span>
-          <span style={{ fontWeight: 500, color: "#000" }}>Male</span>
-        </div>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            marginTop: 15
-          }}
-        >
-          <span style={{ color: "#707070" }}>Email</span>
           <span style={{ fontWeight: 500, color: "#000" }}>
-            nguyendangkhoase140977@fpt.edu.vn
+            {User.Gender ? "Male" : "Female"}
           </span>
         </div>
         <div
@@ -65,8 +60,18 @@ function Profile() {
             marginTop: 15
           }}
         >
+          <span style={{ color: "#707070" }}>Email</span>
+          <span style={{ fontWeight: 500, color: "#000" }}>{User.Email}</span>
+        </div>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            marginTop: 15
+          }}
+        >
           <span style={{ color: "#707070" }}>Phone</span>
-          <span style={{ fontWeight: 500, color: "#000" }}>0999999999</span>
+          <span style={{ fontWeight: 500, color: "#000" }}>{User.Phone}</span>
         </div>
         <div
           style={{
@@ -76,14 +81,9 @@ function Profile() {
           }}
         >
           <span style={{ color: "#707070" }}>Birthday</span>
-          <span style={{ fontWeight: 500, color: "#000" }}>2000 - 01 - 01</span>
-        </div>
-        <div
-          style={{ display: "flex", justifyContent: "center", marginTop: 50 }}
-        >
-          <Button type="primary" icon={<EditOutlined />}>
-            Edit
-          </Button>
+          <span style={{ fontWeight: 500, color: "#000" }}>
+            {moment(User.Birthday).format("YYYY - MMM - DD")}
+          </span>
         </div>
       </div>
     </div>

@@ -11,115 +11,98 @@ import {
 import { UploadOutlined } from "@ant-design/icons";
 import convertCSV from "../../utils/convertCSV/convertCSV_team";
 import { useState } from "react";
-import { useRecoilState } from "recoil";
-import { dataCapstoneTeamState } from "../../../store/table/table";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import {
+  dataCapstoneTeamState,
+  rowSelectedCapstoneTeamState
+} from "../../../store/table/table";
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { storage } from "../../utils/firebase/firebase.utils";
+import { useNavigate } from "react-router-dom";
+import STATUS_MAPPING from "../../constant/color";
 // import { Helmet } from "react-helmet";
 
 function capstone_team() {
   const { Title } = Typography;
   const [_data, _setData] = useRecoilState(dataCapstoneTeamState);
-
+  const [url, setUrl] = useState("");
+  const setRowSelectedCapstoneTeam = useSetRecoilState(
+    rowSelectedCapstoneTeamState
+  );
+  let navigate = useNavigate();
   const columns = [
     {
-      title: "Code Team",
-      dataIndex: "code",
-      key: "code",
+      title: "Team Coce",
+      dataIndex: "Mã nhóm",
+      key: "Mã nhóm",
       width: 120,
       fixed: "left",
       render: text => <a>{text}</a>
     },
     {
       title: "Semeter",
-      dataIndex: "semeter",
-      key: "semeter",
+      dataIndex: "Học kì",
+      key: "Học kì",
       width: 100,
       fixed: "left"
     },
     {
       title: "Status",
-      key: "status",
-      width: 100,
-      dataIndex: "status",
+      key: "Trạng thái",
+      width: 120,
+      dataIndex: "Trạng thái",
       fixed: "left",
-      render: (_, record) => (
+      render: (_, record, index) => (
         <>
-          <Tag
-            color={
-              record.status.length >= 8
-                ? record.status === "not pass"
-                  ? "volcano"
-                  : "geekblue"
-                : "green"
-            }
-          >
-            {record.status.toUpperCase()}
+          <Tag key={index} color={STATUS_MAPPING[record["Trạng thái"]].color}>
+            {STATUS_MAPPING[record["Trạng thái"]].text.toUpperCase()}
           </Tag>
         </>
       )
     },
     {
       title: "Topic",
-      dataIndex: "topic",
-      key: "topic",
-      width: 600,
+      dataIndex: "Đề tài",
+      key: "Đề tài",
+      width: 300,
       fixed: "left"
     },
     {
-      title: "Mentor 1",
-      dataIndex: "mentor1",
-      key: "mentor1",
+      title: "Mentor",
+      dataIndex: "Giảng viên hướng dẫn",
+      key: "Giảng viên hướng dẫn",
       width: 200
     },
     {
-      title: "Mentor 2",
-      dataIndex: "mentor2",
-      key: "mentor2",
+      title: "Leader",
+      dataIndex: "Trưởng nhóm",
+      key: "Trưởng nhóm",
       width: 200
     },
     {
-      title: "Member 1",
-      dataIndex: "member1",
-      key: "member",
+      title: "Member",
+      dataIndex: "Thành viên",
+      key: "Thành viên",
       width: 200
     },
     {
-      title: "Member 2",
-      dataIndex: "member2",
-      key: "member2",
+      title: "Date",
+      dataIndex: "Ngày",
+      key: "Ngày",
       width: 200
     },
     {
-      title: "Member 3",
-      dataIndex: "member3",
-      key: "member3",
+      title: "Time",
+      dataIndex: "Giờ",
+      key: "Giờ",
       width: 200
     },
     {
-      title: "Member 4",
-      dataIndex: "member4",
-      key: "member4",
-      width: 200
-    },
-    {
-      title: "Member 5",
-      dataIndex: "member5",
-      key: "member5",
+      title: "Location",
+      dataIndex: "Phòng",
+      key: "Phòng",
       width: 200
     }
-  ];
-
-  const key = [
-    "code",
-    "semeter",
-    "status",
-    "topic",
-    "mentor1",
-    "mentor2",
-    "member1",
-    "member2",
-    "member3",
-    "member4",
-    "member5"
   ];
   const props = {
     name: "file",
@@ -140,7 +123,8 @@ function capstone_team() {
     beforeUpload(file) {
       const reader = new FileReader();
       reader.onload = e => {
-        const objectCSV = convertCSV(e.target.result, key);
+        const objectCSV = convertCSV(e.target.result);
+        console.log(objectCSV);
         if (objectCSV) {
           _setData(objectCSV);
         }
@@ -164,7 +148,7 @@ function capstone_team() {
           <meta charSet="utf-8" />
           <title>Casptone Team</title>
         </Helmet> */}
-        <Title level={3} style={{ marginTop: 20, fontWeight: 500 }}>
+        <Title level={3} style={{ marginTop: 0, fontWeight: 500 }}>
           {/* Capstone Project Team List */}
         </Title>
         <div>
@@ -174,8 +158,17 @@ function capstone_team() {
         </div>
       </div>
       <Table
+        onRow={(record, rowIndex) => {
+          return {
+            onClick: event => {
+              setRowSelectedCapstoneTeam(_data[rowIndex]);
+              navigate(`/admin/capstone-team/${record["Mã nhóm"]}`);
+            }
+          };
+        }}
         columns={columns}
         dataSource={_data}
+        style={{ cursor: "pointer" }}
         rowKey={obj => obj.code}
         scroll={{ x: 1800 }}
       />

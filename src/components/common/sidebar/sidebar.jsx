@@ -4,13 +4,15 @@ import { useState } from "react";
 import { Layout, Menu } from "antd";
 import { Link, useLocation } from "react-router-dom";
 import { CAPSTONE_TEAM_URL, CAPSTONE_COUNCIL_URL } from "../../../constant/url";
+import { useSetRecoilState } from "recoil";
+import { locationState } from "../../../../store/location/location";
 
 const { Sider } = Layout;
 
 const Sidebar = () => {
   const [collapsed, setCollapsed] = useState(false);
   const [current, setCurrent] = useState("1");
-
+  const setLocation = useSetRecoilState(locationState);
   const handleSelectItem = e => {
     setCurrent(e.key);
   };
@@ -25,6 +27,7 @@ const Sidebar = () => {
     } else if (location.pathname.includes("profile")) {
       setCurrent("3");
     }
+    setLocation(location);
   }, [location]);
 
   return (

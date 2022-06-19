@@ -2,9 +2,10 @@ import React from "react";
 import { UserOutlined } from "@ant-design/icons";
 import { Layout, Avatar, Popover } from "antd";
 import { Link, useLocation } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+import { userAuthState } from "../../../../store/user/user";
 
 const { Header } = Layout;
-// let location = useLocation();
 const Content = (
   <div style={{ padding: "0 10px" }}>
     {location.pathname.includes("admin") ? (
@@ -30,7 +31,7 @@ const Content = (
 );
 
 const HeaderAdmin = () => {
-  
+  const userAuth = useRecoilValue(userAuthState);
   return (
     <Header
       className="site-layout-background"
@@ -50,7 +51,7 @@ const HeaderAdmin = () => {
       <div style={{ cursor: "pointer" }}>
         <Popover content={Content}>
           <span style={{ color: "#fff", marginRight: 10, fontSize: 16 }}>
-            Nguyễn Đăng Khoa
+            {userAuth.User.Name}
           </span>
           <Avatar size="large" icon={<UserOutlined />} />
         </Popover>

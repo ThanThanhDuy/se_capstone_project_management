@@ -1,5 +1,6 @@
 import firebase from "firebase/compat/app"; // version 9
 import "firebase/compat/auth";
+import { getStorage } from "firebase/storage";
 // vercel
 const firebaseConfig = {
   apiKey: "AIzaSyBds-Fo2CH6nhfCJHHXFrJD7-AEuiczSN4",
@@ -13,4 +14,5 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 var auth = firebase.auth();
 var provider = new firebase.auth.GoogleAuthProvider();
-export { auth, provider };
+const storage = getStorage(firebase.initializeApp(firebaseConfig));
+export { auth, provider, storage };

@@ -16,6 +16,8 @@ import ReportDetailUser from "./pages/detail_report/detail_report";
 import Missing from "./pages/missing/missing";
 import Profile from "./pages/profile/profile";
 import Calendar from "./pages/calendar/calendar";
+import LectureGrade from "./pages/lecture_grade/lecture_grade";
+import AdminGrade from "./pages/grade/admin_grade";
 import ROLES from "./constant/role";
 
 function App() {
@@ -51,6 +53,9 @@ function App() {
                 />
               </Route>
               <Route element={<RequireAuth allowedRoles={[ROLES.ADMIN]} />}>
+                <Route path="capstone-team/:teamId" element={<AdminGrade />} />
+              </Route>
+              <Route element={<RequireAuth allowedRoles={[ROLES.ADMIN]} />}>
                 <Route path="profile" element={<Profile />} />
               </Route>
             </Route>
@@ -58,41 +63,40 @@ function App() {
           {/* user */}
           <Route
             element={
-              <RequireAuth allowedRoles={[ROLES.STUDENT, ROLES.TEACHER]} />
+              <RequireAuth allowedRoles={[ROLES.STUDENT, ROLES.LECTURE]} />
             }
           >
             <Route path="user" element={<UserLayout />}>
               <Route
                 element={
-                  <RequireAuth allowedRoles={[ROLES.STUDENT, ROLES.TEACHER]} />
+                  <RequireAuth allowedRoles={[ROLES.STUDENT, ROLES.LECTURE]} />
                 }
               >
                 <Route index element={<Navigate to="home" replace />} />
               </Route>
               <Route
                 element={
-                  <RequireAuth allowedRoles={[ROLES.STUDENT, ROLES.TEACHER]} />
+                  <RequireAuth allowedRoles={[ROLES.STUDENT, ROLES.LECTURE]} />
                 }
               >
                 <Route path="home" element={<HomeUser />} />
               </Route>
-              <Route
-                element={
-                  <RequireAuth allowedRoles={[ROLES.STUDENT, ROLES.TEACHER]} />
-                }
-              >
+              <Route element={<RequireAuth allowedRoles={[ROLES.STUDENT]} />}>
                 <Route path="report" element={<ReportUser />}></Route>
               </Route>
               <Route
                 element={
-                  <RequireAuth allowedRoles={[ROLES.STUDENT, ROLES.TEACHER]} />
+                  <RequireAuth allowedRoles={[ROLES.STUDENT, ROLES.LECTURE]} />
                 }
               >
                 <Route path="report/:reportId" element={<ReportDetailUser />} />
               </Route>
+              <Route element={<RequireAuth allowedRoles={[ROLES.LECTURE]} />}>
+                <Route path="lecture-grade" element={<LectureGrade />} />
+              </Route>
               <Route
                 element={
-                  <RequireAuth allowedRoles={[ROLES.STUDENT, ROLES.TEACHER]} />
+                  <RequireAuth allowedRoles={[ROLES.STUDENT, ROLES.LECTURE]} />
                 }
               >
                 <Route path="profile" element={<Profile />} />

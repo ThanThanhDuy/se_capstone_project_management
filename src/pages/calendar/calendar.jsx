@@ -8,42 +8,42 @@ function Calendar() {
 
   const columns = [
     {
-      title: "STT",
+      title: "No",
       dataIndex: "STT",
       key: "STT",
       width: 100,
       fixed: "left"
     },
     {
-      title: "Mã đề tài",
+      title: "Topic Id",
       dataIndex: "Mã đề tài",
       key: "Mã đề tài",
       width: 100,
       fixed: "left"
     },
     {
-      title: "Tên đề tài",
+      title: "Topic Name",
       key: "Tên đề tài",
       dataIndex: "Tên đề tài",
       width: 600,
       fixed: "left"
     },
     {
-      title: "Giảng viên hướng dẫn",
+      title: "Mentors",
       dataIndex: "Giảng viên hướng dẫn",
       key: "Giảng viên hướng dẫn",
       width: 300,
       fixed: "left"
     },
     {
-      title: "Ngày",
+      title: "Date",
       dataIndex: "Ngày",
       key: "Ngày",
       width: 150
       // fixed: "left"
     },
     {
-      title: "Giờ",
+      title: "Time",
       dataIndex: "Giờ",
       key: "Giờ",
       width: 150
@@ -52,11 +52,15 @@ function Calendar() {
   ];
   return (
     <div style={{ padding: 20 }}>
+      <h1 style={{ fontSize: 20, marginTop: 10, marginBottom: 30 }}>
+        Location: <span style={{ color: "red" }}>{_rowSelected.location}</span>
+      </h1>
       <Table
         columns={columns}
         dataSource={_rowSelected?.topic}
         rowKey={obj => obj["Mã đề tài"]}
         scroll={{ x: 1100 }}
+        pagination={false}
       />
     </div>
   );

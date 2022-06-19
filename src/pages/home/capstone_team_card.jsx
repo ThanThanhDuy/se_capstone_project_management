@@ -1,12 +1,30 @@
 import { Card, Progress } from "antd";
 import React from "react";
+import { useEffect } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
-
+import { useRecoilValue } from "recoil";
+import { userAuthState } from "../../../store/user/user";
+import ROLES from "../../constant/role";
 const CapstoneTeamCard = () => {
+  const userAuth = useRecoilValue(userAuthState);
+  const [url, setUrl] = useState("");
+  useEffect(() => {
+    if (
+      userAuth?.User?.Roles?.find(role => [ROLES.LECTURE].includes(role.RoleId))
+    ) {
+      setUrl("/user/lecture-grade");
+    } else if (
+      userAuth?.User?.Roles?.find(role => [ROLES.STUDENT].includes(role.RoleId))
+    ) {
+      setUrl("/user/report");
+    }
+  }, []);
+
   return (
     <div>
       <Card
-        extra={<Link to="/user/report">More</Link>}
+        extra={<Link to={url}>View</Link>}
         title="team_code"
         style={{
           width: 300
