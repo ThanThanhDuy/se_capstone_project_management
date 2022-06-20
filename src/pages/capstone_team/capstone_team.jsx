@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Breadcrumb,
   Typography,
@@ -20,12 +20,12 @@ import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { storage } from "../../utils/firebase/firebase.utils";
 import { useNavigate } from "react-router-dom";
 import STATUS_MAPPING from "../../constant/color";
+import axios from "axios";
 // import { Helmet } from "react-helmet";
 
 function capstone_team() {
   const { Title } = Typography;
   const [_data, _setData] = useRecoilState(dataCapstoneTeamState);
-  const [url, setUrl] = useState("");
   const setRowSelectedCapstoneTeam = useSetRecoilState(
     rowSelectedCapstoneTeamState
   );
@@ -33,77 +33,86 @@ function capstone_team() {
   const columns = [
     {
       title: "Team Coce",
-      dataIndex: "Mã nhóm",
-      key: "Mã nhóm",
+      dataIndex: "capstone_team_code",
+      key: "capstone_team_code",
       width: 120,
       fixed: "left",
       render: text => <a>{text}</a>
     },
     {
       title: "Semeter",
-      dataIndex: "Học kì",
-      key: "Học kì",
-      width: 100,
+      dataIndex: "semeter_name",
+      key: "semeter_name",
+      width: 130,
       fixed: "left"
     },
     {
       title: "Status",
-      key: "Trạng thái",
+      key: "capstone_team_status",
       width: 120,
-      dataIndex: "Trạng thái",
+      dataIndex: "capstone_team_status",
       fixed: "left",
       render: (_, record, index) => (
         <>
-          <Tag key={index} color={STATUS_MAPPING[record["Trạng thái"]].color}>
-            {STATUS_MAPPING[record["Trạng thái"]].text.toUpperCase()}
+          <Tag
+            key={index}
+            color={STATUS_MAPPING[record["capstone_team_status"]].color}
+          >
+            {STATUS_MAPPING[record["capstone_team_status"]].text.toUpperCase()}
           </Tag>
         </>
       )
     },
     {
       title: "Topic",
-      dataIndex: "Đề tài",
-      key: "Đề tài",
+      dataIndex: "topic_name",
+      key: "topic_name",
       width: 300,
       fixed: "left"
     },
     {
       title: "Mentor",
-      dataIndex: "Giảng viên hướng dẫn",
-      key: "Giảng viên hướng dẫn",
+      dataIndex: "mentor_name",
+      key: "mentor_name",
       width: 200
     },
     {
       title: "Leader",
-      dataIndex: "Trưởng nhóm",
-      key: "Trưởng nhóm",
+      dataIndex: "leader_name",
+      key: "leader_name",
       width: 200
     },
     {
       title: "Member",
-      dataIndex: "Thành viên",
-      key: "Thành viên",
-      width: 200
-    },
-    {
-      title: "Date",
-      dataIndex: "Ngày",
-      key: "Ngày",
-      width: 200
-    },
-    {
-      title: "Time",
-      dataIndex: "Giờ",
-      key: "Giờ",
-      width: 200
-    },
-    {
-      title: "Location",
-      dataIndex: "Phòng",
-      key: "Phòng",
+      dataIndex: "member_name",
+      key: "member_name",
       width: 200
     }
+    // {
+    //   title: "Date",
+    //   dataIndex: "Ngày",
+    //   key: "Ngày",
+    //   width: 200
+    // },
+    // {
+    //   title: "Time",
+    //   dataIndex: "Giờ",
+    //   key: "Giờ",
+    //   width: 200
+    // },
+    // {
+    //   title: "Location",
+    //   dataIndex: "Phòng",
+    //   key: "Phòng",
+    //   width: 200
+    // }
   ];
+  async function getCaptoneTeam() {
+    const res = await axios.get("http://localhost:8081/admin/get-captone-team");
+    if (res.data.code === 200) {
+      _setData(res.data.data);
+    }
+  }
   const props = {
     name: "file",
     action: "http://localhost:3000/",
@@ -122,17 +131,27 @@ function capstone_team() {
     },
     beforeUpload(file) {
       const reader = new FileReader();
-      reader.onload = e => {
+      reader.onload = async e => {
         const objectCSV = convertCSV(e.target.result);
-        console.log(objectCSV);
-        if (objectCSV) {
-          _setData(objectCSV);
+        const res = await axios.post(
+          "http://localhost:8081/admin/insert-capstone-team",
+          {
+            data: objectCSV
+          }
+        );
+
+        if (res.data.code === 200) {
+          getCaptoneTeam();
         }
       };
       reader.readAsText(file);
       return false;
     }
   };
+
+  useEffect(() => {
+    getCaptoneTeam();
+  }, []);
 
   return (
     <>
@@ -162,7 +181,7 @@ function capstone_team() {
           return {
             onClick: event => {
               setRowSelectedCapstoneTeam(_data[rowIndex]);
-              navigate(`/admin/capstone-team/${record["Mã nhóm"]}`);
+              navigate(`/admin/capstone-team/${record["capstone_team_code"]}`);
             }
           };
         }}
