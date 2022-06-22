@@ -1,7 +1,7 @@
 import axiosClient from "./axios";
 class UserApi {
   async login(params) {
-    const url = `/users/login`;
+    const url = `/user/login`;
     return axiosClient.post(url, params);
   }
 }

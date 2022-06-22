@@ -3,8 +3,8 @@ class UserService {
   async login(campus, token) {
     try {
       const params = {
-        CampusId: parseInt(campus),
-        IdToken: token.user._delegate.accessToken,
+        idCampus: parseInt(campus),
+        idToken: token.user._delegate.accessToken,
       };
       var respone = await userAPI.login(params);
     } catch (error) {
