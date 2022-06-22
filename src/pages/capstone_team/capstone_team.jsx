@@ -6,7 +6,8 @@ import {
   Tag,
   Button,
   message,
-  Upload
+  Upload,
+  Spin
 } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import convertCSV from "../../utils/convertCSV/convertCSV_team";
@@ -29,6 +30,7 @@ function capstone_team() {
   const setRowSelectedCapstoneTeam = useSetRecoilState(
     rowSelectedCapstoneTeamState
   );
+  const [loading, setLoading] = useState(false);
   let navigate = useNavigate();
   const columns = [
     {
@@ -110,7 +112,10 @@ function capstone_team() {
   async function getCaptoneTeam() {
     const res = await axios.get("http://localhost:8081/admin/get-captone-team");
     if (res.data.code === 200) {
-      _setData(res.data.data);
+      setTimeout(() => {
+        _setData(res.data.data);
+        setLoading(false);
+      }, 1000);
     }
   }
   const props = {
@@ -141,6 +146,7 @@ function capstone_team() {
         );
 
         if (res.data.code === 200) {
+          setLoading(true);
           getCaptoneTeam();
         }
       };
@@ -150,6 +156,7 @@ function capstone_team() {
   };
 
   useEffect(() => {
+    setLoading(true);
     getCaptoneTeam();
   }, []);
 
@@ -176,21 +183,25 @@ function capstone_team() {
           </Upload>
         </div>
       </div>
-      <Table
-        onRow={(record, rowIndex) => {
-          return {
-            onClick: event => {
-              setRowSelectedCapstoneTeam(_data[rowIndex]);
-              navigate(`/admin/capstone-team/${record["capstone_team_code"]}`);
-            }
-          };
-        }}
-        columns={columns}
-        dataSource={_data}
-        style={{ cursor: "pointer" }}
-        rowKey={obj => obj.code}
-        scroll={{ x: 1800 }}
-      />
+      <Spin spinning={loading} delay={500}>
+        <Table
+          onRow={(record, rowIndex) => {
+            return {
+              onClick: event => {
+                setRowSelectedCapstoneTeam(_data[rowIndex]);
+                navigate(
+                  `/admin/capstone-team/${record["capstone_team_code"]}`
+                );
+              }
+            };
+          }}
+          columns={columns}
+          dataSource={_data}
+          style={{ cursor: "pointer" }}
+          rowKey={obj => obj.code}
+          scroll={{ x: 1800 }}
+        />
+      </Spin>
     </>
   );
 }

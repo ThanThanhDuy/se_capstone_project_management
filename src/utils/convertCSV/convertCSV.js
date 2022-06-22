@@ -30,7 +30,7 @@ function convertCSV(csv) {
     let councilHeader = item[2].split(";");
     let councilMember = item[3].split(";");
     let council = {};
-    for (let i = 0; i < councilHeader.length - 2; i++) {
+    for (let i = 0; i < councilHeader.length - 1; i++) {
       council[councilHeader[i]] = councilMember[i];
     }
     council["index"] = count;
@@ -41,8 +41,8 @@ function convertCSV(csv) {
     for (let i = 6; i < item.length; i++) {
       let topicItem = {};
       let topicContent = item[i].split(";");
-      for (let j = 0; j < topicHeader.length - 1; j++) {
-        topicItem[topicHeader[j]] = topicContent[j];
+      for (let j = 0; j < topicHeader.length; j++) {
+        topicItem[topicHeader[j].trim()] = topicContent[j].trim();
       }
       topic.push(topicItem);
     }
@@ -50,6 +50,7 @@ function convertCSV(csv) {
     result.push(itemResult);
     itemResult = {};
   });
+  // console.log(result);
   return result; //JavaScript object
   // return JSON.stringify(result) //JSON
 }

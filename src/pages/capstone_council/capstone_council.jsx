@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Typography, Table, Button, message, Upload } from "antd";
+import React, { useEffect, useState } from "react";
+import { Typography, Table, Button, message, Upload, Spin } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import convertCSV from "../../utils/convertCSV/convertCSV";
 import { useRecoilState, useSetRecoilState } from "recoil";
@@ -9,6 +9,7 @@ import {
   rowSelectedCapstoneCouncilState
 } from "../../../store/table/table";
 import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function capstone_council() {
   const { Title } = Typography;
@@ -17,44 +18,55 @@ function capstone_council() {
   const setRowSelectedCapstoneCouncil = useSetRecoilState(
     rowSelectedCapstoneCouncilState
   );
+  const [loading, setLoading] = useState(false);
   let navigate = useNavigate();
 
   const columns = [
     {
       title: "Council Id",
-      dataIndex: "Mã hội đồng",
-      key: "Mã Hội Đồng",
+      dataIndex: "capstone_council_code",
+      key: "capstone_council_code",
       width: 100,
       fixed: "left",
       render: text => <Link to={`/admin/capstone-council/${text}`}>{text}</Link>
     },
     {
       title: "Semester",
-      dataIndex: "Học kì",
-      key: "Học Kì",
+      dataIndex: "semeter_name",
+      key: "semeter_name",
       width: 80,
       fixed: "left"
     },
     {
       title: "Chairperson",
-      dataIndex: "Chủ tịch",
-      key: "Chủ tịch",
+      dataIndex: "chairman",
+      key: "chairman",
       width: 180
     },
     {
       title: "Secretary",
-      dataIndex: "Thư kí",
-      key: "Thư kí",
+      dataIndex: "secretary",
+      key: "secretary",
       width: 180
     },
     {
       title: "Members",
-      dataIndex: "Thành viên",
-      key: "Thành viên",
+      dataIndex: "member",
+      key: "member",
       width: 180
     }
   ];
-
+  async function getCaptoneCouncil() {
+    const res = await axios.get(
+      "http://localhost:8081/admin/get-captone-council"
+    );
+    if (res.data.code === 200) {
+      setTimeout(() => {
+        _setData(res.data.data);
+        setLoading(false);
+      }, 1000);
+    }
+  }
   const props = {
     name: "file",
     action: "http://localhost:3000/",
@@ -73,20 +85,28 @@ function capstone_council() {
     },
     beforeUpload(file) {
       const reader = new FileReader();
-      reader.onload = e => {
+      reader.onload = async e => {
         const objectCSV = convertCSV(e.target.result);
-        let objData = [];
-        _setDataResult(objectCSV);
-        objectCSV.forEach(item => {
-          objData.push(item.council);
-        });
-        _setData(objData);
+        // console.log(objectCSV);
+        const res = await axios.post(
+          "http://localhost:8081/admin/insert-capstone-council",
+          {
+            data: objectCSV
+          }
+        );
+        if (res.data.code === 200) {
+          setLoading(true);
+          getCaptoneCouncil();
+        }
       };
       reader.readAsText(file);
       return false;
     }
   };
-
+  useEffect(() => {
+    setLoading(true);
+    getCaptoneCouncil();
+  }, []);
   return (
     <>
       <div
@@ -106,21 +126,25 @@ function capstone_council() {
           </Upload>
         </div>
       </div>
-      <Table
-        onRow={(record, rowIndex) => {
-          return {
-            onClick: event => {
-              setRowSelectedCapstoneCouncil(_dataResult[rowIndex]);
-              navigate(`/admin/capstone-council/${record["Mã hội đồng"]}`);
-            }
-          };
-        }}
-        style={{ cursor: "pointer" }}
-        columns={columns}
-        dataSource={_data}
-        rowKey={record => record["index"]}
-        scroll={{ x: 1800 }}
-      />
+      <Spin spinning={loading} delay={500}>
+        <Table
+          onRow={(record, rowIndex) => {
+            return {
+              onClick: event => {
+                setRowSelectedCapstoneCouncil(_dataResult[rowIndex]);
+                navigate(
+                  `/admin/capstone-council/${record["capstone_council_code"]}`
+                );
+              }
+            };
+          }}
+          style={{ cursor: "pointer" }}
+          columns={columns}
+          dataSource={_data}
+          rowKey={record => record["index"]}
+          scroll={{ x: 1800 }}
+        />
+      </Spin>
     </>
   );
 }
