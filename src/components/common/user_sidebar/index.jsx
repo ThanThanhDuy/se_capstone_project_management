@@ -17,7 +17,7 @@ const UserSidebar = () => {
       style={{
         width: "100%",
         borderRight: "1px solid rgb(0 0 0 / 12%)",
-        padding: "10px"
+        padding: "10px",
       }}
       theme="light"
     >
@@ -30,12 +30,12 @@ const UserSidebar = () => {
           height: "fit-content",
           flexGrow: 1,
           maxWidth: 400,
-          overflowY: "auto"
+          overflowY: "auto",
         }}
       >
         <TreeItem
           nodeId="1"
-          label="Home"
+          label="Dashboard"
           onClick={() => {
             navigate("/user/home");
           }}

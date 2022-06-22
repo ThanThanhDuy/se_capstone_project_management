@@ -1,13 +1,16 @@
-import campusAPI from "../apis/camus";
+import campusAPI from "../apis/campus";
 
 class CampusService {
   async getAllCampus() {
     try {
       var response = await campusAPI.getAllCampus();
     } catch (error) {
-      return error.response.data;
+      console.log(error);
+      return error.response;
     }
-    return response.Data;
+    console.log(response);
+    // return response.data;
+    return response.data;
   }
 }
 const campusService = new CampusService();

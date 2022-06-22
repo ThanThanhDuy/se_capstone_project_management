@@ -19,14 +19,14 @@ function UserReport() {
       statusSubmmission: true,
       timeStart: "2022-05-27T21:06:10+07:00",
       timeEnd: "2022-05-27T21:06:10+07:00",
-      detail: "asdfads"
-    }
+      detail: "asdfads",
+    },
   ]);
   const [model, setModel] = useState("hello");
-  const handleModelChange = model => {
+  const handleModelChange = (model) => {
     setModel(model);
   };
-  const _onFinish = values => {
+  const _onFinish = (values) => {
     console.log(values);
     const { subject, content, date } = values;
     const dateStart = moment(date[0]).format();
@@ -38,7 +38,7 @@ function UserReport() {
       dateSubmitted: "",
       statusSubmmission: false,
       timeStart: dateStart,
-      timeEnd: dateEnd
+      timeEnd: dateEnd,
     };
     _setReports([..._reports, newReport]); // add new report
     form.resetFields();
@@ -54,11 +54,11 @@ function UserReport() {
       style={{
         display: "flex",
         justifyContent: "space-between",
-        padding: "20px"
+        padding: "20px",
       }}
     >
       <div className="report" style={{ width: "100%", marginRight: 30 }}>
-        {_reports.map(report => (
+        {_reports.map((report) => (
           <UserReportItem key={report.id} report={report} />
         ))}
         {_openDialogAdd && (
@@ -72,7 +72,7 @@ function UserReport() {
                 marginBottom: 20,
                 boxShadow: "0px 0px 10px #ccc",
                 padding: "20px 30px",
-                borderRadius: 5
+                borderRadius: 5,
               }}
             >
               <div className="report_item--left">
@@ -107,7 +107,7 @@ function UserReport() {
                 >
                   <RangePicker
                     showTime={{
-                      format: "HH:mm"
+                      format: "HH:mm",
                     }}
                     format="YYYY-MM-DD HH:mm"
                   />

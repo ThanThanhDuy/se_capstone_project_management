@@ -1,7 +1,7 @@
 import axiosClient from "./axios";
 class CampusApi {
   async getAllCampus() {
-    const url = "campuses/login";
+    const url = "campus/get-all-campus";
     return await axiosClient.get(url);
   }
 }
