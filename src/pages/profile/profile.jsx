@@ -4,6 +4,7 @@ import { Avatar, Button } from "antd";
 import { userAuthState } from "../../../store/user/user";
 import { useRecoilValue } from "recoil";
 import moment from "moment";
+import { Helmet } from "react-helmet";
 
 function Profile() {
   const { User } = useRecoilValue(userAuthState);
@@ -19,6 +20,10 @@ function Profile() {
         alignItems: "flex-start"
       }}
     >
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>Profile</title>
+      </Helmet>
       <div
         style={{
           width: 600

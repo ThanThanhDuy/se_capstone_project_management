@@ -81,15 +81,25 @@ function App() {
               >
                 <Route path="home" element={<HomeUser />} />
               </Route>
-              <Route element={<RequireAuth allowedRoles={[ROLES.STUDENT]} />}>
-                <Route path="report" element={<ReportUser />}></Route>
+              <Route
+                element={
+                  <RequireAuth allowedRoles={[ROLES.STUDENT, ROLES.LECTURE]} />
+                }
+              >
+                <Route
+                  path="report/:capstoneTeamId"
+                  element={<ReportUser />}
+                ></Route>
               </Route>
               <Route
                 element={
                   <RequireAuth allowedRoles={[ROLES.STUDENT, ROLES.LECTURE]} />
                 }
               >
-                <Route path="report/:reportId" element={<ReportDetailUser />} />
+                <Route
+                  path="report/:capstoneTeamId/detail/:reportCode"
+                  element={<ReportDetailUser />}
+                />
               </Route>
               <Route element={<RequireAuth allowedRoles={[ROLES.LECTURE]} />}>
                 <Route path="lecture-grade" element={<LectureGrade />} />

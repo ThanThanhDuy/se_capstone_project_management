@@ -2,11 +2,8 @@ import React from "react";
 import HeaderAdmin from "../common/header/index";
 import { Layout } from "antd";
 import UserSidebar from "../common/user_sidebar";
-import { Navigate, Outlet, Route, Routes } from "react-router-dom";
-import { HOME_URL, REPORT_URL } from "../../constant/url";
-import Home from "../../pages/home/";
-import UserReport from "../../pages/report/user_report";
-const { Content } = Layout;
+import { Outlet } from "react-router-dom";
+const { Content, Footer } = Layout;
 
 const UserLayout = () => {
   return (
@@ -14,14 +11,18 @@ const UserLayout = () => {
       <HeaderAdmin />
       <Layout className="site-layout" style={{ backgroundColor: "#fff" }}>
         <UserSidebar />
-        <Content style={{ margin: "0 16px" }}>
-          <Outlet />
-          {/* <Routes>
-            <Route path={HOME_URL} element={<Home />} />
-            <Route path={REPORT_URL} element={<UserReport />} />
-            <Route path="*" element={<Navigate to="home" replace />} />
-          </Routes> */}
-        </Content>
+        <Layout style={{ backgroundColor: "#fff" }}>
+          <Content style={{ margin: "0 16px" }}>
+            <Outlet />
+          </Content>
+          <Footer
+            style={{
+              textAlign: "center"
+            }}
+          >
+            FPT University HCM ©2022 Created by Group 2 SWP
+          </Footer>
+        </Layout>
       </Layout>
     </Layout>
   );

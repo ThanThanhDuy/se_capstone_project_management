@@ -7,11 +7,13 @@ import {
   WechatOutlined,
   LockOutlined
 } from "@ant-design/icons";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import moment from "moment";
 
 function UserReportItem(props) {
+  let params = useParams();
   const { report } = props;
+  console.log(report);
   return (
     <div
       key={report.id}
@@ -35,27 +37,27 @@ function UserReportItem(props) {
       <div className="report_item--right">
         <div className="report_item--title">
           <Link
-            to={`/user/report/${report.id}`}
+            to={`/user/report/${report.id}/detail/${report.code}`}
             style={{ fontSize: 20, color: "#0065cc" }}
           >
-            {report.title}
+            {report.name} - {params.capstoneTeamId}
           </Link>
         </div>
         <div
           className={
-            report.statusSubmmission
+            report.submit_date
               ? "report_item--submit"
               : "report_item--notsubmit"
           }
         >
-          {report.statusSubmmission ? (
+          {report.submit_date ? (
             <>
               <div>
                 <CheckOutlined />
                 <span>
                   Submit{" "}
                   <span style={{ textDecoration: "underline", marginLeft: 10 }}>
-                    {moment(report.dateSubmitted).format("YYYY MMM DD - HH:mm")}
+                    {moment(report.submit_date).format("YYYY MMM DD - HH:mm")}
                   </span>
                 </span>
               </div>
@@ -64,26 +66,32 @@ function UserReportItem(props) {
             <>
               <div>
                 <LockOutlined />
-                <span>
-                  Not Submit{" "}
-                  <span
-                    style={{
-                      textDecoration: "underline",
-                      marginLeft: 10,
-                      marginRight: 10
-                    }}
-                  >
-                    {moment(report.timeStart).format("YYYY MMM DD - HH:mm")}
-                  </span>
-                  {" to "}
-                  <span style={{ textDecoration: "underline", marginLeft: 10 }}>
-                    {moment(report.timeEnd).format("YYYY MMM DD - HH:mm")}
-                  </span>
-                </span>
+                <span>Not Submit </span>
+                <span></span>
               </div>
             </>
           )}
         </div>
+        {!report.submit_date && (
+          <div style={{ marginTop: 5, marginBottom: 10 }}>
+            <span>
+              <span>Deadline from </span>
+              <span
+                style={{
+                  textDecoration: "underline",
+                  marginLeft: 10,
+                  marginRight: 10
+                }}
+              >
+                {moment(report.start_at).format("YYYY MMM DD - HH:mm")}
+              </span>
+              {" to "}
+              <span style={{ textDecoration: "underline", marginLeft: 10 }}>
+                {moment(report.end_at).format("YYYY MMM DD - HH:mm")}
+              </span>
+            </span>
+          </div>
+        )}
         <div className="report_item--feedback">
           <WechatOutlined />
           <span>Feedback</span>

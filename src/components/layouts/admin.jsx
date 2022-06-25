@@ -5,7 +5,7 @@ import BreadCrumbAdmin from "../common/breadcrumb/breadcrumb_admin";
 import { Layout } from "antd";
 import { Outlet } from "react-router-dom";
 
-const { Content } = Layout;
+const { Content, Footer } = Layout;
 
 const AdminLayout = () => {
   return (
@@ -13,17 +13,26 @@ const AdminLayout = () => {
       <HeaderAdmin />
       <Layout className="site-layout" style={{ backgroundColor: "#fff" }}>
         <SidebarAdmin />
-        <Content style={{ margin: "0 16px" }}>
-          <BreadCrumbAdmin />
-          <div
-            className="site-layout-background"
+        <Layout style={{ backgroundColor: "#fff" }}>
+          <Content style={{ margin: "0 16px" }}>
+            <BreadCrumbAdmin />
+            <div
+              className="site-layout-background"
+              style={{
+                minHeight: 360
+              }}
+            >
+              <Outlet />
+            </div>
+          </Content>
+          <Footer
             style={{
-              minHeight: 360
+              textAlign: "center"
             }}
           >
-            <Outlet />
-          </div>
-        </Content>
+            FPT University HCM ©2022 Created by Group 2 SWP
+          </Footer>
+        </Layout>
       </Layout>
     </Layout>
   );
