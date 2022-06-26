@@ -17,12 +17,10 @@ import {
   dataCapstoneTeamState,
   rowSelectedCapstoneTeamState
 } from "../../../store/table/table";
-import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import { storage } from "../../utils/firebase/firebase.utils";
 import { useNavigate } from "react-router-dom";
 import STATUS_MAPPING from "../../constant/color";
 import axios from "axios";
-// import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet";
 
 function capstone_team() {
   const { Title } = Typography;
@@ -170,10 +168,10 @@ function capstone_team() {
           marginBottom: 30
         }}
       >
-        {/* <Helmet>
+        <Helmet>
           <meta charSet="utf-8" />
-          <title>Casptone Team</title>
-        </Helmet> */}
+          <title>Casptone team</title>
+        </Helmet>
         <Title level={3} style={{ marginTop: 0, fontWeight: 500 }}>
           {/* Capstone Project Team List */}
         </Title>

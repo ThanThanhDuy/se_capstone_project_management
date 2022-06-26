@@ -1,17 +1,17 @@
-﻿MHB-Meeting-Hall B;;;;;
-Council;;;;;
-capstone_council_code;semeter_name;chairman;secretary;member;
-SP202201;SP2022-Spring 2022;TaiNT-Nguyễn Trọng Tài;VanTTN-Thân Thị Ngọc Vân;HoangNT2-Nguyễn Thế Hoàng, AnNDH-Ngô Đặng Hà An, KiemHH-Hồ Hoàn Kiếm;
-Topic;;;;;
+﻿MHB-Meeting-Hall B;;;;;;
+Council;;;;;;
+capstone_council_code;semeter_name;chairman;secretary;member;;
+SP202201;SP2022-Spring 2022;TaiNT-Nguyễn Trọng Tài;VanTTN-Thân Thị Ngọc Vân;HoangNT2-Nguyễn Thế Hoàng, AnNDH-Ngô Đặng Hà An, KiemHH-Hồ Hoàn Kiếm;;
+Topic;;;;;;
 no;topic_code;topic_name;mentor;date;time;type
-1;SP1230;test0;HuongNTC2-Nguyễn Thị Cẩm Hương, PhuongLHK-Lâm Hữu Khánh Phương;04/06/2022;08:00;1
+1;SP1230;test0;HuongNTC2-Nguyễn Thị Cẩm Hương, PhuongLHK-Lâm Hữu Khánh Phương;04/06/2022;8:00;1
 2;SP1231;test1;T1-Teacher 1;05/06/2022;10:00;1
-;;;;;
-305-Room 305;;;;;
-Council;;;;;
-capstone_council_code;semeter_name;chairman;secretary;member;
-SP202202;SM2022-Summer 2022;T5-Teacher 5;T6-Teacher 6;T7-Teacher 7, T8-Teacher 8, T9-Teacher 9;
-Topic;;;;;
+;;;;;;
+305-Room 305;;;;;;
+Council;;;;;;
+capstone_council_code;semeter_name;chairman;secretary;member;;
+SP202202;SM2022-Summer 2022;T5-Teacher 5;T6-Teacher 6;T7-Teacher 7, T8-Teacher 8, T9-Teacher 9;;
+Topic;;;;;;
 no;topic_code;topic_name;mentor;date;time;type
-1;SP1232;test2;T2-Teacher 2, T4-Teacher 4;04/06/2022;08:00;1
-2;SP1233;test123;T3-Teacher 3, T1-Teacher 1;05/06/2022;10:00;1
+1;SM1232;test2;T2-Teacher 2, T4-Teacher 4;04/06/2022;8:00;1
+2;SM1233;test123;T3-Teacher 3, T1-Teacher 1;05/06/2022;10:00;1

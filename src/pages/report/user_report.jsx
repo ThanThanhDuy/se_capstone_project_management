@@ -1,13 +1,13 @@
-import { Avatar, Button, Form, Input, DatePicker } from "antd";
-import React, { useState } from "react";
-import { BookOutlined, PlusOutlined } from "@ant-design/icons";
+import { Form, Input, DatePicker } from "antd";
+import React, { useEffect, useState } from "react";
 import UserReportItem from "./user_report_item";
 import moment from "moment";
+import reportService from "../../services/report";
+import { useParams } from "react-router-dom";
+import { Helmet } from "react-helmet";
 
 function UserReport() {
-  const { RangePicker } = DatePicker;
-  const { TextArea } = Input;
-
+  const params = useParams();
   const [form] = Form.useForm();
 
   const [_openDialogAdd, _setOpenDialogAdd] = useState(false);
@@ -19,14 +19,23 @@ function UserReport() {
       statusSubmmission: true,
       timeStart: "2022-05-27T21:06:10+07:00",
       timeEnd: "2022-05-27T21:06:10+07:00",
-      detail: "asdfads",
-    },
+      detail: "asdfads"
+    }
   ]);
   const [model, setModel] = useState("hello");
-  const handleModelChange = (model) => {
+  const handleModelChange = model => {
     setModel(model);
   };
-  const _onFinish = (values) => {
+  useEffect(() => {
+    _fecthData(params.capstoneTeamId);
+  }, []);
+
+  const _fecthData = async code => {
+    const result = await reportService.getReportByCapstoneTeamCode(code);
+    console.log(result);
+    _setReports(result);
+  };
+  const _onFinish = values => {
     console.log(values);
     const { subject, content, date } = values;
     const dateStart = moment(date[0]).format();
@@ -38,7 +47,7 @@ function UserReport() {
       dateSubmitted: "",
       statusSubmmission: false,
       timeStart: dateStart,
-      timeEnd: dateEnd,
+      timeEnd: dateEnd
     };
     _setReports([..._reports, newReport]); // add new report
     form.resetFields();
@@ -54,14 +63,18 @@ function UserReport() {
       style={{
         display: "flex",
         justifyContent: "space-between",
-        padding: "20px",
+        padding: "20px"
       }}
     >
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>Report - {params.capstoneTeamId}</title>
+      </Helmet>
       <div className="report" style={{ width: "100%", marginRight: 30 }}>
-        {_reports.map((report) => (
+        {_reports.map(report => (
           <UserReportItem key={report.id} report={report} />
         ))}
-        {_openDialogAdd && (
+        {/* {_openDialogAdd && (
           <Form form={form} name="control-hooks" onFinish={_onFinish}>
             <div
               key={_reports.length + 1}
@@ -72,7 +85,7 @@ function UserReport() {
                 marginBottom: 20,
                 boxShadow: "0px 0px 10px #ccc",
                 padding: "20px 30px",
-                borderRadius: 5,
+                borderRadius: 5
               }}
             >
               <div className="report_item--left">
@@ -107,7 +120,7 @@ function UserReport() {
                 >
                   <RangePicker
                     showTime={{
-                      format: "HH:mm",
+                      format: "HH:mm"
                     }}
                     format="YYYY-MM-DD HH:mm"
                   />
@@ -133,7 +146,7 @@ function UserReport() {
               </div>
             </div>
           </Form>
-        )}
+        )} */}
         {/* add item */}
         {/* <div className="report_add">
           <div

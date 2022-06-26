@@ -10,6 +10,7 @@ import {
 } from "../../../store/table/table";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { Helmet } from "react-helmet";
 
 function capstone_council() {
   const { Title } = Typography;
@@ -87,7 +88,7 @@ function capstone_council() {
       const reader = new FileReader();
       reader.onload = async e => {
         const objectCSV = convertCSV(e.target.result);
-        // console.log(objectCSV);
+        console.log(objectCSV);
         const res = await axios.post(
           "http://localhost:8081/admin/insert-capstone-council",
           {
@@ -117,6 +118,10 @@ function capstone_council() {
           marginBottom: 30
         }}
       >
+        <Helmet>
+          <meta charSet="utf-8" />
+          <title>Casptone council</title>
+        </Helmet>
         <Title level={3} style={{ marginTop: 20, fontWeight: 500 }}>
           {/* Capstone Project Council List */}
         </Title>
