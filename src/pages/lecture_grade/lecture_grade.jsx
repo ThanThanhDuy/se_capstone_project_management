@@ -1,141 +1,135 @@
 import React, { useState } from "react";
 import { Table, InputNumber, Button, Modal } from "antd";
 import { DownloadOutlined } from "@ant-design/icons";
+import data from "./lecture.json";
+import { useEffect } from "react";
+
 function LectureGrade() {
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const dataInput = [
-    {
-      MSSV: "SE140971",
-      "Họ và tên": "Quách Đại Lợi",
-      "Điểm 1": 5,
-      "Điểm 2": 6,
-      "Điểm 3": 7,
-      "Điểm 4": 8,
-      "Điểm 5": 9
-    },
-    {
-      MSSV: "SE140972",
-      "Họ và tên": "Thân Thanh Duy",
-      "Điểm 1": 5,
-      "Điểm 2": 6,
-      "Điểm 3": 7,
-      "Điểm 4": 8,
-      "Điểm 5": 9
-    },
-    {
-      MSSV: "SE140973",
-      "Họ và tên": "Nguyễn Đăng Khoa",
-      "Điểm 1": 5,
-      "Điểm 2": 6,
-      "Điểm 3": 7,
-      "Điểm 4": 8,
-      "Điểm 5": 9
-    },
-    {
-      MSSV: "SE140974",
-      "Họ và tên": "Đỗ Trọng Đạt",
-      "Điểm 1": 5,
-      "Điểm 2": 6,
-      "Điểm 3": 7,
-      "Điểm 4": 8,
-      "Điểm 5": 9
-    }
-  ];
+  const [datas, setDatas] = useState({});
 
-  const [datas, setDatas] = useState({
-    dataTopic: [],
-    dataGrade: dataInput
-  });
+  useEffect(() => {
+    const dataInput = JSON.parse(JSON.stringify(data));
+
+    dataInput.data.rows.forEach(row => {
+      for (let item of row.marks) {
+        row[item.code] = item.mark;
+      }
+    });
+    console.log(dataInput);
+    setDatas(dataInput);
+  }, []);
   const _handleEditGrade = (e, key, index) => {
     {
-      const newData = { ...datas };
-      newData.dataGrade[index][key] = Number(e);
+      let newData = {};
+      newData = Object.assign(newData, datas);
+      newData.data.rows[index][key] = Number(e);
+      newData.data.rows.forEach((row, i) => {
+        if (i === index) {
+          for (let item of row.marks) {
+            if (item.code === key) {
+              item.mark = Number(e);
+            }
+          }
+        }
+      });
+      console.log(newData);
       setDatas(newData);
     }
   };
   const columns = [
     {
       title: "MSSV",
-      dataIndex: "MSSV",
-      key: "MSSV",
+      dataIndex: "code",
+      key: "code",
       width: 100,
       fixed: "left"
       // render: text => <Link to={`/admin/capstone-council/${text}`}>{text}</Link>
     },
     {
-      title: "Họ và tên",
-      dataIndex: "Họ và tên",
-      key: "Họ và tên",
+      title: "Name",
+      dataIndex: "name",
+      key: "name",
       width: 200,
       fixed: "left"
     },
     {
-      title: "Điểm 1",
-      dataIndex: "Điểm 1",
-      key: "Điểm 1",
+      title: datas.data?.mark_columns[0].name,
+      dataIndex: datas.data?.mark_columns[0].code,
+      key: datas.data?.mark_columns[0].code,
       width: 100,
       render: (text, record, index) => (
         <InputNumber
           min={0}
           max={10}
           value={text}
-          onChange={e => _handleEditGrade(e, "Điểm 1", index)}
+          onChange={e =>
+            _handleEditGrade(e, datas.data.mark_columns[0].code, index)
+          }
         />
       )
     },
     {
-      title: "Điểm 2",
-      dataIndex: "Điểm 2",
-      key: "Điểm 2",
+      title: datas.data?.mark_columns[1].name,
+      dataIndex: datas.data?.mark_columns[1].code,
+      key: datas.data?.mark_columns[1].code,
       width: 100,
       render: (text, record, index) => (
         <InputNumber
           min={0}
           max={10}
           value={text}
-          onChange={e => _handleEditGrade(e, "Điểm 2", index)}
+          onChange={e =>
+            _handleEditGrade(e, datas.data.mark_columns[1].code, index)
+          }
         />
       )
     },
     {
-      title: "Điểm 3",
-      dataIndex: "Điểm 3",
-      key: "Điểm 3",
+      title: datas.data?.mark_columns[2].name,
+      dataIndex: datas.data?.mark_columns[2].code,
+      key: datas.data?.mark_columns[2].code,
       width: 100,
       render: (text, record, index) => (
         <InputNumber
           min={0}
           max={10}
           value={text}
-          onChange={e => _handleEditGrade(e, "Điểm 3", index)}
+          onChange={e =>
+            _handleEditGrade(e, datas.data.mark_columns[2].code, index)
+          }
         />
       )
     },
     {
-      title: "Điểm 4",
-      dataIndex: "Điểm 4",
-      key: "Điểm 4",
+      title: datas.data?.mark_columns[3].name,
+      dataIndex: datas.data?.mark_columns[3].code,
+      key: datas.data?.mark_columns[3].code,
       width: 100,
       render: (text, record, index) => (
         <InputNumber
           min={0}
           max={10}
           value={text}
-          onChange={e => _handleEditGrade(e, "Điểm 4", index)}
+          onChange={e =>
+            _handleEditGrade(e, datas.data.mark_columns[3].code, index)
+          }
         />
       )
     },
     {
-      title: "Điểm 5",
-      dataIndex: "Điểm 5",
-      key: "Điểm 5",
+      title: datas.data?.mark_columns[4].name,
+      dataIndex: datas.data?.mark_columns[4].code,
+      key: datas.data?.mark_columns[4].code,
       width: 100,
       render: (text, record, index) => (
         <InputNumber
           min={0}
           max={10}
           value={text}
-          onChange={e => _handleEditGrade(e, "Điểm 5", index)}
+          onChange={e =>
+            _handleEditGrade(e, datas.data.mark_columns[4].code, index)
+          }
         />
       )
     }
@@ -155,8 +149,8 @@ function LectureGrade() {
     <div style={{ paddingTop: 20 }}>
       <Table
         columns={columns}
-        dataSource={datas.dataGrade}
-        rowKey={obj => obj.MSSV}
+        dataSource={datas.data?.rows}
+        rowKey={obj => obj.code}
         scroll={{ x: 1000 }}
         pagination={false}
       />
