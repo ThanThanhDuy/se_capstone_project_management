@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { HOME_URL } from "../../../constant/url";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import { Layout } from "antd";
+import { Divider, Layout } from "antd";
 import { TreeView, TreeItem } from "@mui/lab";
 const { Sider } = Layout;
 import "./index.css";
@@ -17,7 +17,7 @@ const UserSidebar = () => {
       style={{
         width: "100%",
         borderRight: "1px solid rgb(0 0 0 / 12%)",
-        padding: "10px",
+        padding: "10px"
       }}
       theme="light"
     >
@@ -30,7 +30,7 @@ const UserSidebar = () => {
           height: "fit-content",
           flexGrow: 1,
           maxWidth: 400,
-          overflowY: "auto",
+          overflowY: "auto"
         }}
       >
         <TreeItem
@@ -40,14 +40,30 @@ const UserSidebar = () => {
             navigate("/user/home");
           }}
         ></TreeItem>
-        <TreeItem nodeId="5" label="Capstone Team">
+        <TreeItem
+          nodeId="2"
+          label="Profile"
+          onClick={() => {
+            navigate("/user/profile");
+          }}
+        ></TreeItem>
+        <Divider />
+
+        <TreeItem
+          nodeId="3"
+          label="Log Out"
+          onClick={() => {
+            navigate("");
+          }}
+        ></TreeItem>
+        {/* <TreeItem nodeId="5" label="Capstone Team">
           <TreeItem nodeId="6" label="Summer123">
             <TreeItem nodeId="7" label="team 1">
               <TreeItem nodeId="8" label="reports" />
               <TreeItem nodeId="9" label="grades" />
             </TreeItem>
           </TreeItem>
-        </TreeItem>
+        </TreeItem> */}
       </TreeView>
     </Sider>
   );

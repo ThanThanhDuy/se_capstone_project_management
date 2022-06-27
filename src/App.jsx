@@ -102,7 +102,10 @@ function App() {
                 />
               </Route>
               <Route element={<RequireAuth allowedRoles={[ROLES.LECTURE]} />}>
-                <Route path="lecture-grade" element={<LectureGrade />} />
+                <Route
+                  path="lecture-grade/:reportCode"
+                  element={<LectureGrade />}
+                />
               </Route>
               <Route
                 element={

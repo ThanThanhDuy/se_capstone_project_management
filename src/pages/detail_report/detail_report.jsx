@@ -7,7 +7,7 @@ import ROLES from "../../constant/role";
 import moment from "moment";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { storage } from "../../utils/firebase/firebase.utils";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import reportService from "../../services/report";
 import fileService from "../../services/file";
 import { Helmet } from "react-helmet";
@@ -20,6 +20,7 @@ const DetailReport = () => {
   const [file, setFile] = useState({});
   const [loading, setLoading] = useState(false);
   const params = useParams();
+  let navigate = useNavigate();
 
   useEffect(() => {
     _fetchData(params.reportCode);
@@ -138,14 +139,36 @@ const DetailReport = () => {
           {_report.topic?.description}
         </Typography.Paragraph>
         <div className="submission_status">
-          <Typography.Title
+          <div
             style={{
-              fontWeight: "400"
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              marginBottom: 10
             }}
-            level={3}
           >
-            Submission status
-          </Typography.Title>
+            <Typography.Title
+              style={{
+                fontWeight: "400"
+              }}
+              level={3}
+            >
+              Submission status
+            </Typography.Title>
+            <Button
+              type="primary"
+              style={{
+                backgroundColor: "#ffccc7",
+                color: "#a8071a",
+                border: "1px solid #a8071a"
+              }}
+              onClick={() =>
+                navigate(`/user/lecture-grade/${params.reportCode}`)
+              }
+            >
+              Grade Team
+            </Button>
+          </div>
           <table>
             <tbody>
               <tr>
