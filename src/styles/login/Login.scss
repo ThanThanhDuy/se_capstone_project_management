@@ -1,136 +1,28 @@
-.login {
+.login_boxForm .ant-select .ant-select-selector {
+  height: 45px !important;
   display: flex;
-  width: 100%;
-  height: 100vh;
-  position: relative;
-  &_form {
-    width: 100%;
-    padding: 20px 0 20px 20px;
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    &--logo {
-      width: 100%;
-      img {
-        width: 180px;
-      }
-    }
-    .login_boxForm {
-      height: calc(100vh - 100px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      .login_form--welcome {
-        display: flex;
-        align-items: center;
-        flex-direction: column;
-        // margin-top: 80px;
-        color: #2b2b2b;
-        p {
-          font-size: 36px;
-          font-weight: 500;
-        }
-        p:nth-child(2) {
-          margin-top: 5px;
-          font-size: 16px;
-          font-weight: 400;
-        }
-      }
-      .login_form--box {
-        margin-top: 20px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 20px;
-        padding: 100px;
-        box-shadow: 0px 0px 15px #ccc;
-        border-radius: 4px;
-        .css-1yk1gt9-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root {
-          width: 250px;
-          border: 1px solid #2b2b2b;
-          // border-radius: 10px;
-          position: relative;
-          // background-color: #fff;
-        }
-        // .css-1yk1gt9-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root:before {
-        //   content: "";
-        //   position: absolute;
-        //   width: 176px;
-        //   height: 44px;
-        //   top: 1px;
-        //   left: 2px;
-        //   border: 2px solid #2b2b2b;
-        //   z-index: -1;
-        //   border-radius: 10px;
-        // }
-        .css-1yk1gt9-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root.Mui-focused
-          .MuiOutlinedInput-notchedOutline {
-          border: 1px solid #2b2b2b;
-          border: none;
-        }
-        .css-1d3z3hw-MuiOutlinedInput-notchedOutline {
-          border-width: 0;
-        }
-        .css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input {
-          padding: 10px 14px;
-        }
-        .css-1rwt2y5-MuiButtonBase-root-MuiButton-root {
-          max-width: 280px;
-          padding: 10px 24px;
-          font-weight: 400;
-          text-transform: none;
-          font-size: 16px;
-          // border: 2px solid #2b2b2b;
-          color: #fff;
-          background-color: #00796a;
-          // border-radius: 10px;
-          position: relative;
-        }
-        // .css-1rwt2y5-MuiButtonBase-root-MuiButton-root:before {
-        //   content: "";
-        //   position: absolute;
-        //   width: 246px;
-        //   height: 50px;
-        //   top: 1px;
-        //   left: 2px;
-        //   border: 2px solid #2b2b2b;
-        //   z-index: -1;
-        //   border-radius: 10px;
-        // }
-        // .css-1rwt2y5-MuiButtonBase-root-MuiButton-root:hover {
-        //   background-color: #ed742d;
-        //   border: 2px solid #2b2b2b;
-        // }
-      }
-    }
-    .css-kgmwx6-MuiPaper-root-MuiAlert-root {
-      position: absolute;
-      bottom: 0;
-    }
-    .css-qp9buf-MuiPaper-root-MuiAlert-root {
-      position: absolute;
-      bottom: 20px;
-      // left: 50%;
-      // transform: translateX(-50%);
-    }
-    .css-1gg23ms-MuiPaper-root-MuiAlert-root {
-      position: absolute;
-      bottom: 20px;
-      // left: 50%;
-      // transform: translateX(-50%);
-    }
-  }
-  &_background {
-    width: 50%;
-    background-color: #fad8c3;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    img {
-      width: 600px;
-    }
-  }
+  align-items: center;
+  border-radius: 10px !important;
+  border: 2px solid #939393 !important;
+}
+.ant-select:not(.ant-select-disabled):hover .ant-select-selector {
+  border: 2px solid rgb(63, 63, 63) !important;
+}
+
+.ant-select-focused .ant-select-selector,
+.ant-select-selector:focus,
+.ant-select-selector:active,
+.ant-select-open .ant-select-selector {
+  border-color: #d9d9d9 !important;
+  box-shadow: none !important;
+}
+
+.ant-select-selection-item {
+  display: flex;
+  align-items: center;
+}
+
+.ant-btn:hover,
+.ant-btn:focus {
+  border: none;
 }

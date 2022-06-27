@@ -1,7 +1,8 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap");
+
 body {
   margin: 0;
-  font-family: -apple-system, "system-ui", "Segoe UI", Roboto, Helvetica, Arial,
-    sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-family: "Roboto", sans-serif !important;
 }
 
 /* code {
@@ -113,10 +114,7 @@ section {
 body {
   line-height: 1;
 }
-ol,
-ul {
-  list-style: none;
-}
+
 blockquote,
 q {
   quotes: none;
