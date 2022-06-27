@@ -1,194 +1,227 @@
-import React, { useState } from "react";
-import { Table, InputNumber, Button, Modal } from "antd";
-import { DownloadOutlined } from "@ant-design/icons";
-import data from "./lecture.json";
-import { useEffect } from "react";
+import {
+  Button,
+  Form,
+  Input,
+  Popconfirm,
+  Table,
+  InputNumber,
+  Spin
+} from "antd";
+import React, { useContext, useEffect, useRef, useState } from "react";
+import { useParams } from "react-router-dom";
+import gradeService from "../../services/grade";
+const EditableContext = React.createContext(null);
+import "./lecture_grade.scss";
+const EditableRow = ({ index, ...props }) => {
+  const [form] = Form.useForm();
+  return (
+    <Form form={form} component={false}>
+      <EditableContext.Provider value={form}>
+        <tr {...props} />
+      </EditableContext.Provider>
+    </Form>
+  );
+};
 
-function LectureGrade() {
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const [datas, setDatas] = useState({});
-
+const EditableCell = ({
+  title,
+  editable,
+  children,
+  dataIndex,
+  record,
+  handleSave,
+  ...restProps
+}) => {
+  const [editing, setEditing] = useState(false);
+  const inputRef = useRef(null);
+  const form = useContext(EditableContext);
   useEffect(() => {
-    const dataInput = JSON.parse(JSON.stringify(data));
+    if (editing) {
+      inputRef.current.focus();
+    }
+  }, [editing]);
 
-    dataInput.data.rows.forEach(row => {
-      for (let item of row.marks) {
-        row[item.code] = item.mark;
+  const toggleEdit = () => {
+    setEditing(!editing);
+    form.setFieldsValue({
+      [dataIndex]: record[dataIndex]
+    });
+  };
+
+  const save = async () => {
+    try {
+      const values = await form.validateFields();
+      toggleEdit();
+      handleSave({ ...record, ...values });
+    } catch (errInfo) {
+      console.log("Save failed:", errInfo);
+    }
+  };
+
+  let childNode = children;
+
+  if (editable) {
+    childNode = editing ? (
+      <Form.Item
+        style={{
+          margin: 0
+        }}
+        name={dataIndex}
+        rules={[
+          {
+            required: true,
+            message: `${title} is required.`
+          }
+        ]}
+      >
+        <InputNumber
+          style={{ width: "100%" }}
+          min={0}
+          max={10}
+          ref={inputRef}
+          onPressEnter={save}
+          onBlur={save}
+          type="number"
+        />
+      </Form.Item>
+    ) : (
+      <div
+        className="editable-cell-value-wrap"
+        style={{
+          paddingRight: 24
+        }}
+        onClick={toggleEdit}
+      >
+        {children}
+      </div>
+    );
+  }
+
+  return <td {...restProps}>{childNode}</td>;
+};
+
+const App = () => {
+  let params = useParams();
+  const [defaultColumns, setDefaultColumns] = useState([]);
+  const [dataSource, setDataSource] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const fetchData = async () => {
+    setLoading(true);
+    let res = await gradeService.getGradeByReportCode(params.reportCode);
+    let columns = [
+      {
+        title: "Code",
+        dataIndex: "code",
+        fixed: "left",
+        width: 150
+      },
+      {
+        title: "Name",
+        dataIndex: "name",
+        width: 300
+      }
+    ];
+    if (res) {
+      for (let i of res.mark_columns) {
+        columns.push({
+          title: i.name,
+          dataIndex: i.id,
+          width: 170,
+          editable: true
+        });
+      }
+    }
+    setDefaultColumns(columns);
+    res?.rows.forEach(item => {
+      for (let i of item.marks) {
+        item[i.id] = i.mark;
       }
     });
-    console.log(dataInput);
-    setDatas(dataInput);
+    setDataSource(res.rows);
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+  };
+  useEffect(() => {
+    fetchData();
   }, []);
-  const _handleEditGrade = (e, key, index) => {
-    {
-      let newData = {};
-      newData = Object.assign(newData, datas);
-      newData.data.rows[index][key] = Number(e);
-      newData.data.rows.forEach((row, i) => {
-        if (i === index) {
-          for (let item of row.marks) {
-            if (item.code === key) {
-              item.mark = Number(e);
-            }
-          }
+
+  const handleSubmitGrade = async () => {
+    let res = await gradeService.submitGrade({
+      code: params.reportCode,
+      details: dataSource
+    });
+    fetchData();
+  };
+
+  const handleSave = row => {
+    // console.log(row);
+    const newData = [...dataSource];
+    const index = newData.findIndex(item => row.id === item.id);
+    const item = newData[index];
+    newData.splice(index, 1, { ...item, ...row });
+    newData.forEach((rowNew, i) => {
+      if (i === index) {
+        for (let item of rowNew.marks) {
+          item["mark"] = row[item.id];
         }
-      });
-      console.log(newData);
-      setDatas(newData);
-    }
-  };
-  const columns = [
-    {
-      title: "MSSV",
-      dataIndex: "code",
-      key: "code",
-      width: 100,
-      fixed: "left"
-      // render: text => <Link to={`/admin/capstone-council/${text}`}>{text}</Link>
-    },
-    {
-      title: "Name",
-      dataIndex: "name",
-      key: "name",
-      width: 200,
-      fixed: "left"
-    },
-    {
-      title: datas.data?.mark_columns[0].name,
-      dataIndex: datas.data?.mark_columns[0].code,
-      key: datas.data?.mark_columns[0].code,
-      width: 100,
-      render: (text, record, index) => (
-        <InputNumber
-          min={0}
-          max={10}
-          value={text}
-          onChange={e =>
-            _handleEditGrade(e, datas.data.mark_columns[0].code, index)
-          }
-        />
-      )
-    },
-    {
-      title: datas.data?.mark_columns[1].name,
-      dataIndex: datas.data?.mark_columns[1].code,
-      key: datas.data?.mark_columns[1].code,
-      width: 100,
-      render: (text, record, index) => (
-        <InputNumber
-          min={0}
-          max={10}
-          value={text}
-          onChange={e =>
-            _handleEditGrade(e, datas.data.mark_columns[1].code, index)
-          }
-        />
-      )
-    },
-    {
-      title: datas.data?.mark_columns[2].name,
-      dataIndex: datas.data?.mark_columns[2].code,
-      key: datas.data?.mark_columns[2].code,
-      width: 100,
-      render: (text, record, index) => (
-        <InputNumber
-          min={0}
-          max={10}
-          value={text}
-          onChange={e =>
-            _handleEditGrade(e, datas.data.mark_columns[2].code, index)
-          }
-        />
-      )
-    },
-    {
-      title: datas.data?.mark_columns[3].name,
-      dataIndex: datas.data?.mark_columns[3].code,
-      key: datas.data?.mark_columns[3].code,
-      width: 100,
-      render: (text, record, index) => (
-        <InputNumber
-          min={0}
-          max={10}
-          value={text}
-          onChange={e =>
-            _handleEditGrade(e, datas.data.mark_columns[3].code, index)
-          }
-        />
-      )
-    },
-    {
-      title: datas.data?.mark_columns[4].name,
-      dataIndex: datas.data?.mark_columns[4].code,
-      key: datas.data?.mark_columns[4].code,
-      width: 100,
-      render: (text, record, index) => (
-        <InputNumber
-          min={0}
-          max={10}
-          value={text}
-          onChange={e =>
-            _handleEditGrade(e, datas.data.mark_columns[4].code, index)
-          }
-        />
-      )
-    }
-  ];
-  const showModal = () => {
-    setIsModalVisible(true);
+      }
+    });
+    console.log(newData);
+    setDataSource(newData);
   };
 
-  const handleOk = () => {
-    setIsModalVisible(false);
+  const components = {
+    body: {
+      row: EditableRow,
+      cell: EditableCell
+    }
   };
+  const columns = defaultColumns.map(col => {
+    if (!col.editable) {
+      return col;
+    }
 
-  const handleCancel = () => {
-    setIsModalVisible(false);
-  };
+    return {
+      ...col,
+      onCell: record => ({
+        record,
+        editable: col.editable,
+        dataIndex: col.dataIndex,
+        title: col.title,
+        handleSave
+      })
+    };
+  });
   return (
-    <div style={{ paddingTop: 20 }}>
-      <Table
-        columns={columns}
-        dataSource={datas.data?.rows}
-        rowKey={obj => obj.code}
-        scroll={{ x: 1000 }}
-        pagination={false}
-      />
-      <Button type="primary" style={{ marginTop: 30 }} onClick={showModal}>
-        Submit Grade
-      </Button>
-      <div style={{ marginTop: 30 }}>
-        <span style={{ fontSize: 16 }}>Document: </span>
-        <a
-          style={{ fontSize: 16 }}
-          href="https://firebasestorage.googleapis.com/v0/b/se-capstone-project-management.appspot.com/o/files%2FReport%20example.docx?alt=media&token=cb1b05c0-1fb0-465e-9387-7f50a127b99d"
-        >
-          Report example.docx
-          <span style={{ marginLeft: 5 }}>
-            <DownloadOutlined />
-          </span>
-        </a>
+    <Spin spinning={loading}>
+      <div>
+        <Table
+          components={components}
+          rowClassName={() => "editable-row"}
+          bordered
+          dataSource={dataSource}
+          columns={columns}
+          rowKey={obj => obj.id}
+          scroll={{ x: 1100 }}
+          pagination={false}
+        />
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          <Button
+            onClick={handleSubmitGrade}
+            type="primary"
+            style={{
+              backgroundColor: "#00796a",
+              marginTop: "20px",
+              border: "none"
+            }}
+          >
+            Submit grade
+          </Button>
+        </div>
       </div>
-      <div style={{ marginTop: 30 }}>
-        <span style={{ fontSize: 16 }}>Meeting minutes: </span>
-        <a
-          style={{ fontSize: 16 }}
-          href="https://firebasestorage.googleapis.com/v0/b/se-capstone-project-management.appspot.com/o/files%2FReport%20example.docx?alt=media&token=cb1b05c0-1fb0-465e-9387-7f50a127b99d"
-        >
-          Meeting minutes.docx
-          <span style={{ marginLeft: 5 }}>
-            <DownloadOutlined />
-          </span>
-        </a>
-      </div>
-      <Modal
-        title="Submit Grade"
-        visible={isModalVisible}
-        onOk={handleOk}
-        onCancel={handleCancel}
-      ></Modal>
-    </div>
+    </Spin>
   );
-}
+};
 
-export default LectureGrade;
+export default App;

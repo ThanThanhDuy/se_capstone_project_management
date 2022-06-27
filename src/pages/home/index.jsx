@@ -16,6 +16,7 @@ const Home = () => {
   const [semesters, setSemesters] = useState([]);
   const [semesterItem, setSemesterItem] = useState("");
   const [capstoneTeams, setCapstoneTeams] = useState([]);
+  const [capstoneCouncil, setCapstoneCouncil] = useState([]);
   const [semeterId, setSemeterId] = useState("");
   useEffect(() => {
     _fetchDataSemeter();
@@ -33,7 +34,8 @@ const Home = () => {
       semesterItem
     );
     let data = [];
-    result?.forEach((item, index) => {
+    console.log(result);
+    result?.capstone_teams.forEach((item, index) => {
       if (semeterId) {
         if (item.semester_id === parseInt(semeterId)) {
           item.capstone_teams.forEach((item2, index) => {
@@ -46,8 +48,13 @@ const Home = () => {
         });
       }
     });
+    let dataCouncil = [];
+    result?.councils[0]?.capstone_teams.forEach((item, index) => {
+      dataCouncil.push(item);
+    });
     console.log(data);
     setCapstoneTeams(data);
+    setCapstoneCouncil(dataCouncil);
 
     return result;
   };
@@ -63,6 +70,12 @@ const Home = () => {
         <meta charSet="utf-8" />
         <title>Home</title>
       </Helmet>
+      <Divider>Comming soon </Divider>
+      <Row style={{ gap: 20 }}>
+        {capstoneCouncil?.map((item, key) => {
+          return <CapstoneTeamCard key={key} teamItem={item} />;
+        })}
+      </Row>
       <Divider>Course Overview</Divider>
       <Select
         style={{
@@ -83,6 +96,7 @@ const Home = () => {
           );
         })}
       </Select>
+
       <Row style={{ gap: 20 }}>
         {capstoneTeams?.map((item, key) => {
           return <CapstoneTeamCard key={key} teamItem={item} />;

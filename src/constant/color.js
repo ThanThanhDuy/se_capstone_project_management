@@ -10,7 +10,17 @@ const STATUS_MAPPING = {
   2: {
     color: "green",
     text: "Pass"
-  } // pass
+  }, // pass
+  mentor: {
+    colorBG: "#e6fffb",
+    text: "MENTOR",
+    colorPM: "#08979c"
+  },
+  grade: {
+    colorBG: "#fff0f6",
+    text: "GRADE",
+    colorPM: "#c41d7f"
+  }
 };
 
 export default STATUS_MAPPING;
