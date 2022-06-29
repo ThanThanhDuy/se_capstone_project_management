@@ -89,34 +89,34 @@ function capstone_council() {
       const reader = new FileReader();
       reader.onload = async e => {
         const objectCSV = convertCSV(e.target.result);
-        // console.log(objectCSV);
-        // const res = await axios.post(
-        //   "http://localhost:8081/admin/insert-capstone-council",
-        //   {
-        //     data: objectCSV
-        //   }
-        // );
-        // if (res.data.code === 200) {
-        //   setLoading(true);
-        //   getCaptoneCouncil();
-        // }
-        const files = e.target.result;
-        if (files) {
-          Papa.parse(files, {
-            header: true,
-            complete: async function (results) {
-              const res = await axios.post(
-                "http://localhost:8081/admin/insert-capstone-council",
-                {
-                  data: results
-                }
-              );
-              if (res.data.code === 200) {
-                setLoading(true);
-              }
-            }
-          });
+        console.log(objectCSV);
+        const res = await axios.post(
+          "http://localhost:8081/admin/insert-capstone-council",
+          {
+            data: objectCSV
+          }
+        );
+        if (res.data.code === 200) {
+          setLoading(true);
+          getCaptoneCouncil();
         }
+        // const files = e.target.result;
+        // if (files) {
+        //   Papa.parse(files, {
+        //     header: true,
+        //     complete: async function (results) {
+        //       const res = await axios.post(
+        //         "http://localhost:8081/admin/insert-capstone-council",
+        //         {
+        //           data: results
+        //         }
+        //       );
+        //       if (res.data.code === 200) {
+        //         setLoading(true);
+        //       }
+        //     }
+        //   });
+        // }
       };
       reader.readAsText(file);
       return false;

@@ -1,0 +1,15 @@
+.link_profile {
+  display: block;
+  margin-bottom: 10;
+  font-size: 16px;
+  color: #44494d;
+  padding: 8px 15px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  &:hover {
+    background-color: #ecf0f1;
+    color: #44494d;
+  }
+}

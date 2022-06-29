@@ -1,7 +1,9 @@
-﻿capstone_team_code;semeter_name;capstone_team_status;topic_name;mentor_name;leader_name;member_name;Ngày;Giờ;Phòng
-SP2022G1;SP2022-Spring 2022;0;SP1230-What is Lorem Ipsum NOT PASS;SE141057-Lê Duy Tuấn Vũ, PhuongLHK-Lâm Hữu Khánh Phương;SE123456-Quách Đại Lợi;SE140971-Thân Thanh Duy, SE140977-Nguyễn Đăng Khoa, SE123498-Đỗ Trọng Đạt;04/06/2022;08h00 - 09h30;HallB-Meeting Hall B
-SP2022G2;SP2022-Spring2022;0;SP1231-test1;SE141057-Lê Duy Tuấn Vũ;SE1-Student 1;SE2-Student 2, SE3-Student 3, SE4-Student 4;05/06/2022;08h00 - 09h31;HallB-Meeting Hall B
-SM2022G3;SM2022-Summer2022;2;SM1232-test2;T2-Teacher 2, T4-Teacher 4;SE5-Student 5;SE6-Student 6, SE7-Student 7, SE8-Student 8;06/06/2022;08h00 - 09h32;HallB-Meeting Hall B
-SP2022G4;SM2022-Summer2022;2;SM1233-test123;T3-Teacher 3, T1-Teacher 1;SE9-Student 9;SE12-Student 12, SE10-Student 10, SE11-Student 11;06/06/2022;08h00 - 09h32;HallB-Meeting Hall B
-SM2022G5;SM2022-Summer2022;1;SM1235-What is Lorem Ipsum PROCESSING;HuongNTC2-Nguyễn Thị Cẩm Hương, PhuongLHK-Lâm Hữu Khánh Phương;SE13-Student 13;SE140971-Thân Thanh Duy, SE14-Student 14, SE15-Student 15;04/06/2022;08h00 - 09h30;HallB-Meeting Hall B
-SP2022G6;SP2022-Spring 2022;0;SM1236-What is Lorem Ipsum NOT PASS;HuongNTC2-Nguyễn Thị Cẩm Hương, PhuongLHK-Lâm Hữu Khánh Phương;SE123456-Quách Đại Lợi;SE140971-Thân Thanh Duy, SE140977-Nguyễn Đăng Khoa, SE123498-Đỗ Trọng Đạt;04/06/2022;08h00 - 09h30;HallB-Meeting Hall B
+﻿capstone_team_code;semeter_name;capstone_team_status;topic_name;mentor_name;leader_name;member_name;
+SPT2022T1;SP2022-Spring 2022;0;SP22SE18-Quality Control System Using Computer Vision for Footwear Products at Adidas’ Shoe Factory;SE141057-Teacher test;SE123456-Quách Đại Lợi;SE140971-Thân Thanh Duy, SE140977-Nguyễn Đăng Khoa, SE123498-Đỗ Trọng Đạt;
+SPT2022T2;SP2022-Spring2022;2;SP22SE19-Vehicles Tracking Solution for Total Vietnam ;SE141057-Lê Duy Tuấn Vũ;SE1-Student 1;SE2-Student 2, SE3-Student 3, SE4-Student 4;
+SPT2022T3;SP2022-Spring2022;2;SP22SE20-Applications for vehicle management, transportation, logistics of Bich Long Co transport cooperatives;T2-Teacher 2, T4-Teacher 4;SE5-Student 5;SE6-Student 6, SE7-Student 7, SE8-Student 8;
+SPT2022T4;SP2022-Spring2022;0;SP22SE21-Capstone Management System for FPT University;T3-Teacher 3, T1-Teacher 1;SE9-Student 9;SE12-Student 12, SE10-Student 10, SE11-Student 11;
+SM2022T5;SM2022-Summer2022;1;SM22SE22-Event Participant Tracking with GPS location and Image Capture at FPTU;T4-Teacher 4;SE13-Student 13;SE140971-Thân Thanh Duy, SE14-Student 14, SE15-Student 15;
+SM2022T6;SM2022-Summer2022;1;SM22SE23-Mobile-Based Customer Relationship Management System combined with cloud computing ;T2-Teacher 2;SE123456-Quách Đại Lợi;SE16-Student16, SE140977-Nguyễn Đăng Khoa, SE123498-Đỗ Trọng Đạt;
+SM2022T7;SM2022-Summer2022;1;SM22SE24-Charity Ambulance;T1-Teacher 1;SE17-Student 17;SE18-Student 18, SE19-Student 19, SE20-Student 20;
+SM2022T8;SM2022-Summer2022;1;SM22SE25-Blockchain-based Personal Car Renting System;SE141057-Teacher test;SE21-Student 21;SE22-Student 22, SE23-Student 23, SE24-Student 24;

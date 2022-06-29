@@ -24,49 +24,50 @@ const CapstoneTeamCard = ({ teamItem }) => {
   }, [teamItem]);
 
   return (
-    <div>
-      <Card
-        className="card"
-        extra={<Link to={url}>View</Link>}
-        title={teamItem.code}
-        style={{
-          width: 350
-        }}
-      >
-        <span className="topic_title">{teamItem.topic.name}</span>
-        <p className="topic_description">{teamItem.topic.description}</p>
+    <Card
+      className="card"
+      extra={<Link to={url}>View</Link>}
+      title={teamItem.code}
+      style={{
+        width: 350,
+        borderRadius: 10,
+        boxShadow:
+          "rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px"
+      }}
+    >
+      <span className="topic_title">{teamItem.topic.name}</span>
+      <p className="topic_description">{teamItem.topic.description}</p>
 
-        <div style={{ display: "flex", justifyContent: "space-between" }}>
-          <Tag color={STATUS_MAPPING[teamItem.status].color}>
-            {STATUS_MAPPING[teamItem.status].text.toUpperCase()}
+      <div style={{ display: "flex", justifyContent: "space-between" }}>
+        <Tag color={STATUS_MAPPING[teamItem.status].color}>
+          {STATUS_MAPPING[teamItem.status].text.toUpperCase()}
+        </Tag>
+        {[ROLES.CHAIRMAN, ROLES.MEMBERCOUNCIL, ROLES.SECRETARY].includes(
+          teamItem.role_id
+        ) && (
+          <Tag
+            color={STATUS_MAPPING["grade"].colorBG}
+            style={{ border: `1px solid ${STATUS_MAPPING["grade"].colorPM}` }}
+          >
+            <span style={{ color: STATUS_MAPPING["grade"].colorPM }}>
+              {ROLESRE[teamItem.role_id]}
+            </span>
           </Tag>
-          {[ROLES.CHAIRMAN, ROLES.MEMBERCOUNCIL, ROLES.SECRETARY].includes(
-            teamItem.role_id
-          ) && (
-            <Tag
-              color={STATUS_MAPPING["grade"].colorBG}
-              style={{ border: `1px solid ${STATUS_MAPPING["grade"].colorPM}` }}
-            >
-              <span style={{ color: STATUS_MAPPING["grade"].colorPM }}>
-                {ROLESRE[teamItem.role_id]}
-              </span>
-            </Tag>
-          )}
-          {[ROLES.MENTOR].includes(teamItem.role_id) && (
-            <Tag
-              color={STATUS_MAPPING["mentor"].colorBG}
-              style={{
-                border: `1px solid ${STATUS_MAPPING["mentor"].colorPM}`
-              }}
-            >
-              <span style={{ color: STATUS_MAPPING["mentor"].colorPM }}>
-                {ROLESRE[teamItem.role_id]}
-              </span>
-            </Tag>
-          )}
-        </div>
-      </Card>
-    </div>
+        )}
+        {[ROLES.MENTOR].includes(teamItem.role_id) && (
+          <Tag
+            color={STATUS_MAPPING["mentor"].colorBG}
+            style={{
+              border: `1px solid ${STATUS_MAPPING["mentor"].colorPM}`
+            }}
+          >
+            <span style={{ color: STATUS_MAPPING["mentor"].colorPM }}>
+              {ROLESRE[teamItem.role_id]}
+            </span>
+          </Tag>
+        )}
+      </div>
+    </Card>
   );
 };
 

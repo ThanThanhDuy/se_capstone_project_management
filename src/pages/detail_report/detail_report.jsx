@@ -5,6 +5,7 @@ const ROLE = 1;
 import { InboxOutlined } from "@ant-design/icons";
 import ROLES from "../../constant/role";
 import moment from "moment";
+import { UilPaperclip } from "@iconscout/react-unicons";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { storage } from "../../utils/firebase/firebase.utils";
 import { useNavigate, useParams } from "react-router-dom";
@@ -12,13 +13,16 @@ import reportService from "../../services/report";
 import fileService from "../../services/file";
 import { Helmet } from "react-helmet";
 const { Dragger } = Upload;
+import ROLESRE from "../../constant/roleRe";
 
 const DetailReport = () => {
   const [_report, _setReport] = useState({});
   const [_isEditting, _setIsEditting] = useState(false);
   const userAuth = JSON.parse(localStorage.getItem("data"));
+  const roleTopic = JSON.parse(localStorage.getItem("roleTopic"));
   const [file, setFile] = useState({});
   const [loading, setLoading] = useState(false);
+  const [roleUser, setRoleUser] = useState(null);
   const params = useParams();
   let navigate = useNavigate();
 
@@ -29,6 +33,8 @@ const DetailReport = () => {
   // get detail report
   const _fetchData = async code => {
     const result = await reportService.getDetailReportByReportCode(code);
+    const roleU = roleTopic.find(tp => tp.topic_code === result.topic.code);
+    setRoleUser(roleU.role);
     console.log(result);
     _setReport(result);
   };
@@ -72,7 +78,8 @@ const DetailReport = () => {
             return infoFile;
           })
           .then(infoFile => {
-            return fileService.submitFile(infoFile);
+            const res = fileService.submitFile(infoFile);
+            return res;
           })
           .then(res => {
             _fetchData(params.reportCode);
@@ -120,7 +127,7 @@ const DetailReport = () => {
     <Spin spinning={loading} delay={500}>
       <Helmet>
         <meta charSet="utf-8" />
-        <title>Report Detail - {params.reportCode}</title>
+        <title>Report Detail - {params.reportCode.toUpperCase()}</title>
       </Helmet>
       <div
         style={{
@@ -128,12 +135,27 @@ const DetailReport = () => {
           maxWidth: "900px"
         }}
       >
+        <div style={{ marginBottom: 5 }}>
+          <span
+            style={{
+              fontSize: 13,
+              color: "#008172",
+              backgroundColor: "#deeeec",
+              padding: "5px 10px",
+              borderRadius: 5,
+              fontWeight: 400
+            }}
+          >
+            <span>{_report.topic?.code?.toUpperCase()}</span>
+          </span>
+        </div>
         <Space>
-          <Typography.Title level={2}>{_report.topic?.name}</Typography.Title>
+          <Typography.Title level={3}>{_report.topic?.name}</Typography.Title>
         </Space>
         <Typography.Paragraph
           style={{
-            marginTop: "20px"
+            marginTop: "0px",
+            marginBottom: "50px"
           }}
         >
           {_report.topic?.description}
@@ -155,19 +177,24 @@ const DetailReport = () => {
             >
               Submission status
             </Typography.Title>
-            <Button
-              type="primary"
-              style={{
-                backgroundColor: "#ffccc7",
-                color: "#a8071a",
-                border: "1px solid #a8071a"
-              }}
-              onClick={() =>
-                navigate(`/user/lecture-grade/${params.reportCode}`)
-              }
-            >
-              Grade Team
-            </Button>
+            {[ROLES.CHAIRMAN, ROLES.MEMBERCOUNCIL, ROLES.SECRETARY].includes(
+              roleUser
+            ) && (
+              <Button
+                type="primary"
+                style={{
+                  backgroundColor: "#ffccc7",
+                  color: "#a8071a",
+                  border: "2px solid #a8071a",
+                  borderRadius: 5
+                }}
+                onClick={() =>
+                  navigate(`/user/lecture-grade/${params.reportCode}`)
+                }
+              >
+                Grade Team
+              </Button>
+            )}
           </div>
           <table>
             <tbody>
@@ -181,10 +208,18 @@ const DetailReport = () => {
                   )}
                 </td>
               </tr>
-              <tr>
-                <th>Grading status</th>
-                <td scope="row">Not graded</td>
-              </tr>
+              {[ROLES.LEADER, ROLES.MEMBER, ROLES.STUDENT].includes(
+                roleUser
+              ) && (
+                <tr>
+                  <th>Grading status</th>
+                  <td scope="row">
+                    {_report?.grades?.totalGrade
+                      ? _report?.grades?.totalGrade
+                      : "Not grade"}
+                  </td>
+                </tr>
+              )}
               <tr>
                 <th>Last modified</th>
                 <td scope="row">
@@ -196,18 +231,47 @@ const DetailReport = () => {
                 </td>
               </tr>
               <tr>
-                <th>Attach file</th>
+                <th>Attach file document</th>
                 <td scope="row">
                   {_report?.submition?.map((item, index) => {
-                    if (
-                      item.type === true &&
-                      userAuth?.User?.Roles?.find(role =>
-                        [ROLES.STUDENT]?.includes(role.RoleId)
-                      )
-                    ) {
+                    if (item.type === true) {
                       return (
                         <div key={index}>
-                          <a href={item.path}>{item.name}</a>
+                          <a
+                            href={item.path}
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              gap: 2
+                            }}
+                          >
+                            <UilPaperclip size="14" />
+                            <span>{item.name}</span>
+                          </a>
+                        </div>
+                      );
+                    }
+                  })}
+                </td>
+              </tr>
+              <tr>
+                <th>Attach file meeting</th>
+                <td scope="row">
+                  {_report?.submition?.map((item, index) => {
+                    if (item.type === false) {
+                      return (
+                        <div key={index}>
+                          <a
+                            href={item.path}
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              gap: 2
+                            }}
+                          >
+                            <UilPaperclip size="14" />
+                            <span>{item.name}</span>
+                          </a>
                         </div>
                       );
                     }
@@ -217,43 +281,36 @@ const DetailReport = () => {
             </tbody>
           </table>
         </div>
-        {/* check add submit */}
-        <div style={{ marginTop: 30 }}>
-          <Dragger {...props}>
-            <p className="ant-upload-drag-icon">
-              <InboxOutlined />
-            </p>
-            <p className="ant-upload-text">
-              Click or drag file to this area to upload
-            </p>
-            <p className="ant-upload-hint">
-              Support for a single or bulk upload. If you have more, you can
-              compress file zip
-            </p>
-          </Dragger>
-          <div style={{ display: "flex", justifyContent: "center" }}>
-            <Button
-              type="primary"
-              onClick={handleUpload}
-              style={{
-                backgroundColor: "#00796a",
-                marginTop: "20px",
-                border: "none"
-              }}
-            >
-              {_report.report?.submit_date ? "Save changes" : "Submit"}
-            </Button>
+
+        {[ROLES.SECRETARY, ROLES.LEADER, ROLES.MEMBER].includes(roleUser) && (
+          <div style={{ marginTop: 30 }}>
+            <Dragger {...props}>
+              <p className="ant-upload-drag-icon">
+                <InboxOutlined />
+              </p>
+              <p className="ant-upload-text">
+                Click or drag file to this area to upload
+              </p>
+              <p className="ant-upload-hint">
+                Support for a single or bulk upload. If you have more, you can
+                compress file zip
+              </p>
+            </Dragger>
+            <div style={{ display: "flex", justifyContent: "center" }}>
+              <Button
+                type="primary"
+                onClick={handleUpload}
+                style={{
+                  backgroundColor: "#00796a",
+                  marginTop: "20px",
+                  border: "none"
+                }}
+              >
+                {_report.report?.submit_date ? "Save changes" : "Submit"}
+              </Button>
+            </div>
           </div>
-        </div>
-        {/* <EditSubmit /> */}
-        {/* <div
-        style={{
-          marginTop: "20px"
-        }}
-        className="feedback"
-      >
-        <SubmitGradeForm />
-      </div> */}
+        )}
       </div>
     </Spin>
   );

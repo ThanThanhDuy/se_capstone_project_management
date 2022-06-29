@@ -8,6 +8,7 @@ import {
   Spin
 } from "antd";
 import React, { useContext, useEffect, useRef, useState } from "react";
+import { Helmet } from "react-helmet";
 import { useParams } from "react-router-dom";
 import gradeService from "../../services/grade";
 const EditableContext = React.createContext(null);
@@ -79,7 +80,7 @@ const EditableCell = ({
           min={0}
           max={10}
           ref={inputRef}
-          onPressEnter={save}
+          onChange={save}
           onBlur={save}
           type="number"
         />
@@ -196,11 +197,17 @@ const App = () => {
   return (
     <Spin spinning={loading}>
       <div>
+        <Helmet>
+          <meta charSet="utf-8" />
+          <title>Grade - {params.reportCode.toUpperCase()}</title>
+        </Helmet>
         <Table
           components={components}
           rowClassName={() => "editable-row"}
           bordered
-          dataSource={dataSource}
+          dataSource={dataSource?.sort(function (a, b) {
+            return a.id - b.id;
+          })}
           columns={columns}
           rowKey={obj => obj.id}
           scroll={{ x: 1100 }}

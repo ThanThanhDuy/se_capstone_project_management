@@ -9,3 +9,8 @@ export const userAuthState = atom({
   key: "userAuth",
   default: {}
 });
+
+export const userLogoutState = atom({
+  key: "userLogout",
+  default: false
+});

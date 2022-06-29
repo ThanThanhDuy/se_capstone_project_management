@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Row, Divider, Select } from "antd";
+import { Row, Divider, Select, Spin } from "antd";
 import CapstoneTeamCard from "./capstone_team_card.jsx";
 import semesterService from "../../services/semester";
 import capstoneTeamService from "../../services/capstone_team.js";
 import { Helmet } from "react-helmet";
+import { UilFire, UilUsersAlt } from "@iconscout/react-unicons";
+import "./index.scss";
 const CAPSTONE_TEAMS = [
   {
     castone_code: "SU202212",
@@ -18,6 +20,7 @@ const Home = () => {
   const [capstoneTeams, setCapstoneTeams] = useState([]);
   const [capstoneCouncil, setCapstoneCouncil] = useState([]);
   const [semeterId, setSemeterId] = useState("");
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     _fetchDataSemeter();
     _fetchCapstoneTeam(semesterItem);
@@ -30,11 +33,11 @@ const Home = () => {
     return result;
   };
   const _fetchCapstoneTeam = async () => {
+    setLoading(true);
     const result = await capstoneTeamService.getCapstoneTeamByCodeSemeter(
       semesterItem
     );
     let data = [];
-    console.log(result);
     result?.capstone_teams.forEach((item, index) => {
       if (semeterId) {
         if (item.semester_id === parseInt(semeterId)) {
@@ -52,10 +55,25 @@ const Home = () => {
     result?.councils[0]?.capstone_teams.forEach((item, index) => {
       dataCouncil.push(item);
     });
-    console.log(data);
-    setCapstoneTeams(data);
-    setCapstoneCouncil(dataCouncil);
-
+    let roleTopic = [];
+    for (let i of data) {
+      roleTopic.push({
+        topic_code: i.topic.code,
+        role: i.role_id
+      });
+    }
+    for (let i of dataCouncil) {
+      roleTopic.push({
+        topic_code: i.topic.code,
+        role: i.role_id
+      });
+    }
+    localStorage.setItem("roleTopic", JSON.stringify(roleTopic));
+    setTimeout(() => {
+      setCapstoneTeams(data);
+      setCapstoneCouncil(dataCouncil);
+      setLoading(false);
+    }, 1000);
     return result;
   };
 
@@ -65,44 +83,68 @@ const Home = () => {
     setSemeterId(id ? id : "");
   };
   return (
-    <div>
-      <Helmet>
-        <meta charSet="utf-8" />
-        <title>Home</title>
-      </Helmet>
-      <Divider>Comming soon </Divider>
-      <Row style={{ gap: 20 }}>
-        {capstoneCouncil?.map((item, key) => {
-          return <CapstoneTeamCard key={key} teamItem={item} />;
-        })}
-      </Row>
-      <Divider>Course Overview</Divider>
-      <Select
-        style={{
-          width: "250px",
-          marginBottom: "20px"
-        }}
-        onChange={_handleChangeSemeter}
-        value={semesterItem}
-      >
-        <Option key={"a"} value={""}>
-          All
-        </Option>
-        {semesters?.map((item, key) => {
-          return (
-            <Option key={key} value={item.code}>
-              {item.name}
+    <Spin spinning={loading} delay={100} style={{ height: "100vh" }}>
+      <div>
+        <Helmet>
+          <meta charSet="utf-8" />
+          <title>Home</title>
+        </Helmet>
+        {capstoneCouncil.length > 0 && (
+          <>
+            <div style={{ marginBottom: 80 }}>
+              <h1 style={{ fontSize: 28, marginBottom: 20 }}>
+                <UilFire color="#d4380d" style={{ marginRight: 5 }} />
+                Comming soon
+              </h1>
+              <Row style={{ gap: 20 }}>
+                {capstoneCouncil?.map((item, key) => {
+                  return <CapstoneTeamCard key={key} teamItem={item} />;
+                })}
+              </Row>
+            </div>
+            {/* <Divider /> */}
+          </>
+        )}
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 30,
+            marginBottom: 20
+          }}
+          className="semester-selector"
+        >
+          <h1 style={{ fontSize: 28, marginBottom: 0 }}>
+            <UilUsersAlt color="#008172" style={{ marginRight: 5 }} />
+            Team Overview
+          </h1>
+          <Select
+            style={{
+              width: "250px"
+            }}
+            onChange={_handleChangeSemeter}
+            value={semesterItem}
+          >
+            <Option key={"a"} value={""}>
+              All
             </Option>
-          );
-        })}
-      </Select>
+            {semesters?.map((item, key) => {
+              return (
+                <Option key={key} value={item.code}>
+                  {item.name}
+                </Option>
+              );
+            })}
+          </Select>
+        </div>
 
-      <Row style={{ gap: 20 }}>
-        {capstoneTeams?.map((item, key) => {
-          return <CapstoneTeamCard key={key} teamItem={item} />;
-        })}
-      </Row>
-    </div>
+        <Row style={{ gap: 20 }}>
+          {capstoneTeams?.map((item, key) => {
+            return <CapstoneTeamCard key={key} teamItem={item} />;
+          })}
+        </Row>
+      </div>
+    </Spin>
   );
 };
 
