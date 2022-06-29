@@ -237,7 +237,7 @@ function Login() {
           position: "absolute",
           bottom: 0,
           left: 0,
-          boxShadow: "0px -1px 10px rgba(0, 0, 0, 0.3)",
+          boxShadow: "0px -1px 10px rgba(0, 0, 0, 0.1)",
           padding: "10px 350px 0 350px"
         }}
       >

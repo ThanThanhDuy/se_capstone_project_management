@@ -11,17 +11,7 @@ function UserReport() {
   const [form] = Form.useForm();
 
   const [_openDialogAdd, _setOpenDialogAdd] = useState(false);
-  const [_reports, _setReports] = useState([
-    {
-      id: 1,
-      title: "Binding between XML Schema and Java Classes (JAXB)",
-      dateSubmitted: "2022-05-07T21:01:06+07:00",
-      statusSubmmission: true,
-      timeStart: "2022-05-27T21:06:10+07:00",
-      timeEnd: "2022-05-27T21:06:10+07:00",
-      detail: "asdfads"
-    }
-  ]);
+  const [_reports, _setReports] = useState(null);
   const [model, setModel] = useState("hello");
   const handleModelChange = model => {
     setModel(model);
@@ -71,9 +61,10 @@ function UserReport() {
         <title>Report - {params.capstoneTeamId}</title>
       </Helmet>
       <div className="report" style={{ width: "100%", marginRight: 30 }}>
-        {_reports.map(report => (
-          <UserReportItem key={report.id} report={report} />
-        ))}
+        {_reports &&
+          _reports.map(report => (
+            <UserReportItem key={report.id} report={report} />
+          ))}
         {/* {_openDialogAdd && (
           <Form form={form} name="control-hooks" onFinish={_onFinish}>
             <div

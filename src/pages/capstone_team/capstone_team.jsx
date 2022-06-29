@@ -198,6 +198,7 @@ function capstone_team() {
           style={{ cursor: "pointer" }}
           rowKey={obj => obj.code}
           scroll={{ x: 1800 }}
+          pagination={{ defaultPageSize: 5 }}
         />
       </Spin>
     </>

@@ -1,12 +1,16 @@
 import React from "react";
-import { UserOutlined } from "@ant-design/icons";
-import { Layout, Avatar, Popover } from "antd";
+import { UserOutlined, LogoutOutlined } from "@ant-design/icons";
+import { Layout, Avatar, Popover, Divider } from "antd";
 import { Link, useNavigate } from "react-router-dom";
-
+import logo from "../../../assets/logo/logo_fpt.png";
 const { Header } = Layout;
-
+import "./index.scss";
+import { useSetRecoilState } from "recoil";
+import { userLogoutState } from "../../../../store/user/user";
+import checkURL from "../../../utils/checkURL/checkURL";
 const HeaderAdmin = () => {
   let navigate = useNavigate();
+  const setUserLogout = useSetRecoilState(userLogoutState);
   const userAuth = JSON.parse(localStorage.getItem("data"));
   return (
     <Header
@@ -16,50 +20,89 @@ const HeaderAdmin = () => {
         display: "flex",
         justifyContent: "space-between",
         alignItems: "center",
-        backgroundColor: "#00796a"
+        backgroundColor: "#fff",
+        borderBottom: "2px solid #e8e8e8"
       }}
     >
       <div>
-        <span style={{ color: "#fff", fontSize: 28 }}>
-          FAP - FPT University
-        </span>
+        {location.pathname.includes("admin") ? (
+          <Link to="/admin/capstone-team">
+            <img src={logo} style={{ width: 100 }} alt="logo_fpt" />
+          </Link>
+        ) : (
+          <Link to="/user/home">
+            <img src={logo} style={{ width: 100 }} alt="logo_fpt" />
+          </Link>
+        )}
       </div>
+
       <div style={{ cursor: "pointer" }}>
+        <span
+          style={{
+            color: "#000",
+            marginRight: 15,
+            fontSize: 16
+          }}
+        >
+          Support
+        </span>
+        <span
+          style={{
+            color: "#000",
+            marginRight: 15,
+            fontSize: 16
+          }}
+        >
+          User Guide
+        </span>
         <Popover
           content={
-            <div style={{ padding: "0 10px" }}>
+            <div style={{ padding: "0 10px", width: 350 }}>
               {location.pathname.includes("admin") ? (
-                <Link
-                  style={{ display: "block", marginBottom: 10, fontSize: 16 }}
-                  to="/admin/profile"
-                >
-                  View Profile
+                <Link className="link_profile" to="/admin/profile">
+                  <Avatar
+                    size="medium"
+                    style={{ backgroundColor: "#000" }}
+                    icon={<UserOutlined />}
+                  />
+
+                  {userAuth ? userAuth.User.Email.toUpperCase() : ""}
                 </Link>
               ) : (
-                <Link
-                  style={{ display: "block", marginBottom: 10, fontSize: 16 }}
-                  to="/user/profile"
-                >
-                  View Profile
+                <Link className="link_profile" to="/user/profile">
+                  <Avatar
+                    size="medium"
+                    style={{ backgroundColor: "#000" }}
+                    icon={<UserOutlined />}
+                  />
+                  {userAuth ? userAuth.User.Email.toUpperCase() : ""}
                 </Link>
               )}
-
+              <Divider style={{ margin: 15 }} />
               <a
                 onClick={() => {
+                  setUserLogout(true);
                   localStorage.removeItem("data");
-                  navigate("/");
+                  localStorage.removeItem("roleTopic");
+                  setTimeout(() => {
+                    setUserLogout(false);
+                    navigate("/");
+                  }, 2000);
                 }}
-                style={{ color: "#d4380d", fontSize: 16 }}
+                className="link_profile"
+                style={{ color: "#d4380d", fontSize: 16, fontWeight: 500 }}
               >
-                Log out
+                <LogoutOutlined />
+                {"Log out".toUpperCase()}
               </a>
             </div>
           }
         >
-          <span style={{ color: "#fff", marginRight: 10, fontSize: 16 }}>
-            {userAuth.User?.Name}
-          </span>
-          <Avatar size="large" icon={<UserOutlined />} />
+          <Avatar
+            size="large"
+            style={{ backgroundColor: "#000" }}
+            icon={<UserOutlined />}
+          />
         </Popover>
       </div>
     </Header>

@@ -4,6 +4,9 @@
   gap: 5px;
   align-items: center;
   color: #51666c;
+  height: 100%;
+  justify-content: center;
+  width: 100%;
   cursor: pointer;
   &:hover {
     color: #009688;
@@ -21,8 +24,9 @@
   width: fit-content;
 }
 .report_item--notsubmit {
-  background: #f8d7da;
-  color: #721c24;
+  background: #fff8de;
+  color: #caa20c;
+  // color: #721c24;
   padding: 2px 5px;
   display: flex;
   gap: 5px;
@@ -30,4 +34,15 @@
   border-radius: 4px;
   margin-bottom: 5px;
   width: fit-content;
+}
+.card_description {
+  white-space: nowrap;
+  word-wrap: break-word;
+  width: 500px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 2; /* number of lines to show */
+  line-clamp: 2;
+  font-size: 14px;
+  font-weight: 400;
 }
