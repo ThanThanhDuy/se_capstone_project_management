@@ -6,12 +6,13 @@ import { useRecoilState, useSetRecoilState } from "recoil";
 import {
   dataCapstoneCouncilState,
   dataResultState,
-  rowSelectedCapstoneCouncilState
+  rowSelectedCapstoneCouncilState,
 } from "../../../store/table/table";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Helmet } from "react-helmet";
 import Papa from "papaparse";
+import openNotification from "../../components/common/notification";
 
 function capstone_council() {
   const { Title } = Typography;
@@ -30,33 +31,28 @@ function capstone_council() {
       key: "capstone_council_code",
       width: 100,
       fixed: "left",
-      render: text => <Link to={`/admin/capstone-council/${text}`}>{text}</Link>
-    },
-    {
-      title: "Semester",
-      dataIndex: "semeter_name",
-      key: "semeter_name",
-      width: 80,
-      fixed: "left"
+      render: (text) => (
+        <Link to={`/admin/capstone-council/${text}`}>{text}</Link>
+      ),
     },
     {
       title: "Chairperson",
       dataIndex: "chairman",
       key: "chairman",
-      width: 180
+      width: 180,
     },
     {
       title: "Secretary",
       dataIndex: "secretary",
       key: "secretary",
-      width: 180
+      width: 180,
     },
     {
       title: "Members",
       dataIndex: "member",
       key: "member",
-      width: 180
-    }
+      width: 180,
+    },
   ];
   async function getCaptoneCouncil() {
     const res = await axios.get(
@@ -87,40 +83,44 @@ function capstone_council() {
     },
     beforeUpload(file) {
       const reader = new FileReader();
-      reader.onload = async e => {
-        const objectCSV = convertCSV(e.target.result);
-        console.log(objectCSV);
-        const res = await axios.post(
-          "http://localhost:8081/admin/insert-capstone-council",
-          {
-            data: objectCSV
-          }
-        );
-        if (res.data.code === 200) {
-          setLoading(true);
-          getCaptoneCouncil();
+      reader.onload = async (e) => {
+        const files = e.target.result;
+        if (files) {
+          Papa.parse(files, {
+            header: true,
+            complete: async function (results) {
+              const data = JSON.parse(localStorage.getItem("data"));
+              const res = await axios.post(
+                "http://localhost:8081/admin/insert-capstone-council",
+                {
+                  councils: results.data,
+                },
+                {
+                  headers: {
+                    Authorization: `Bearer ${data?.AccessToken}`,
+                  },
+                }
+              );
+              console.log(res);
+              if (res.data.code === 200) {
+                console.log(res);
+                setLoading(true);
+                openNotification(
+                  res.data.data.count !== 0 ? "success" : "warning",
+                  res.data.data.count !== 0
+                    ? "Import successfully"
+                    : "Import Failed",
+                  `${res.data.data.count} row is accepted`
+                );
+                getCaptoneCouncil();
+              }
+            },
+          });
         }
-        // const files = e.target.result;
-        // if (files) {
-        //   Papa.parse(files, {
-        //     header: true,
-        //     complete: async function (results) {
-        //       const res = await axios.post(
-        //         "http://localhost:8081/admin/insert-capstone-council",
-        //         {
-        //           data: results
-        //         }
-        //       );
-        //       if (res.data.code === 200) {
-        //         setLoading(true);
-        //       }
-        //     }
-        //   });
-        // }
       };
       reader.readAsText(file);
       return false;
-    }
+    },
   };
   useEffect(() => {
     setLoading(true);
@@ -133,7 +133,7 @@ function capstone_council() {
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
-          marginBottom: 30
+          marginBottom: 30,
         }}
       >
         <Helmet>
@@ -143,9 +143,9 @@ function capstone_council() {
         <Title level={3} style={{ marginTop: 20, fontWeight: 500 }}>
           {/* Capstone Project Council List */}
         </Title>
-        <div>
+        <div className="">
           <Upload {...props}>
-            <Button icon={<UploadOutlined />}>Click to Upload</Button>
+            <Button icon={<UploadOutlined />}>Import CSV</Button>
           </Upload>
         </div>
       </div>
@@ -153,18 +153,18 @@ function capstone_council() {
         <Table
           onRow={(record, rowIndex) => {
             return {
-              onClick: event => {
+              onClick: (event) => {
                 setRowSelectedCapstoneCouncil(_dataResult[rowIndex]);
                 navigate(
                   `/admin/capstone-council/${record["capstone_council_code"]}`
                 );
-              }
+              },
             };
           }}
           style={{ cursor: "pointer" }}
           columns={columns}
           dataSource={_data}
-          rowKey={record => record["index"]}
+          rowKey={(record) => record["index"]}
           scroll={{ x: 1800 }}
         />
       </Spin>
