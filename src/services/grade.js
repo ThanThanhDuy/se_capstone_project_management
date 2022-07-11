@@ -21,7 +21,7 @@ class GradeService {
     }
     console.log(response);
     // return response.data;
-    return response.data;
+    return response;
   }
 }
 const gradeService = new GradeService();

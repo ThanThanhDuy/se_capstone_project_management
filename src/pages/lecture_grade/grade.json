@@ -1,0 +1,48 @@
+{
+  "grades": [
+    {
+      "grade_by": 41,
+      "teacher_name": "Teacher test",
+      "marks": [
+        { "id": 1, "code": "M001", "name": "Mark 1", "value": 0.4, "mark": 10 },
+        { "id": 2, "code": "M002", "name": "Mark 2", "value": 0.4, "mark": 4 },
+        { "id": 3, "code": "M003", "name": "Mark 3", "value": 0.4, "mark": 2 },
+        { "id": 4, "code": "M004", "name": "Mark 4", "value": 0.4, "mark": 10 },
+        { "id": 5, "code": "M005", "name": "Mark 5", "value": 0.4, "mark": 8 }
+      ]
+    },
+    {
+      "grade_by": 34,
+      "teacher_name": "Teacher 9",
+      "marks": [
+        { "id": 1, "code": "M001", "name": "Mark 1", "value": 0.4, "mark": 1 },
+        { "id": 2, "code": "M002", "name": "Mark 2", "value": 0.4, "mark": 2 },
+        { "id": 3, "code": "M003", "name": "Mark 3", "value": 0.4, "mark": 3 },
+        { "id": 4, "code": "M004", "name": "Mark 4", "value": 0.4, "mark": 4 },
+        { "id": 5, "code": "M005", "name": "Mark 5", "value": 0.4, "mark": 5 }
+      ]
+    },
+    {
+      "grade_by": 15,
+      "teacher_name": "Teacher 7",
+      "marks": [
+        { "id": 1, "code": "M001", "name": "Mark 1", "value": 0.4, "mark": 0 },
+        { "id": 2, "code": "M002", "name": "Mark 2", "value": 0.4, "mark": 0 },
+        { "id": 3, "code": "M003", "name": "Mark 3", "value": 0.4, "mark": 0 },
+        { "id": 4, "code": "M004", "name": "Mark 4", "value": 0.4, "mark": 0 },
+        { "id": 5, "code": "M005", "name": "Mark 5", "value": 0.4, "mark": 1 }
+      ]
+    },
+    {
+      "grade_by": 16,
+      "teacher_name": "Teacher 8",
+      "marks": [
+        { "id": 1, "code": "M001", "name": "Mark 1", "value": 0.4, "mark": 2 },
+        { "id": 2, "code": "M002", "name": "Mark 2", "value": 0.4, "mark": 3 },
+        { "id": 3, "code": "M003", "name": "Mark 3", "value": 0.4, "mark": 4 },
+        { "id": 4, "code": "M004", "name": "Mark 4", "value": 0.4, "mark": 6 },
+        { "id": 5, "code": "M005", "name": "Mark 5", "value": 0.4, "mark": 5 }
+      ]
+    }
+  ]
+}

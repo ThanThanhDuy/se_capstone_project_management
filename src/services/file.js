@@ -12,6 +12,17 @@ class FileService {
     // return response.data;
     return response.data;
   }
+  async getAllFile() {
+    try {
+      var response = await fileAPI.getAllFile();
+    } catch (error) {
+      console.log(error);
+      return error.response;
+    }
+    // console.log(response);
+    // return response.data;
+    return response.data;
+  }
 }
 const fileService = new FileService();
 export default fileService;

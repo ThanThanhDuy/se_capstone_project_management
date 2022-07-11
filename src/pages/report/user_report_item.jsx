@@ -1,109 +1,54 @@
-import React from "react";
+import React, { useState } from "react";
 import "../report/user_report.scss";
-import { Avatar, Card, Col, Divider, Row, Typography } from "antd";
+import { Avatar, Card, Col, Divider, Row, Space, Typography } from "antd";
 import {
   BookOutlined,
   CheckOutlined,
   WechatOutlined,
-  LockOutlined
+  LockOutlined,
 } from "@ant-design/icons";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import moment from "moment";
 import { UilArrowRight, UilExclamationOctagon } from "@iconscout/react-unicons";
+import DetailReport from "../detail_report/detail_report";
+import { useEffect } from "react";
+import reportService from "../../services/report";
+
 function UserReportItem(props) {
   let params = useParams();
   const { report } = props;
-  console.log(report);
-  return (
-    // <div
-    //   key={report.id}
-    //   className="report_item"
-    //   style={{
-    //     display: "flex",
-    //     gap: 10,
-    //     marginBottom: 20,
-    //     boxShadow:
-    //       "rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px",
-    //     padding: "20px 30px",
-    //     borderRadius: 10,
-    //     backgroundColor: "#fff"
-    //   }}
-    // >
-    //   {/* <div className="report_item--left">
-    //     <Avatar
-    //       size={32}
-    //       icon={<BookOutlined />}
-    //       style={{ background: "#2a5699" }}
-    //     />
-    //   </div> */}
-    //   <div className="report_item--right">
-    //     <div className="report_item--title">
-    //       <Link
-    //         to={`/user/report/${report.id}/detail/${report.code}`}
-    //         style={{ fontSize: 20, color: "#0065cc" }}
-    //       >
-    //         {report.name} - {params.capstoneTeamId} -{" "}
-    //         <span style={{ color: "#d4380d" }}>
-    //           {moment(report.date_grade).format("YYYY MMM DD HH:mm")}
-    //         </span>
-    //       </Link>
-    //     </div>
-    // <div
-    //   className={
-    //     report.submit_date
-    //       ? "report_item--submit"
-    //       : "report_item--notsubmit"
-    //   }
-    // >
-    //   {report.submit_date ? (
-    //     <>
-    //       <div>
-    //         <CheckOutlined />
-    //         <span>
-    //           Submit{" "}
-    //           <span style={{ textDecoration: "underline", marginLeft: 10 }}>
-    //             {moment(report.submit_date).format("YYYY MMM DD - HH:mm")}
-    //           </span>
-    //         </span>
-    //       </div>
-    //     </>
-    //   ) : (
-    //     <>
-    //       <div>
-    //         <LockOutlined />
-    //         <span>Not Submit </span>
-    //         <span></span>
-    //       </div>
-    //     </>
-    //   )}
-    // </div>
-    //     {!report.submit_date && (
-    //       <div style={{ marginBottom: 10 }}>
-    //         <span>
-    //           <span>Deadline submit from </span>
-    //           <span
-    //             style={{
-    //               textDecoration: "underline",
-    //               marginLeft: 10,
-    //               marginRight: 10
-    //             }}
-    //           >
-    //             {moment(report.start_at).format("YYYY MMM DD - HH:mm")}
-    //           </span>
-    //           {" to "}
-    //           <span style={{ textDecoration: "underline", marginLeft: 10 }}>
-    //             {moment(report.end_at).format("YYYY MMM DD - HH:mm")}
-    //           </span>
-    //         </span>
-    //       </div>
-    //     )}
+  const roleTopic = JSON.parse(localStorage.getItem("roleTopic"));
+  const [_report, _setReport] = useState({});
+  const [roleUser, setRoleUser] = useState(null);
+  let navigate = useNavigate();
 
-    //     <div className="report_item--feedback">
-    //       <WechatOutlined />
-    //       <span>Feedback</span>
-    //     </div>
-    //   </div>
-    // </div>
+  const fetchData = async () => {
+    const result = await reportService.getDetailReportByReportCode(report.code);
+    const roleU = roleTopic.find(tp => tp.topic_code === result.topic.code);
+    setRoleUser(roleU.role);
+    _setReport(result);
+  };
+
+  const handleGrade = () => {
+    let reportGrade = {
+      capstoneTeamId: params.capstoneTeamId,
+      reportCode: report.code,
+      reportType: report.type,
+      reportName: report.name,
+      reportDescription: report.description,
+      topicDescription: _report.topic.description,
+      topicCode: _report.topic.code,
+      topicName: _report.topic.name,
+    };
+    localStorage.setItem("reportGrade", JSON.stringify(reportGrade));
+    navigate(`/user/lecture-grade/${report.code}`);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  return (
     <Card
       className="card"
       extra={
@@ -146,7 +91,7 @@ function UserReportItem(props) {
                 backgroundColor: "#deeeec",
                 padding: "2px 5px",
                 borderRadius: 5,
-                fontWeight: 400
+                fontWeight: 400,
               }}
             >
               {params.capstoneTeamId} -{" "}
@@ -158,7 +103,7 @@ function UserReportItem(props) {
               marginTop: 5,
               display: "flex",
               alignItems: "center",
-              gap: 5
+              gap: 5,
             }}
           >
             <div style={{ fontSize: 20, color: "#44494d" }}>#{report.type}</div>
@@ -177,9 +122,39 @@ function UserReportItem(props) {
         borderRadius: 10,
         boxShadow:
           "rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px",
-        marginBottom: 30
+        marginBottom: 30,
       }}
     >
+      <div style={{ marginBottom: 5 }}></div>
+      <Space>
+        <Typography.Title
+          level={4}
+          style={{ display: "flex", alignItems: "center" }}
+        >
+          Topic: {_report.topic?.name}
+          <span
+            style={{
+              fontSize: 16,
+              color: "#008172",
+
+              padding: "5px 10px",
+              borderRadius: 5,
+              fontWeight: 400,
+              marginLeft: 5,
+            }}
+          >
+            <span>{_report.topic?.code?.toUpperCase()}</span>
+          </span>
+        </Typography.Title>
+      </Space>
+      <Typography.Paragraph
+        style={{
+          marginTop: "0px",
+          marginBottom: "50px",
+        }}
+      >
+        {_report.topic?.description}
+      </Typography.Paragraph>
       <Row>
         <Col span={4}>
           <div>
@@ -190,7 +165,7 @@ function UserReportItem(props) {
               <span style={{ fontSize: 16 }}>
                 {report.submit_date ? (
                   <span style={{ color: "#1ea53d" }}>
-                    {moment(report.submit_date).format("YYYY MMM DD - HH:mm")}
+                    {moment(report.submit_date).format("DD/MM/YYYY - HH:mm")}
                   </span>
                 ) : (
                   <span style={{ color: "#caa20c" }}>Not yet</span>
@@ -203,7 +178,7 @@ function UserReportItem(props) {
           style={{
             borderLeft: "2px solid rgba(0,0,0,0.5)",
             borderRadius: 5,
-            height: 50
+            height: 50,
           }}
           type="vertical"
         />
@@ -217,7 +192,7 @@ function UserReportItem(props) {
               style={{
                 display: "flex",
                 alignItems: "center",
-                justifyContent: "center"
+                justifyContent: "center",
               }}
             >
               <p
@@ -225,10 +200,10 @@ function UserReportItem(props) {
                   fontSize: 16,
                   marginRight: 5,
                   marginBottom: 0,
-                  textDecoration: "underline"
+                  textDecoration: "underline",
                 }}
               >
-                {moment(report.start_at).format("YYYY MMM DD - HH:mm")}
+                {moment(report.start_at).format("DD/MM/YYYY - HH:mm")}
               </p>
               <UilArrowRight />
               <p
@@ -236,10 +211,10 @@ function UserReportItem(props) {
                   fontSize: 16,
                   margin: 0,
                   marginLeft: 5,
-                  textDecoration: "underline"
+                  textDecoration: "underline",
                 }}
               >
-                {moment(report.end_at).format("YYYY MMM DD - HH:mm")}
+                {moment(report.end_at).format("DD/MM/YYYY - HH:mm")}
               </p>
             </div>
           </div>
@@ -248,7 +223,7 @@ function UserReportItem(props) {
           style={{
             borderLeft: "2px solid rgba(0,0,0,0.5)",
             borderRadius: 5,
-            height: 50
+            height: 50,
           }}
           type="vertical"
         />
@@ -263,7 +238,7 @@ function UserReportItem(props) {
               style={{
                 display: "flex",
                 alignItems: "center",
-                justifyContent: "center"
+                justifyContent: "center",
               }}
             >
               <p
@@ -274,11 +249,11 @@ function UserReportItem(props) {
                   display: "flex",
                   alignItems: "center",
                   gap: 5,
-                  color: "#c93745"
+                  color: "#c93745",
                 }}
               >
                 <span>
-                  {moment(report.start_at).format("YYYY MMM DD - HH:mm")}
+                  {moment(report.date_grade).format("DD/MM/YYYY - HH:mm")}
                 </span>
 
                 <UilExclamationOctagon />
@@ -290,7 +265,7 @@ function UserReportItem(props) {
           style={{
             borderLeft: "2px solid rgba(0,0,0,0.5)",
             borderRadius: 5,
-            height: 50
+            height: 50,
           }}
           type="vertical"
         />
@@ -301,6 +276,16 @@ function UserReportItem(props) {
           </div>
         </Col>
       </Row>
+      <DetailReport
+        dateStart={report.start_at}
+        dateEnd={report.end_at}
+        dateGrade={report.date_grade}
+        reportCode={report.code}
+        roleUser={roleUser}
+        _report={_report}
+        fetchData={fetchData}
+        handleGrade={handleGrade}
+      />
     </Card>
   );
 }

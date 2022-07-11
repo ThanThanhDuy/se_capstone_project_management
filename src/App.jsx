@@ -18,6 +18,7 @@ import Profile from "./pages/profile/profile";
 import Calendar from "./pages/calendar/calendar";
 import LectureGrade from "./pages/lecture_grade/lecture_grade";
 import AdminGrade from "./pages/grade/admin_grade";
+import Download from "./pages/download/download";
 import ROLES from "./constant/role";
 
 function App() {
@@ -113,6 +114,9 @@ function App() {
                 }
               >
                 <Route path="profile" element={<Profile />} />
+              </Route>
+              <Route element={<RequireAuth allowedRoles={[ROLES.LECTURE]} />}>
+                <Route path="download" element={<Download />} />
               </Route>
             </Route>
           </Route>

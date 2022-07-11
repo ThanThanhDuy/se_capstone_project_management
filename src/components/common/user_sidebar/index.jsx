@@ -1,5 +1,10 @@
 import React, { useEffect } from "react";
-import { UserOutlined, HomeOutlined, LogoutOutlined } from "@ant-design/icons";
+import {
+  UserOutlined,
+  HomeOutlined,
+  LogoutOutlined,
+  DownloadOutlined,
+} from "@ant-design/icons";
 import { useState } from "react";
 import { Divider, Layout, Menu } from "antd";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -8,6 +13,7 @@ import { useSetRecoilState } from "recoil";
 import { locationState } from "../../../../store/location/location";
 import "./index.css";
 import { userLogoutState } from "../../../../store/user/user";
+import ROLES from "../../../constant/role";
 const { Sider } = Layout;
 
 const Sidebar = () => {
@@ -15,6 +21,7 @@ const Sidebar = () => {
   const [collapsed, setCollapsed] = useState(false);
   const [current, setCurrent] = useState("1");
   const setLocation = useSetRecoilState(locationState);
+  const userAuth = JSON.parse(localStorage.getItem("data"));
   const handleSelectItem = e => {
     setCurrent(e.key);
   };
@@ -26,6 +33,8 @@ const Sidebar = () => {
       setCurrent("1");
     } else if (location.pathname.includes("profile")) {
       setCurrent("2");
+    } else if (location.pathname.includes("download")) {
+      setCurrent("3");
     }
     setLocation(location);
   }, [location]);
@@ -51,13 +60,25 @@ const Sidebar = () => {
             fontSize: 16,
             margin: 0,
             display: "flex",
-            alignItems: "center"
+            alignItems: "center",
           }}
         >
           <HomeOutlined />
           <span>Home</span>
           <Link to="home" />
         </Menu.Item>
+
+        {userAuth?.User.Roles.find(user =>
+          [ROLES.CHAIRMAN, ROLES.SECRETARY, ROLES.MEMBERCOUNCIL].includes(
+            user.RoleId
+          )
+        ) && (
+          <Menu.Item key="3" style={{ height: 64, fontSize: 16, margin: 0 }}>
+            <DownloadOutlined />
+            <span>Download File</span>
+            <Link to="download" />
+          </Menu.Item>
+        )}
         <Menu.Item key="2" style={{ height: 64, fontSize: 16, margin: 0 }}>
           <UserOutlined />
           <span>Profile</span>
