@@ -10,8 +10,8 @@ const CAPSTONE_TEAMS = [
   {
     castone_code: "SU202212",
     progress: 30,
-    semester: "Summer 2022"
-  }
+    semester: "Summer 2022",
+  },
 ];
 const { Option } = Select;
 const Home = () => {
@@ -59,13 +59,13 @@ const Home = () => {
     for (let i of data) {
       roleTopic.push({
         topic_code: i.topic.code,
-        role: i.role_id
+        role: i.role_id,
       });
     }
     for (let i of dataCouncil) {
       roleTopic.push({
         topic_code: i.topic.code,
-        role: i.role_id
+        role: i.role_id,
       });
     }
     localStorage.setItem("roleTopic", JSON.stringify(roleTopic));
@@ -94,9 +94,9 @@ const Home = () => {
             <div style={{ marginBottom: 80 }}>
               <h1 style={{ fontSize: 28, marginBottom: 20 }}>
                 <UilFire color="#d4380d" style={{ marginRight: 5 }} />
-                Comming soon
+                Capstone project defence
               </h1>
-              <Row style={{ gap: 20 }}>
+              <Row gutter={20} style={{ gap: 15 }}>
                 {capstoneCouncil?.map((item, key) => {
                   return <CapstoneTeamCard key={key} teamItem={item} />;
                 })}
@@ -110,7 +110,7 @@ const Home = () => {
             display: "flex",
             alignItems: "center",
             gap: 30,
-            marginBottom: 20
+            marginBottom: 20,
           }}
           className="semester-selector"
         >
@@ -120,13 +120,13 @@ const Home = () => {
           </h1>
           <Select
             style={{
-              width: "250px"
+              width: "250px",
             }}
             onChange={_handleChangeSemeter}
             value={semesterItem}
           >
             <Option key={"a"} value={""}>
-              All
+              All Semeter
             </Option>
             {semesters?.map((item, key) => {
               return (
@@ -138,7 +138,7 @@ const Home = () => {
           </Select>
         </div>
 
-        <Row style={{ gap: 20 }}>
+        <Row gutter={20} style={{ gap: 15 }}>
           {capstoneTeams?.map((item, key) => {
             return <CapstoneTeamCard key={key} teamItem={item} />;
           })}

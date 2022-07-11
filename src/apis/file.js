@@ -5,6 +5,10 @@ class FileApi {
     const url = `/report/submit`;
     return await axiosClient.post(url, { code, path, name, type });
   }
+  async getAllFile() {
+    const url = `/capstone-team/files`;
+    return await axiosClient.get(url);
+  }
 }
 
 const fileAPI = new FileApi();

@@ -21,7 +21,7 @@ const HeaderAdmin = () => {
         justifyContent: "space-between",
         alignItems: "center",
         backgroundColor: "#fff",
-        borderBottom: "2px solid #e8e8e8"
+        borderBottom: "2px solid #e8e8e8",
       }}
     >
       <div>
@@ -41,7 +41,7 @@ const HeaderAdmin = () => {
           style={{
             color: "#000",
             marginRight: 15,
-            fontSize: 16
+            fontSize: 16,
           }}
         >
           Support
@@ -50,7 +50,7 @@ const HeaderAdmin = () => {
           style={{
             color: "#000",
             marginRight: 15,
-            fontSize: 16
+            fontSize: 16,
           }}
         >
           User Guide
@@ -82,9 +82,9 @@ const HeaderAdmin = () => {
               <a
                 onClick={() => {
                   setUserLogout(true);
-                  localStorage.removeItem("data");
                   localStorage.removeItem("roleTopic");
                   setTimeout(() => {
+                    localStorage.removeItem("data");
                     setUserLogout(false);
                     navigate("/");
                   }, 2000);
