@@ -54,7 +54,10 @@ function App() {
                 />
               </Route>
               <Route element={<RequireAuth allowedRoles={[ROLES.ADMIN]} />}>
-                <Route path="capstone-team/:teamId" element={<AdminGrade />} />
+                <Route
+                  path="capstone-team/:teamCode"
+                  element={<AdminGrade />}
+                />
               </Route>
               <Route element={<RequireAuth allowedRoles={[ROLES.ADMIN]} />}>
                 <Route path="profile" element={<Profile />} />

@@ -12,6 +12,15 @@ class CapstoneTeamService {
     // return response.data;
     return response.data;
   }
+  async getDetailCaptoneTeams(code) {
+    try {
+      var response = await capstoneTeamAPI.getDetailCaptoneTeams(code);
+    } catch (error) {
+      console.log(error);
+      return error.response;
+    }
+    return response.data;
+  }
 }
 const capstoneTeamService = new CapstoneTeamService();
 export default capstoneTeamService;
