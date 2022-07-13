@@ -9,6 +9,7 @@ import { Helmet } from "react-helmet";
 import profileService from "../../services/profile";
 const { Dragger } = Upload;
 import checkURL from "../../utils/checkURL/checkURL";
+import "./profile.scss";
 
 function Profile() {
   // const { User } = useRecoilValue(userAuthState);
@@ -80,7 +81,7 @@ function Profile() {
     name: "file",
     action: "http://localhost:3000/",
     headers: {
-      authorization: "authorization-text"
+      authorization: "authorization-text",
     },
     multiple: false,
     accept: "image/*",
@@ -100,19 +101,19 @@ function Profile() {
     progress: {
       strokeColor: {
         "0%": "#108ee9",
-        "100%": "#87d068"
+        "100%": "#87d068",
       },
       strokeWidth: 3,
-      format: percent => percent && `${parseFloat(percent.toFixed(2))}%`
+      format: percent => percent && `${parseFloat(percent.toFixed(2))}%`,
     },
     beforeUpload: file => {
       setFile(file);
       return false;
-    }
+    },
   };
   return (
     <Spin spinning={loading} delay={500}>
-      <div
+      {/* <div
         style={{
           padding: 20,
           display: "flex",
@@ -207,6 +208,106 @@ function Profile() {
               display: "flex",
               justifyContent: "space-between",
               marginTop: 15
+            }}
+          >
+            <span style={{ color: "#707070" }}>Birthday</span>
+            <span style={{ fontWeight: 500, color: "#000" }}>
+              {moment(user?.birthday).format("YYYY - MMM - DD")}
+            </span>
+          </div>
+        </div>
+        <Modal
+          title="Update avatar"
+          visible={isModalVisible}
+          onOk={handleOk}
+          onCancel={handleCancel}
+        >
+          <Dragger {...props}>
+            <p className="ant-upload-drag-icon">
+              <InboxOutlined />
+            </p>
+            <p className="ant-upload-text">
+              Click or drag file to this area to upload
+            </p>
+            <p className="ant-upload-hint">
+              Support for a single or bulk upload. If you have more, you can
+              compress file zip
+            </p>
+          </Dragger>
+        </Modal>
+      </div> */}
+      <div className="box">
+        <div className="background">
+          <div className="infor">
+            <div>
+              {checkURL(user.avatar) ? (
+                <Avatar
+                  className="avatar"
+                  onClick={showModal}
+                  style={{ cursor: "pointer" }}
+                  size={200}
+                  src={user.avatar}
+                />
+              ) : (
+                <Avatar
+                  className="avatar"
+                  onClick={showModal}
+                  style={{ cursor: "pointer" }}
+                  size={200}
+                  icon={<UserOutlined />}
+                />
+              )}
+            </div>
+            <div className="name">{user?.name}</div>
+            <div className="mssv">{user?.code}</div>
+          </div>
+        </div>
+        <div className="infor_user_profile">
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              marginTop: 15,
+              width: "500px",
+            }}
+          >
+            <span style={{ color: "#707070" }}>Gender</span>
+            <span style={{ fontWeight: 500, color: "#000" }}>
+              {user?.gender ? "Male" : "Female"}
+            </span>
+          </div>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              marginTop: 15,
+              width: "500px",
+            }}
+          >
+            <span style={{ color: "#707070" }}>Email</span>
+            <span style={{ fontWeight: 500, color: "#000" }}>
+              {user?.email}
+            </span>
+          </div>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              marginTop: 15,
+              width: "500px",
+            }}
+          >
+            <span style={{ color: "#707070" }}>Phone</span>
+            <span style={{ fontWeight: 500, color: "#000" }}>
+              {user?.phone}
+            </span>
+          </div>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              marginTop: 15,
+              width: "500px",
             }}
           >
             <span style={{ color: "#707070" }}>Birthday</span>

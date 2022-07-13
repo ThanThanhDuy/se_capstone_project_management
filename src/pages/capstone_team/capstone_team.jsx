@@ -7,7 +7,7 @@ import {
   Button,
   message,
   Upload,
-  Spin
+  Spin,
 } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import convertCSV from "../../utils/convertCSV/convertCSV_team";
@@ -15,12 +15,13 @@ import { useState } from "react";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import {
   dataCapstoneTeamState,
-  rowSelectedCapstoneTeamState
+  rowSelectedCapstoneTeamState,
 } from "../../../store/table/table";
 import { useNavigate } from "react-router-dom";
 import STATUS_MAPPING from "../../constant/color";
 import axios from "axios";
 import { Helmet } from "react-helmet";
+import Papa from "papaparse";
 
 function capstone_team() {
   const { Title } = Typography;
@@ -37,14 +38,14 @@ function capstone_team() {
       key: "capstone_team_code",
       width: 120,
       fixed: "left",
-      render: text => <a>{text}</a>
+      render: text => <a>{text}</a>,
     },
     {
       title: "Semeter",
       dataIndex: "semeter_name",
       key: "semeter_name",
       width: 130,
-      fixed: "left"
+      fixed: "left",
     },
     {
       title: "Status",
@@ -61,33 +62,33 @@ function capstone_team() {
             {STATUS_MAPPING[record["capstone_team_status"]].text.toUpperCase()}
           </Tag>
         </>
-      )
+      ),
     },
     {
       title: "Topic",
       dataIndex: "topic_name",
       key: "topic_name",
       width: 300,
-      fixed: "left"
+      fixed: "left",
     },
     {
       title: "Mentor",
       dataIndex: "mentor_name",
       key: "mentor_name",
-      width: 200
+      width: 200,
     },
     {
       title: "Leader",
       dataIndex: "leader_name",
       key: "leader_name",
-      width: 200
+      width: 200,
     },
     {
       title: "Member",
       dataIndex: "member_name",
       key: "member_name",
-      width: 200
-    }
+      width: 200,
+    },
     // {
     //   title: "Date",
     //   dataIndex: "Ngày",
@@ -135,22 +136,40 @@ function capstone_team() {
     beforeUpload(file) {
       const reader = new FileReader();
       reader.onload = async e => {
-        const objectCSV = convertCSV(e.target.result);
-        const res = await axios.post(
-          "http://localhost:8081/admin/insert-capstone-team",
-          {
-            data: objectCSV
-          }
-        );
-
-        if (res.data.code === 200) {
-          setLoading(true);
-          getCaptoneTeam();
+        // const objectCSV = convertCSV(e.target.result);
+        // const res = await axios.post(
+        //   "http://localhost:8081/admin/insert-capstone-team",
+        //   {
+        //     data: objectCSV
+        //   }
+        // );
+        // if (res.data.code === 200) {
+        //   setLoading(true);
+        //   getCaptoneTeam();
+        // }
+        const files = e.target.result;
+        if (files) {
+          Papa.parse(files, {
+            header: true,
+            complete: async function (results) {
+              // const res = await axios.post(
+              //   "http://localhost:8081/admin/insert-capstone-team",
+              //   {
+              //     data: results
+              //   }
+              // );
+              // if (res.data.code === 200) {
+              //   setLoading(true);
+              // }
+              console.log(results);
+              console.log(JSON.stringify(results));
+            },
+          });
         }
       };
       reader.readAsText(file);
       return false;
-    }
+    },
   };
 
   useEffect(() => {
@@ -165,7 +184,7 @@ function capstone_team() {
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
-          marginBottom: 30
+          marginBottom: 30,
         }}
       >
         <Helmet>
@@ -190,7 +209,7 @@ function capstone_team() {
                 navigate(
                   `/admin/capstone-team/${record["capstone_team_code"]}`
                 );
-              }
+              },
             };
           }}
           columns={columns}

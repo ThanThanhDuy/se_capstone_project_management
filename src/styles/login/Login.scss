@@ -22,7 +22,9 @@
   align-items: center;
 }
 
-.ant-btn:hover,
-.ant-btn:focus {
-  border: none;
+.button_login {
+  .ant-btn:hover,
+  .ant-btn:focus {
+    border-color: #00796a;
+  }
 }

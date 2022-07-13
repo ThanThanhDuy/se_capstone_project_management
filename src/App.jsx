@@ -49,7 +49,7 @@ function App() {
               </Route>
               <Route element={<RequireAuth allowedRoles={[ROLES.ADMIN]} />}>
                 <Route
-                  path="capstone-council/:councilId"
+                  path="capstone-council/:councilCode"
                   element={<Calendar />}
                 />
               </Route>
