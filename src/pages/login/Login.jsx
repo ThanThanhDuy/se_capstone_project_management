@@ -19,7 +19,7 @@ import { UilMapMarker, UilEnvelopeAlt } from "@iconscout/react-unicons";
 const { Option } = Select;
 
 const ROLE_MAP = {
-  "": ""
+  "": "",
 };
 function Login() {
   const navigate = useNavigate();
@@ -88,7 +88,7 @@ function Login() {
         style={{
           display: "flex",
           justifyContent: "center",
-          marginTop: "30%"
+          marginTop: "30%",
         }}
       >
         <Spin size="large" />
@@ -151,7 +151,7 @@ function Login() {
           display: "flex",
           alignItems: "center",
           height: "100vh",
-          justifyContent: "center"
+          justifyContent: "center",
         }}
       >
         <div style={{ display: "flex", gap: 100, position: "relative" }}>
@@ -173,17 +173,18 @@ function Login() {
                   SE capstone project management
                 </span>
                 <div
+                  className="button_login"
                   style={{
                     display: "flex",
                     flexDirection: "column",
                     gap: 20,
-                    marginTop: 50
+                    marginTop: 50,
                   }}
                 >
                   <Select
                     style={{
                       width: "350px",
-                      fontSize: 16
+                      fontSize: 16,
                     }}
                     placeholder="Select campus"
                     onChange={_handleChangeCampus}
@@ -193,7 +194,7 @@ function Login() {
                       <span>Select Campus</span>{" "}
                       <span
                         style={{
-                          color: "red"
+                          color: "red",
                         }}
                       >
                         *
@@ -215,7 +216,7 @@ function Login() {
                       height: "45px",
                       width: "350px",
                       borderRadius: "10px",
-                      fontSize: 16
+                      fontSize: 16,
                     }}
                     icon={<GoogleOutlined />}
                     onClick={_loginWithGoogle}
@@ -238,7 +239,7 @@ function Login() {
           bottom: 0,
           left: 0,
           boxShadow: "0px -1px 10px rgba(0, 0, 0, 0.1)",
-          padding: "10px 350px 0 350px"
+          padding: "10px 350px 0 350px",
         }}
       >
         <div style={{ display: "flex", gap: 50, color: "#44494D" }}>

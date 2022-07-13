@@ -93,8 +93,8 @@ function Download() {
                 <Panel
                   header={
                     <div>
-                      {(item.file_name.includes(".docx") ||
-                        item.file_name.includes(".doc")) && (
+                      {(item.name.includes(".docx") ||
+                        item.name.includes(".doc")) && (
                         <div
                           style={{
                             display: "flex",
@@ -111,7 +111,7 @@ function Download() {
                               pointerEvents: "none",
                             }}
                           >
-                            {item.file_name}
+                            {item.name}
                           </a>
                           <a
                             href={item.path}
@@ -121,9 +121,9 @@ function Download() {
                           ></a>
                         </div>
                       )}
-                      {(item.file_name.includes(".xlsx") ||
-                        item.file_name.includes(".csv") ||
-                        item.file_name.includes(".xls")) && (
+                      {(item.name.includes(".xlsx") ||
+                        item.name.includes(".csv") ||
+                        item.name.includes(".xls")) && (
                         <div
                           style={{
                             display: "flex",
@@ -140,12 +140,12 @@ function Download() {
                               pointerEvents: "none",
                             }}
                           >
-                            {item.file_name}
+                            {item.name}
                           </a>
                         </div>
                       )}
-                      {(item.file_name.includes(".rar") ||
-                        item.file_name.includes(".zip")) && (
+                      {(item.name.includes(".rar") ||
+                        item.name.includes(".zip")) && (
                         <div
                           style={{
                             display: "flex",
@@ -163,17 +163,17 @@ function Download() {
                               pointerEvents: "none",
                             }}
                           >
-                            {item.file_name}
+                            {item.name}
                           </a>
                         </div>
                       )}
-                      {!item.file_name.includes(".rar") &&
-                        !item.file_name.includes(".zip") &&
-                        !item.file_name.includes(".xlsx") &&
-                        !item.file_name.includes(".csv") &&
-                        !item.file_name.includes(".xls") &&
-                        !item.file_name.includes(".docx") &&
-                        !item.file_name.includes(".doc") && (
+                      {!item.name.includes(".rar") &&
+                        !item.name.includes(".zip") &&
+                        !item.name.includes(".xlsx") &&
+                        !item.name.includes(".csv") &&
+                        !item.name.includes(".xls") &&
+                        !item.name.includes(".docx") &&
+                        !item.name.includes(".doc") && (
                           <div
                             style={{
                               display: "flex",
@@ -191,7 +191,7 @@ function Download() {
                                 pointerEvents: "none",
                               }}
                             >
-                              {item.file_name}
+                              {item.name}
                             </a>
                           </div>
                         )}
