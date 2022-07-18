@@ -12,6 +12,18 @@ class GradeApi {
     const url = `/admin/grades`;
     return await axiosClient.get(url);
   }
+  async updateGradeDetail(marks) {
+    const url = `/admin/grades`;
+    return await axiosClient.post(url, { marks });
+  }
+  async deleteGradeDetail(id) {
+    const url = `/admin/grades`;
+    return await axiosClient.delete(url, {
+      data: {
+        id,
+      },
+    });
+  }
 }
 
 const gradeAPI = new GradeApi();
