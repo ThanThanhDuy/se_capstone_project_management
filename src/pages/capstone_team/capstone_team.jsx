@@ -22,6 +22,7 @@ import STATUS_MAPPING from "../../constant/color";
 import axios from "axios";
 import { Helmet } from "react-helmet";
 import Papa from "papaparse";
+import openNotification from "../../components/common/notification/index";
 
 function capstone_team() {
   const { Title } = Typography;
@@ -136,33 +137,36 @@ function capstone_team() {
     beforeUpload(file) {
       const reader = new FileReader();
       reader.onload = async e => {
-        // const objectCSV = convertCSV(e.target.result);
-        // const res = await axios.post(
-        //   "http://localhost:8081/admin/insert-capstone-team",
-        //   {
-        //     data: objectCSV
-        //   }
-        // );
-        // if (res.data.code === 200) {
-        //   setLoading(true);
-        //   getCaptoneTeam();
-        // }
         const files = e.target.result;
         if (files) {
           Papa.parse(files, {
             header: true,
             complete: async function (results) {
-              // const res = await axios.post(
-              //   "http://localhost:8081/admin/insert-capstone-team",
-              //   {
-              //     data: results
-              //   }
-              // );
-              // if (res.data.code === 200) {
-              //   setLoading(true);
-              // }
-              console.log(results);
-              console.log(JSON.stringify(results));
+              const data = JSON.parse(localStorage.getItem("data"));
+              const res = await axios.post(
+                "http://localhost:8081/admin/insert-capstone-team",
+                {
+                  teams: results.data,
+                },
+                {
+                  headers: {
+                    Authorization: `Bearer ${data?.AccessToken}`,
+                  },
+                }
+              );
+              console.log(res);
+              if (res.data.code === 200) {
+                console.log(res);
+                setLoading(true);
+                openNotification(
+                  res.data.data.count !== 0 ? "success" : "warning",
+                  res.data.data.count !== 0
+                    ? "Import successfully"
+                    : "Import Failed",
+                  `${res.data.data.count} row is accepted`
+                );
+                getCaptoneTeam();
+              }
             },
           });
         }
