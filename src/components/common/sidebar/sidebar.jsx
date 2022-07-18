@@ -1,5 +1,10 @@
 import React, { useEffect } from "react";
-import { TeamOutlined, AuditOutlined, LogoutOutlined } from "@ant-design/icons";
+import {
+  TeamOutlined,
+  AuditOutlined,
+  LogoutOutlined,
+  BookOutlined,
+} from "@ant-design/icons";
 import { useState } from "react";
 import { Divider, Layout, Menu } from "antd";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -15,7 +20,7 @@ const Sidebar = () => {
   const [collapsed, setCollapsed] = useState(false);
   const [current, setCurrent] = useState("1");
   const setLocation = useSetRecoilState(locationState);
-  const handleSelectItem = e => {
+  const handleSelectItem = (e) => {
     setCurrent(e.key);
   };
   let navigate = useNavigate();
@@ -28,6 +33,8 @@ const Sidebar = () => {
       setCurrent("2");
     } else if (location.pathname.includes("profile")) {
       setCurrent("3");
+    } else if (location.pathname.includes("grades")) {
+      setCurrent("4");
     }
     setLocation(location);
   }, [location]);
@@ -36,7 +43,7 @@ const Sidebar = () => {
     <Sider
       collapsible
       collapsed={collapsed}
-      onCollapse={value => setCollapsed(value)}
+      onCollapse={(value) => setCollapsed(value)}
       theme="light"
     >
       <div className="logo" />
@@ -53,7 +60,7 @@ const Sidebar = () => {
             fontSize: 16,
             margin: 0,
             display: "flex",
-            alignItems: "center"
+            alignItems: "center",
           }}
         >
           <TeamOutlined />
@@ -65,11 +72,17 @@ const Sidebar = () => {
           <span>Capstone Council</span>
           <Link to={CAPSTONE_COUNCIL_URL} />
         </Menu.Item>
+        <Menu.Item key="4" style={{ height: 64, fontSize: 16, margin: 0 }}>
+          <BookOutlined />
+          <span>Detail Grade</span>
+          <Link to="grades" />
+        </Menu.Item>
         <Menu.Item key="3" style={{ height: 64, fontSize: 16, margin: 0 }}>
           <TeamOutlined />
           <span>Profile</span>
           <Link to="profile" />
         </Menu.Item>
+
         <Divider />
         <Menu.Item
           className="log_out"
