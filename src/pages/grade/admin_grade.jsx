@@ -48,7 +48,7 @@ function AdminGrade() {
 
     uploadTask.on(
       "state_changed",
-      (snapshot) => {
+      snapshot => {
         const percent = Math.round(
           (snapshot.bytesTransferred / snapshot.totalBytes) * 100
         );
@@ -56,10 +56,10 @@ function AdminGrade() {
         // update progress
         setPercent(percent);
       },
-      (err) => console.log(err),
+      err => console.log(err),
       () => {
         // download url
-        getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+        getDownloadURL(uploadTask.snapshot.ref).then(url => {
           console.log("URL: ", url);
           setUrl(url);
         });
@@ -134,11 +134,11 @@ function AdminGrade() {
     },
     beforeUpload(file) {
       const reader = new FileReader();
-      reader.onload = (e) => {
+      reader.onload = e => {
         const objectCSV = convertCSV(e.target.result);
         let objData = [];
         _setDataResult(objectCSV);
-        objectCSV.forEach((item) => {
+        objectCSV.forEach(item => {
           objData.push(item.council);
         });
         _setData(objData);
@@ -197,14 +197,17 @@ function AdminGrade() {
       >
         {_topic?.topic_description}
       </Typography.Paragraph>
-      {_reports?.map((report) => {
+      {_reports?.map(report => {
+        console.log(report);
+        console.log(report.councils);
         let _columns = columns.concat(report.councils);
+        console.log(_columns);
         let _rows = [];
-        report?.students.forEach((student) => {
+        report?.students.forEach(student => {
           let row = {
             name: student.name,
           };
-          student.marks?.forEach((mark) => {
+          student.marks?.forEach(mark => {
             row[mark.grade_by] = mark.totalGrade;
           });
           _rows.push(row);
@@ -226,7 +229,7 @@ function AdminGrade() {
             <Table
               style={{ cursor: "pointer", marginTop: "10px" }}
               columns={_columns}
-              rowKey={(record) => record["index"]}
+              rowKey={record => record["index"]}
               scroll={{ x: 1800 }}
               bordered
               dataSource={_rows}
@@ -237,7 +240,7 @@ function AdminGrade() {
                 padding: "20px 0px",
               }}
             >
-              {report?.files.map((file) => {
+              {report?.files.map(file => {
                 if (file.file_status) {
                   return (
                     <div
