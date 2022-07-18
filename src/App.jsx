@@ -20,6 +20,7 @@ import LectureGrade from "./pages/lecture_grade/lecture_grade";
 import AdminGrade from "./pages/grade/admin_grade";
 import Download from "./pages/download/download";
 import ROLES from "./constant/role";
+import Grades from "./pages/grades";
 
 function App() {
   const user = useRecoilValue(userState);
@@ -61,6 +62,9 @@ function App() {
               </Route>
               <Route element={<RequireAuth allowedRoles={[ROLES.ADMIN]} />}>
                 <Route path="profile" element={<Profile />} />
+              </Route>
+              <Route element={<RequireAuth allowedRoles={[ROLES.ADMIN]} />}>
+                <Route path="grades" element={<Grades />} />
               </Route>
             </Route>
           </Route>

@@ -38,6 +38,11 @@ function BreadcrumbAdmin() {
           ) : (
             <Breadcrumb.Item>Capstone Council</Breadcrumb.Item>
           ))}
+        {location.pathname.includes("grades") && (
+          <Breadcrumb.Item>
+            <Link to={"grades"}>Grades</Link>
+          </Breadcrumb.Item>
+        )}
         {location.pathname.includes("profile") && (
           <Breadcrumb.Item>
             <Link to={CAPSTONE_TEAM_URL}>Profile</Link>

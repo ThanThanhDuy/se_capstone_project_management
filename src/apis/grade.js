@@ -8,6 +8,10 @@ class GradeApi {
     const url = `/grade/submit`;
     return await axiosClient.post(url, { code, details });
   }
+  async getDetailGrades() {
+    const url = `/admin/grades`;
+    return await axiosClient.get(url);
+  }
 }
 
 const gradeAPI = new GradeApi();

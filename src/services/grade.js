@@ -23,6 +23,17 @@ class GradeService {
     // return response.data;
     return response;
   }
+  async getDetailGrades() {
+    try {
+      var response = await gradeAPI.getDetailGrades();
+    } catch (error) {
+      console.log(error);
+      return error.response;
+    }
+    console.log(response);
+    // return response.data;
+    return response.data;
+  }
 }
 const gradeService = new GradeService();
 export default gradeService;
