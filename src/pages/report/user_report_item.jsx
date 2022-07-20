@@ -54,13 +54,13 @@ function UserReportItem(props) {
       extra={
         <div
           className={
-            report.submit_date
+            _report?.report?.submit_date
               ? "report_item--submit"
               : "report_item--notsubmit"
           }
           style={{ display: "flex", alignItems: "center", marginBottom: 68 }}
         >
-          {report.submit_date ? (
+          {_report?.report?.submit_date ? (
             <>
               <div>
                 <CheckOutlined />
@@ -163,9 +163,11 @@ function UserReportItem(props) {
             </div>
             <div>
               <span style={{ fontSize: 16 }}>
-                {report.submit_date ? (
+                {_report?.report?.submit_date ? (
                   <span style={{ color: "#1ea53d" }}>
-                    {moment(report.submit_date).format("DD/MM/YYYY - HH:mm")}
+                    {moment(_report?.report?.submit_date).format(
+                      "DD/MM/YYYY - HH:mm"
+                    )}
                   </span>
                 ) : (
                   <span style={{ color: "#caa20c" }}>Not yet</span>

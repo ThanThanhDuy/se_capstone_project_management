@@ -89,7 +89,7 @@ const Grades = () => {
   const handleUpdateGrade = async dataInsert => {
     if (!dataInsert) {
       let total = data?.reduce((total, item) => (total += item.value), 0);
-      if (total === 1) {
+      if (total.toFixed(1) === "1.0") {
         const res = await gradeService.updateGradeDetail(data);
         if (res && res.code === 200) {
           setTimeout(() => {
