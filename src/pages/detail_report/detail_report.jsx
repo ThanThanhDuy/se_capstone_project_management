@@ -68,6 +68,7 @@ const DetailReport = ({
       },
       error => {
         alert(error);
+        setLoading(false);
       },
       () => {
         getDownloadURL(uploadTask.snapshot.ref)
