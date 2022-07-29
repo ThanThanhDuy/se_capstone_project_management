@@ -252,7 +252,7 @@ function Profile() {
                 <Avatar
                   className="avatar"
                   onClick={showModal}
-                  style={{ cursor: "pointer" }}
+                  style={{ cursor: "pointer", backgroundColor: "#000" }}
                   size={200}
                   icon={<UserOutlined />}
                 />

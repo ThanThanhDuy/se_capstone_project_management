@@ -5,6 +5,7 @@ import semesterService from "../../services/semester";
 import capstoneTeamService from "../../services/capstone_team.js";
 import { Helmet } from "react-helmet";
 import { UilFire, UilUsersAlt } from "@iconscout/react-unicons";
+import { Empty } from "antd";
 import "./index.scss";
 const CAPSTONE_TEAMS = [
   {
@@ -137,12 +138,15 @@ const Home = () => {
             })}
           </Select>
         </div>
-
-        <Row gutter={20} style={{ gap: 15 }}>
-          {capstoneTeams?.map((item, key) => {
-            return <CapstoneTeamCard key={key} teamItem={item} />;
-          })}
-        </Row>
+        {capstoneTeams.length > 0 ? (
+          <Row gutter={20} style={{ gap: 15 }}>
+            {capstoneTeams?.map((item, key) => {
+              return <CapstoneTeamCard key={key} teamItem={item} />;
+            })}
+          </Row>
+        ) : (
+          <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+        )}
       </div>
     </Spin>
   );
