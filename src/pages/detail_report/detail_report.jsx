@@ -199,9 +199,13 @@ const DetailReport = ({
                 <tr>
                   <th>Grade</th>
                   <td scope="row">
-                    {_report?.grades?.totalGrade
+                    {/* {_report?.grades?.totalGrade
                       ? _report?.grades?.totalGrade
-                      : "Not grade"}
+                      : "Not grade"} */}
+                    {moment(new Date()).isBefore(dateGrade, "day") &&
+                      "Not grade"}
+                    {moment(new Date()).isSameOrAfter(dateGrade, "day") &&
+                      _report?.grades?.totalGrade}
                   </td>
                 </tr>
               )}
