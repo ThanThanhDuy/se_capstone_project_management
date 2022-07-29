@@ -87,7 +87,13 @@ const Grades = () => {
 
   const handleUpdateGrade = async () => {
     let total = data?.reduce((total, item) => (total += item.value / 100), 0);
-    if (total.toFixed(2) === "1.00") {
+    let checkPercent = true;
+    for (const item of data) {
+      if (item.value <= 0) {
+        checkPercent = false;
+      }
+    }
+    if (total.toFixed(2) === "1.00" && checkPercent) {
       // update grade
       let dataUpdate = data;
       for (const item of dataUpdate) {
@@ -117,6 +123,9 @@ const Grades = () => {
         setTimeout(() => {
           openNotification("success", res.message);
         }, 1000);
+        setButtonSubmit(false);
+        setEditingKey("");
+        setClickAdd(false);
         _fetchData();
       } else {
         setTimeout(() => {
@@ -127,13 +136,10 @@ const Grades = () => {
       setTimeout(() => {
         openNotification(
           "error",
-          `Please check value again! Total must be 100%`
+          `Please check value again! Total must be 100% and value must be larger than 0%`
         );
       }, 200);
     }
-    setButtonSubmit(false);
-    setEditingKey("");
-    setClickAdd(false);
   };
 
   const handleDeleteMark = async index => {
@@ -194,6 +200,12 @@ const Grades = () => {
 
   const cancel = () => {
     setEditingKey("");
+    if (clickAdd) {
+      setData(data.filter(item => item.id !== data[data.length - 1].id));
+      setButtonSubmit(false);
+      setEditingKey("");
+      setClickAdd(false);
+    }
   };
 
   const save = async key => {
@@ -212,6 +224,7 @@ const Grades = () => {
         setData(newData);
         setEditingKey("");
       }
+      setClickAdd(false);
     } catch (errInfo) {
       console.log("Validate Failed:", errInfo);
     }
