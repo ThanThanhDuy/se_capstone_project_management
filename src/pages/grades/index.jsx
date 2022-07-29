@@ -24,7 +24,12 @@ const EditableCell = ({
   children,
   ...restProps
 }) => {
-  const inputNode = inputType === "number" ? <InputNumber /> : <Input />;
+  const inputNode =
+    inputType === "number" ? (
+      <InputNumber max={100} min={0} />
+    ) : (
+      <Input maxLength={20} />
+    );
   return (
     <td {...restProps}>
       {editing ? (
@@ -50,68 +55,65 @@ const EditableCell = ({
 };
 
 const Grades = () => {
-  const originData = [];
-
-  for (let i = 0; i < 5; i++) {
-    originData.push({
-      key: i.toString(),
-      id: `Edrward ${i}`,
-      namae: 32,
-      value: `London Park no. ${i}`,
-    });
-  }
   const [form] = Form.useForm();
   const [data, setData] = useState([]);
   const [editingKey, setEditingKey] = useState("");
   const [loading, setLoading] = useState(false);
   const [buttonSubmit, setButtonSubmit] = useState(false);
   const [buttonAdd, setButtonAdd] = useState(false);
-
+  const [marksDelete, setMarksDelete] = useState([]);
+  const [clickAdd, setClickAdd] = useState(false);
   async function _fetchData() {
     setLoading(true);
-    const res = await gradeService.getDetailGrades();
+    let res = await gradeService.getDetailGrades();
     if (res) {
       for (const item of res) {
         item.key = item.id;
+        item.value = item.value * 100;
       }
+      res = res.sort(function (item1, item2) {
+        return item1.id - item2.id;
+      });
     }
     setTimeout(() => {
       setData(res);
       setLoading(false);
     }, 1000);
-    console.log(res);
   }
 
   useEffect(() => {
     _fetchData();
   }, []);
 
-  const handleUpdateGrade = async dataInsert => {
-    if (!dataInsert) {
-      let total = data?.reduce((total, item) => (total += item.value), 0);
-      if (total.toFixed(1) === "1.0") {
-        const res = await gradeService.updateGradeDetail(data);
-        if (res && res.code === 200) {
-          setTimeout(() => {
-            openNotification("success", res.message);
-          }, 1000);
-          _fetchData();
-        } else {
-          setTimeout(() => {
-            openNotification("error", res.message);
-          }, 200);
-        }
-      } else {
-        setTimeout(() => {
-          openNotification(
-            "error",
-            `Please check value again! Total must be 1`
-          );
-        }, 200);
+  const handleUpdateGrade = async () => {
+    let total = data?.reduce((total, item) => (total += item.value / 100), 0);
+    if (total.toFixed(2) === "1.00") {
+      // update grade
+      let dataUpdate = data;
+      for (const item of dataUpdate) {
+        item.value = item.value / 100;
       }
-    } else {
-      const res = await gradeService.updateGradeDetail(dataInsert);
-      if (res && res.code === 200) {
+      const res = await gradeService.updateGradeDetail(dataUpdate);
+      let checkDelete = true;
+      if (marksDelete.length > 0) {
+        for (let item of marksDelete) {
+          const res = await gradeService.getDetailGrades();
+          let checkExist = res.find(itemE => itemE.id === item.id);
+          console.log(checkExist);
+          if (checkExist) {
+            const resDelete = await gradeService.deleteGradeDetail(item.id);
+            console.log(resDelete);
+            if (resDelete.code !== 200) {
+              checkDelete = false;
+            }
+          }
+        }
+        setMarksDelete([]);
+      }
+
+      console.log(res.code === 200);
+      console.log(checkDelete);
+      if (res.code === 200 && checkDelete) {
         setTimeout(() => {
           openNotification("success", res.message);
         }, 1000);
@@ -121,27 +123,56 @@ const Grades = () => {
           openNotification("error", res.message);
         }, 200);
       }
+    } else {
+      setTimeout(() => {
+        openNotification(
+          "error",
+          `Please check value again! Total must be 100%`
+        );
+      }, 200);
     }
+    setButtonSubmit(false);
+    setEditingKey("");
+    setClickAdd(false);
   };
 
   const handleDeleteMark = async index => {
-    const id = data[index].id;
-    const res = await gradeService.deleteGradeDetail(id);
-    if (res && res.code === 200) {
-      setTimeout(() => {
-        openNotification("success", res.message);
-      }, 1000);
-      _fetchData();
-    } else {
-      setTimeout(() => {
-        openNotification("error", res.message);
-      }, 200);
+    // console.log([...marksDelete, data[index]]);
+    setMarksDelete([...marksDelete, data[index]]);
+    setData(data.filter(item => item.id !== data[index].id));
+    setButtonSubmit(true);
+    if (clickAdd) {
+      setButtonSubmit(false);
+      setEditingKey("");
+      setClickAdd(false);
     }
   };
 
+  const handleAddMark = () => {
+    setClickAdd(true);
+    let mark = {
+      id: data[data.length - 1].id + 1,
+      code: "M001",
+      name: "",
+      value: "0",
+      key: data[data.length - 1].id + 1,
+    };
+    let newMark = [...data, mark];
+    setData(newMark);
+    setTimeout(() => {
+      form.setFieldsValue({
+        id: "",
+        name: "",
+        value: "",
+        ...mark,
+      });
+      setEditingKey(mark.key);
+      setButtonSubmit(true);
+    }, 0);
+  };
+
   const onFinish = values => {
-    const newData = [...data, values];
-    handleUpdateGrade(newData);
+    handleUpdateGrade();
   };
 
   const onFinishFailed = errorInfo => {
@@ -197,13 +228,18 @@ const Grades = () => {
       title: "Name",
       dataIndex: "name",
       width: "15%",
-      editable: false,
+      editable: true,
     },
     {
       title: "Value",
       dataIndex: "value",
       width: "20%",
       editable: true,
+      render: (_, record) => {
+        return (
+          <span>{record.value <= 1 ? record.value * 100 : record.value}%</span>
+        );
+      },
     },
     {
       title: "Edit",
@@ -241,7 +277,7 @@ const Grades = () => {
       width: "30%",
       render: (_, record, index) => {
         const editable = isEditing(record);
-        return (
+        return editable ? (
           <span>
             <Popconfirm
               style={{ width: 300 }}
@@ -256,6 +292,25 @@ const Grades = () => {
               onConfirm={() => handleDeleteMark(index)}
             >
               <a href="#">Delete</a>
+            </Popconfirm>
+          </span>
+        ) : (
+          <span>
+            <Popconfirm
+              style={{ width: 300 }}
+              title="Are you sure？"
+              icon={
+                <QuestionCircleOutlined
+                  style={{
+                    color: "red",
+                  }}
+                />
+              }
+              onConfirm={() => handleDeleteMark(index)}
+            >
+              <a disabled={editingKey !== ""} href="#">
+                Delete
+              </a>
             </Popconfirm>
           </span>
         );
@@ -299,7 +354,7 @@ const Grades = () => {
             type="primary"
             icon={<PlusOutlined />}
             style={{ marginBottom: 20 }}
-            onClick={() => setButtonAdd(true)}
+            onClick={handleAddMark}
           >
             Add mark
           </Button>
@@ -346,7 +401,7 @@ const Grades = () => {
                   style={{ width: "100%" }}
                   placeholder="Value"
                   min={0}
-                  max={1}
+                  max={100}
                 />
               </Form.Item>
 
