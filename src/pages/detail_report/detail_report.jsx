@@ -61,24 +61,24 @@ const DetailReport = ({
 
     uploadTask.on(
       "state_changed",
-      snapshot => {
+      (snapshot) => {
         const progress = Math.round(
           (snapshot.bytesTransferred / snapshot.totalBytes) * 100
         );
       },
-      error => {
+      (error) => {
         alert(error);
         setLoading(false);
       },
       () => {
         getDownloadURL(uploadTask.snapshot.ref)
-          .then(downloadURL => {
+          .then((downloadURL) => {
             return downloadURL;
           })
-          .then(url => {
+          .then((url) => {
             let type = false; // teacher
             if (
-              userAuth.User.Roles.find(user =>
+              userAuth.User.Roles.find((user) =>
                 [ROLES.STUDENT].includes(user.RoleId)
               )
             ) {
@@ -93,11 +93,11 @@ const DetailReport = ({
             console.log("info file", infoFile);
             return infoFile;
           })
-          .then(infoFile => {
+          .then((infoFile) => {
             const res = fileService.submitFile(infoFile);
             return res;
           })
-          .then(res => {
+          .then((res) => {
             // _fetchData(reportCode);
             fetchData();
             console.log(res);
@@ -132,9 +132,9 @@ const DetailReport = ({
         "100%": "#87d068",
       },
       strokeWidth: 3,
-      format: percent => percent && `${parseFloat(percent.toFixed(2))}%`,
+      format: (percent) => percent && `${parseFloat(percent.toFixed(2))}%`,
     },
-    beforeUpload: file => {
+    beforeUpload: (file) => {
       setFile(file);
       return false;
     },
@@ -166,7 +166,7 @@ const DetailReport = ({
             </Typography.Title>
             {[ROLES.CHAIRMAN, ROLES.MEMBERCOUNCIL, ROLES.SECRETARY].includes(
               roleUser
-            ) && (
+            ) ? (
               <Button
                 type="primary"
                 style={{
@@ -179,7 +179,7 @@ const DetailReport = ({
               >
                 Grade Team
               </Button>
-            )}
+            ) : null}
           </div>
           <table>
             <tbody>

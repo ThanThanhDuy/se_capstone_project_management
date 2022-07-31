@@ -9,7 +9,7 @@ import {
   Upload,
   Spin,
 } from "antd";
-import { UploadOutlined } from "@ant-design/icons";
+import { DownCircleFilled, UploadOutlined } from "@ant-design/icons";
 import convertCSV from "../../utils/convertCSV/convertCSV_team";
 import { useState } from "react";
 import { useRecoilState, useSetRecoilState } from "recoil";
@@ -39,7 +39,7 @@ function capstone_team() {
       key: "capstone_team_code",
       width: 120,
       fixed: "left",
-      render: text => <a>{text}</a>,
+      render: (text) => <a>{text}</a>,
     },
     {
       title: "Semeter",
@@ -110,13 +110,21 @@ function capstone_team() {
     // }
   ];
   async function getCaptoneTeam() {
-    const res = await axios.get("http://localhost:8081/admin/get-captone-team");
+    const data = JSON.parse(localStorage.getItem("data"));
+    const res = await axios.get(
+      "http://localhost:8081/admin/get-captone-team",
+      {
+        headers: {
+          Authorization: `Bearer ${data?.AccessToken}`,
+        },
+      }
+    );
     if (res.data.code === 200) {
       setTimeout(() => {
         _setData(res.data.data);
-        setLoading(false);
       }, 1000);
     }
+    setLoading(false);
   }
   const props = {
     name: "file",
@@ -136,7 +144,7 @@ function capstone_team() {
     },
     beforeUpload(file) {
       const reader = new FileReader();
-      reader.onload = async e => {
+      reader.onload = async (e) => {
         const files = e.target.result;
         if (files) {
           Papa.parse(files, {
@@ -175,7 +183,8 @@ function capstone_team() {
       return false;
     },
   };
-
+  const defaultTemplate =
+    "https://firebasestorage.googleapis.com/v0/b/se-capstone-project-management.appspot.com/o/template%2Fteam_csv_right_format.csv?alt=media&token=8b304cf4-5efc-4aea-a123-9088cf06d198";
   useEffect(() => {
     setLoading(true);
     getCaptoneTeam();
@@ -199,6 +208,18 @@ function capstone_team() {
           {/* Capstone Project Team List */}
         </Title>
         <div>
+          <Button
+            onClick={() => {
+              window.open(defaultTemplate);
+            }}
+            style={{
+              marginRight: 20,
+            }}
+            icon={<DownCircleFilled />}
+          >
+            {" "}
+            Template CSV
+          </Button>
           <Upload {...props}>
             <Button icon={<UploadOutlined />}>Click to Upload</Button>
           </Upload>
@@ -208,7 +229,7 @@ function capstone_team() {
         <Table
           onRow={(record, rowIndex) => {
             return {
-              onClick: event => {
+              onClick: (event) => {
                 setRowSelectedCapstoneTeam(_data[rowIndex]);
                 navigate(
                   `/admin/capstone-team/${record["capstone_team_code"]}`
@@ -219,7 +240,7 @@ function capstone_team() {
           columns={columns}
           dataSource={_data}
           style={{ cursor: "pointer" }}
-          rowKey={obj => obj.code}
+          rowKey={(obj) => obj.code}
           scroll={{ x: 1800 }}
           pagination={{ defaultPageSize: 5 }}
         />

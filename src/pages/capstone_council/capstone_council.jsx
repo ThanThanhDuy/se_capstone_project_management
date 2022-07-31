@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Typography, Table, Button, message, Upload, Spin } from "antd";
-import { UploadOutlined } from "@ant-design/icons";
+import { DownCircleFilled, UploadOutlined } from "@ant-design/icons";
 import convertCSV from "../../utils/convertCSV/convertCSV";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import {
@@ -23,7 +23,8 @@ function capstone_council() {
   );
   const [loading, setLoading] = useState(false);
   let navigate = useNavigate();
-
+  const defaultTemplate =
+    "https://firebasestorage.googleapis.com/v0/b/se-capstone-project-management.appspot.com/o/template%2FTemplate_Council.csv?alt=media&token=0fe729cd-4c83-4e19-be40-29c6a85c97ce";
   const columns = [
     {
       title: "Council Id",
@@ -55,8 +56,14 @@ function capstone_council() {
     },
   ];
   async function getCaptoneCouncil() {
+    const data = JSON.parse(localStorage.getItem("data"));
     const res = await axios.get(
-      "http://localhost:8081/admin/get-captone-council"
+      "http://localhost:8081/admin/get-captone-council",
+      {
+        headers: {
+          Authorization: `Bearer ${data?.AccessToken}`,
+        },
+      }
     );
     if (res.data.code === 200) {
       setTimeout(() => {
@@ -144,6 +151,18 @@ function capstone_council() {
           {/* Capstone Project Council List */}
         </Title>
         <div className="">
+          <Button
+            onClick={() => {
+              window.open(defaultTemplate);
+            }}
+            style={{
+              marginRight: 20,
+            }}
+            icon={<DownCircleFilled />}
+          >
+            {" "}
+            Template CSV
+          </Button>
           <Upload {...props}>
             <Button icon={<UploadOutlined />}>Import CSV</Button>
           </Upload>

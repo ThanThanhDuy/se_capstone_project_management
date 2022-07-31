@@ -1,26 +1,17 @@
 import React, { useState } from "react";
-import { Typography, Table, Button, message, Upload, Row } from "antd";
-import {
-  DoubleLeftOutlined,
-  DownOutlined,
-  PictureFilled,
-  UploadOutlined,
-} from "@ant-design/icons";
+import { Typography, Table, message, Row } from "antd";
 import convertCSV from "../../utils/convertCSV/convertCSV";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import {
-  dataCapstoneCouncilState,
   dataResultState,
   rowSelectedCapstoneCouncilState,
 } from "../../../store/table/table";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { storage } from "../../utils/firebase/firebase.utils";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { DownloadOutlined } from "@ant-design/icons";
 import capstoneTeamService from "../../services/capstone_team";
 import { useEffect } from "react";
-
-import { Card } from "antd";
 import moment from "moment";
 function AdminGrade() {
   const [url, setUrl] = useState("");
@@ -48,7 +39,7 @@ function AdminGrade() {
 
     uploadTask.on(
       "state_changed",
-      snapshot => {
+      (snapshot) => {
         const percent = Math.round(
           (snapshot.bytesTransferred / snapshot.totalBytes) * 100
         );
@@ -56,10 +47,10 @@ function AdminGrade() {
         // update progress
         setPercent(percent);
       },
-      err => console.log(err),
+      (err) => console.log(err),
       () => {
         // download url
-        getDownloadURL(uploadTask.snapshot.ref).then(url => {
+        getDownloadURL(uploadTask.snapshot.ref).then((url) => {
           console.log("URL: ", url);
           setUrl(url);
         });
@@ -134,11 +125,11 @@ function AdminGrade() {
     },
     beforeUpload(file) {
       const reader = new FileReader();
-      reader.onload = e => {
+      reader.onload = (e) => {
         const objectCSV = convertCSV(e.target.result);
         let objData = [];
         _setDataResult(objectCSV);
-        objectCSV.forEach(item => {
+        objectCSV.forEach((item) => {
           objData.push(item.council);
         });
         _setData(objData);
@@ -197,21 +188,31 @@ function AdminGrade() {
       >
         {_topic?.topic_description}
       </Typography.Paragraph>
-      {_reports?.map(report => {
+      {_reports?.map((report) => {
         console.log(report);
         console.log(report.councils);
         let _columns = columns.concat(report.councils);
         console.log(_columns);
+        _columns = _columns.concat({
+          title: "Total Grade",
+          dataIndex: "totalGrade",
+          key: "stotal_grade",
+          width: 140,
+        });
         let _rows = [];
-        report?.students.forEach(student => {
+        report?.students.forEach((student) => {
+          console.log(student);
           let row = {
             name: student.name,
           };
-          student.marks?.forEach(mark => {
+          student.marks?.forEach((mark) => {
             row[mark.grade_by] = mark.totalGrade;
+            row["totalGrade"] = student.totalGrade;
           });
           _rows.push(row);
         });
+        console.log("rows");
+        console.log(_rows);
         return (
           <div>
             <Typography.Title
@@ -229,7 +230,7 @@ function AdminGrade() {
             <Table
               style={{ cursor: "pointer", marginTop: "10px" }}
               columns={_columns}
-              rowKey={record => record["index"]}
+              rowKey={(record) => record["index"]}
               scroll={{ x: 1800 }}
               bordered
               dataSource={_rows}
@@ -240,7 +241,7 @@ function AdminGrade() {
                 padding: "20px 0px",
               }}
             >
-              {report?.files.map(file => {
+              {report?.files.map((file) => {
                 if (file.file_status) {
                   return (
                     <div
